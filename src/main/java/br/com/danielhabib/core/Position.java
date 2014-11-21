@@ -17,11 +17,8 @@ public class Position {
 		return y;
 	}
 
-	public void incrementX(int incX) {
-		x += incX;
-	}
-
-	public void incrementY(int incY) {
-		y += incY;
+	public void add(Position position) {
+		x += position.getX();
+		y += position.getY();
 	}
 }

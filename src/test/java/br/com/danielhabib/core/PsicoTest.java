@@ -14,10 +14,14 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 @RunWith(ZohhakRunner.class)
 public class PsicoTest {
 	private Psico psico;
+	private IDirectionHandler directionHandler;
+	private IMoveHandler moveHandler;
 
 	@Before
 	public void setup() {
-		psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(0, 0)));
+		directionHandler = new CounterClockWiseDirection();
+		moveHandler = new RegularMoveHandler(new Position(0, 0));
+		psico = new Psico(directionHandler, moveHandler);
 	}
 
 	@Test
