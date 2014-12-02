@@ -21,4 +21,9 @@ public class Position {
 		x += position.getX();
 		y += position.getY();
 	}
+
+	@Override
+	public String toString() {
+		return new StringBuilder("x = ").append(x).append("; y = ").append(y).toString();
+	}
 }
