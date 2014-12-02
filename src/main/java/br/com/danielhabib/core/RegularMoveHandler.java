@@ -23,8 +23,8 @@ public class RegularMoveHandler implements IMoveHandler {
 
 	private Map<Direction, Position> initSpeedMap() {
 		HashMap<Direction, Position> map = new HashMap<Direction, Position>();
-		map.put(Direction.UP, new Position(0, 1));
-		map.put(Direction.DOWN, new Position(0, -1));
+		map.put(Direction.UP, new Position(0, -1));
+		map.put(Direction.DOWN, new Position(0, 1));
 		map.put(Direction.LEFT, new Position(-1, 0));
 		map.put(Direction.RIGHT, new Position(1, 0));
 		return map;

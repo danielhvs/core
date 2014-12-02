@@ -21,7 +21,8 @@ public class App {
 		});
 
 		Psico psico = new Psico(new CounterClockWiseDirection(),
-				new RegularMoveHandler(new Position(0, 0)));
+				new RegularMoveHandler(new Position(WINDOW_SIZE / 5,
+						WINDOW_SIZE / 2)));
 		JApplet applet = new Main2D(psico);
 		f.getContentPane().add("Center", applet);
 		applet.init();
@@ -29,8 +30,12 @@ public class App {
 		f.setSize(new Dimension(WINDOW_SIZE, WINDOW_SIZE));
 		f.setVisible(true);
 
-		for (int i = 0; i < 100; i++) {
-			psico.move();
+		for (int i = 0; i < 1000; i++) {
+			for (int j = 0; j < 250; j++) {
+				psico.move();
+				TimeUnit.MILLISECONDS.sleep(10);
+			}
+			psico.turn();
 			TimeUnit.MILLISECONDS.sleep(100);
 		}
 	}

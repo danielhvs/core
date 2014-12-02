@@ -5,18 +5,18 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 
 public class Main2D extends JApplet {
 
 	private static final long serialVersionUID = -3688474214568402581L;
-	private ImageIcon image;
 	private Psico psico;
-	private Position lastPosition;
+	private Map<Direction, BufferedImage> images;
 
 	public Main2D(Psico psico) {
 		this.psico = psico;
@@ -26,16 +26,18 @@ public class Main2D extends JApplet {
 	public void init() {
 		setBackground(Color.WHITE);
 		initImage();
-		this.lastPosition = psico.getPosition();
+		psico.getPosition();
 		new Repainter().start();
 	}
 
 	private void initImage() {
 		try {
-			BufferedImage bufferedImage = ImageIO
-					.read(new File(
-							"/home/danielhabib/projeto/workspace/core/core/resources/psico.png"));
-			image = new ImageIcon(bufferedImage);
+			images = new HashMap<Direction, BufferedImage>();
+			String fileBaseName = "/home/danielhabib/projeto/workspace/core/core/resources/psico_";
+			for (Direction direction : Direction.values()) {
+				String fileNames = fileBaseName.concat(direction.name().toLowerCase());
+				images.put(direction, ImageIO.read(new File(fileNames.concat(".png"))));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,10 +48,12 @@ public class Main2D extends JApplet {
 		Position position = psico.getPosition();
 
 		// FIXME: Not working!?
-		g.clearRect(lastPosition.getX(), lastPosition.getY(), image.getIconWidth(), image.getIconHeight());
+		// g.clearRect(lastPosition.getX(), lastPosition.getY(),
+		// image.getWidth(), image.getHeight());
+		g.clearRect(0, 0, 550, 550);
 
-		g.drawImage(image.getImage(), position.getX(), position.getY(), null);
-		this.lastPosition = position;
+		g.drawImage(images.get(psico.getDirection()), position.getX(),
+				position.getY(), null);
 	}
 
 	private class Repainter extends Thread {

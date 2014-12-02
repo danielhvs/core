@@ -18,7 +18,7 @@ public class PsicoTest {
 	private IMoveHandler moveHandler;
 
 	@Before
-	public void setup() {
+	public void setup() throws Exception {
 		directionHandler = new CounterClockWiseDirection();
 		moveHandler = new RegularMoveHandler(new Position(0, 0));
 		psico = new Psico(directionHandler, moveHandler);
