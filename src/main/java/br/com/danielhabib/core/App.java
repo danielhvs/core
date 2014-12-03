@@ -33,10 +33,10 @@ public class App {
 		for (int i = 0; i < 1000; i++) {
 			for (int j = 0; j < 250; j++) {
 				psico.move();
-				TimeUnit.MILLISECONDS.sleep(10);
+				TimeUnit.MILLISECONDS.sleep(1);
 			}
 			psico.turn();
-			TimeUnit.MILLISECONDS.sleep(100);
+			TimeUnit.MILLISECONDS.sleep(1);
 		}
 	}
 }

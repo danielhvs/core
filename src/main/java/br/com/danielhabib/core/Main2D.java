@@ -68,7 +68,7 @@ public class Main2D extends JApplet {
 
 		private void sleep() {
 			try {
-				TimeUnit.MILLISECONDS.sleep(100);
+				TimeUnit.MILLISECONDS.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				System.exit(-1);
