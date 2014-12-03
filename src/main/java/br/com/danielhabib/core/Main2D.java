@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.JApplet;
@@ -17,27 +16,31 @@ public class Main2D extends JApplet {
 	private static final long serialVersionUID = -3688474214568402581L;
 	private Psico psico;
 	private Map<Direction, BufferedImage> images;
+	private BufferedImage image;
+	private PsicoObserver observer;
 
 	public Main2D(Psico psico) {
 		this.psico = psico;
+		observer = new PsicoObserver();
+		observer.updateLastPosition();
+		psico.setObserver(observer);
 	}
 
 	@Override
 	public void init() {
 		setBackground(Color.WHITE);
 		initImage();
-		psico.getPosition();
-		new Repainter().start();
 	}
 
 	private void initImage() {
 		try {
 			images = new HashMap<Direction, BufferedImage>();
-			String fileBaseName = "/home/danielhabib/projeto/workspace/core/core/resources/psico_";
+			String fileBaseName = "/home/danielhabib/projeto/workspace/core/resources/psico_";
 			for (Direction direction : Direction.values()) {
 				String fileNames = fileBaseName.concat(direction.name().toLowerCase());
 				images.put(direction, ImageIO.read(new File(fileNames.concat(".png"))));
 			}
+			observer.updateDirection();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -45,34 +48,33 @@ public class Main2D extends JApplet {
 
 	@Override
 	public void paint(Graphics g) {
+		g.clearRect(0, 0, getWidth(), getHeight());
 		Position position = psico.getPosition();
-
-		// FIXME: Not working!?
-		// g.clearRect(lastPosition.getX(), lastPosition.getY(),
-		// image.getWidth(), image.getHeight());
-		g.clearRect(0, 0, 550, 550);
-
-		g.drawImage(images.get(psico.getDirection()), position.getX(),
-				position.getY(), null);
+		g.drawImage(image, position.getX(), position.getY(), null);
 	}
 
-	private class Repainter extends Thread {
+	class PsicoObserver implements IPsicoObserver {
 
-		@Override
-		public void run() {
-			while (true) {
-				sleep();
-				repaint();
-			}
+		public PsicoObserver() {
+			updateLastPosition();
 		}
 
-		private void sleep() {
-			try {
-				TimeUnit.MILLISECONDS.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				System.exit(-1);
-			}
+		public void positionChanged() {
+			repaint();
+			updateLastPosition();
+		}
+
+		public void updateLastPosition() {
+			psico.getPosition();
+		}
+
+		public void directionChanged() {
+			updateDirection();
+			repaint();
+		}
+
+		private void updateDirection() {
+			image = images.get(psico.getDirection());
 		}
 
 	}

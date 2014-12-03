@@ -3,10 +3,13 @@ package br.com.danielhabib.core;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.googlecode.zohhak.api.TestWith;
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
@@ -17,11 +20,15 @@ public class PsicoTest {
 	private IDirectionHandler directionHandler;
 	private IMoveHandler moveHandler;
 
+	@Mock
+	private IPsicoObserver observer;
+
 	@Before
 	public void setup() throws Exception {
 		directionHandler = new CounterClockWiseDirection();
-		moveHandler = new RegularMoveHandler(new Position(0, 0));
+		moveHandler = new RegularMoveHandler(new Position(0, 0), 1);
 		psico = new Psico(directionHandler, moveHandler);
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
@@ -60,7 +67,7 @@ public class PsicoTest {
 	public void moveUp() throws Exception {
 		psico.turn();
 		psico.move();
-		assertThat(y(), is(equalTo(1)));
+		assertThat(y(), is(equalTo(-1)));
 	}
 
 	@Test
@@ -69,7 +76,27 @@ public class PsicoTest {
 		psico.turn();
 		psico.turn();
 		psico.move();
-		assertThat(y(), is(equalTo(-1)));
+		assertThat(y(), is(equalTo(1)));
+	}
+
+	@Test
+	public void whenPositionChanges_oberverGetsNotification() throws Exception {
+		psico.setObserver(observer);
+		psico.move();
+		verify(observer).positionChanged();
+	}
+
+	@Test
+	public void whenDirectionChanges_oberverGetsNotification() throws Exception {
+		psico.setObserver(observer);
+		psico.turn();
+		verify(observer).directionChanged();
+	}
+
+	@Test
+	public void whenNoObserverIsSetted_DefaultObserverUsed_DoesntThrowsNullPointer() throws Exception {
+		psico.move();
+		psico.turn();
 	}
 
 	private int y() {
