@@ -3,8 +3,8 @@ package br.com.danielhabib.core;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,15 +35,31 @@ public class Main2D extends JApplet {
 	private void initImage() {
 		try {
 			images = new HashMap<Direction, BufferedImage>();
-			String fileBaseName = "/home/danielhabib/projeto/workspace/core/resources/psico_";
+			String fileBaseName = "psico_";
 			for (Direction direction : Direction.values()) {
-				String fileNames = fileBaseName.concat(direction.name().toLowerCase());
-				images.put(direction, ImageIO.read(new File(fileNames.concat(".png"))));
+				String fileName = fileBaseName.concat(direction.name().toLowerCase()).concat(".png");
+				System.out.println(fileName);
+				InputStream inputStream = readResource(fileName);
+				images.put(direction, ImageIO.read(inputStream));
 			}
 			observer.updateDirection();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private InputStream readResource(String fileName) {
+		final ClassLoader loader = Thread.currentThread()
+				.getContextClassLoader();
+		InputStream stream = loader.getResourceAsStream(fileName);
+		if (stream == null) {
+			stream = getClass().getClassLoader().getResourceAsStream(fileName);
+			if (stream == null) {
+				stream = getClass().getResourceAsStream(fileName);
+			}
+		}
+		return stream;
+
 	}
 
 	@Override
