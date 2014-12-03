@@ -6,4 +6,6 @@ public interface IMoveHandler {
 
 	Position getPosition();
 
+	void setSpeed(int speed);
+
 }

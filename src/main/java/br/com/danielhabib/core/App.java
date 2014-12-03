@@ -1,14 +1,16 @@
 package br.com.danielhabib.core;
 
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 
 public class App {
+	private static int speed = 64;
 	private static final int WINDOW_SIZE = 550;
 
 	public static void main(String[] args) throws InterruptedException {
@@ -20,9 +22,7 @@ public class App {
 			}
 		});
 
-		Psico psico = new Psico(new CounterClockWiseDirection(),
-				new RegularMoveHandler(new Position(WINDOW_SIZE / 5,
-						WINDOW_SIZE / 2)));
+		final Psico psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(0, WINDOW_SIZE / 2), speed));
 		JApplet applet = new Main2D(psico);
 		f.getContentPane().add("Center", applet);
 		applet.init();
@@ -30,13 +30,39 @@ public class App {
 		f.setSize(new Dimension(WINDOW_SIZE, WINDOW_SIZE));
 		f.setVisible(true);
 
-		for (int i = 0; i < 1000; i++) {
-			for (int j = 0; j < 250; j++) {
-				psico.move();
-				TimeUnit.MILLISECONDS.sleep(1);
+		f.addKeyListener(new KeyListener() {
+
+			public void keyTyped(KeyEvent e) {
 			}
-			psico.turn();
-			TimeUnit.MILLISECONDS.sleep(1);
-		}
+
+			public void keyReleased(KeyEvent e) {
+			}
+
+			public void keyPressed(KeyEvent e) {
+				char keyChar = e.getKeyChar();
+				switch (keyChar) {
+				case 'f':
+					psico.move();
+					break;
+				case 'd':
+					psico.turn();
+					break;
+				case 's':
+					speed *= 2;
+					psico.setSpeed(speed);
+					break;
+				case 'x':
+					speed /= 2;
+					if (speed == 0) {
+						speed = 1;
+					}
+					psico.setSpeed(speed);
+					break;
+				case 'q':
+					System.exit(0);
+					break;
+				}
+			}
+		});
 	}
 }
