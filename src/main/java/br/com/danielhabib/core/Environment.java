@@ -1,8 +1,11 @@
 package br.com.danielhabib.core;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class Environment {
@@ -12,6 +15,14 @@ public class Environment {
 
 	public Environment(String input) {
 		this.input = input;
+	}
+
+	public Environment(File envFile) throws IOException {
+		this.input = readFile(envFile);
+	}
+
+	private String readFile(File envFile) throws IOException {
+		return FileUtils.readFileToString(envFile);
 	}
 
 	public List<Wall> getWalls() {
