@@ -10,8 +10,9 @@ import javax.swing.JApplet;
 import javax.swing.JFrame;
 
 public class App {
+	private static final int OFFSET = 32;
 	private static int speed = 64;
-	private static final int WINDOW_SIZE = 550;
+	private static final int WINDOW_SIZE = OFFSET + 64 * 6;
 
 	public static void main(String[] args) throws InterruptedException {
 		JFrame f = new JFrame("Psico");
@@ -22,8 +23,9 @@ public class App {
 			}
 		});
 
-		final Psico psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(0, WINDOW_SIZE / 2), speed));
-		JApplet applet = new Main2D(psico);
+		final Psico psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(64, 64 * 4), speed));
+		Environment env = new Environment("wwwwww\nw    w\nw    w\nw    w\nw    w\nwwwwww");
+		JApplet applet = new Main2D(psico, env);
 		f.getContentPane().add("Center", applet);
 		applet.init();
 		f.pack();
@@ -62,6 +64,7 @@ public class App {
 					System.exit(0);
 					break;
 				}
+				System.out.println("DEBUG: speed = " + speed + ". Position = " + psico.getPosition().toString());
 			}
 		});
 	}

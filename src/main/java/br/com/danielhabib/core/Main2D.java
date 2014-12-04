@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -18,11 +19,12 @@ public class Main2D extends JApplet {
 	private Map<Direction, BufferedImage> images;
 	private BufferedImage image;
 	private PsicoObserver observer;
+	private List<Wall> walls;
 
-	public Main2D(Psico psico) {
+	public Main2D(Psico psico, Environment env) {
 		this.psico = psico;
+		this.walls = env.getWalls();
 		observer = new PsicoObserver();
-		observer.updateLastPosition();
 		psico.setObserver(observer);
 	}
 
@@ -38,7 +40,6 @@ public class Main2D extends JApplet {
 			String fileBaseName = "psico_";
 			for (Direction direction : Direction.values()) {
 				String fileName = fileBaseName.concat(direction.name().toLowerCase()).concat(".png");
-				System.out.println(fileName);
 				InputStream inputStream = readResource(fileName);
 				images.put(direction, ImageIO.read(inputStream));
 			}
@@ -49,8 +50,7 @@ public class Main2D extends JApplet {
 	}
 
 	private InputStream readResource(String fileName) {
-		final ClassLoader loader = Thread.currentThread()
-				.getContextClassLoader();
+		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		InputStream stream = loader.getResourceAsStream(fileName);
 		if (stream == null) {
 			stream = getClass().getClassLoader().getResourceAsStream(fileName);
@@ -65,23 +65,27 @@ public class Main2D extends JApplet {
 	@Override
 	public void paint(Graphics g) {
 		g.clearRect(0, 0, getWidth(), getHeight());
+		drawWalls(g);
+		drawPsico(g);
+	}
+
+	private void drawWalls(Graphics g) {
+		for (Wall wall : walls) {
+			int size = wall.getSize();
+			g.setColor(Color.GREEN);
+			g.fillRect(wall.getPosition().getX(), wall.getPosition().getY(), size, size);
+		}
+	}
+
+	private void drawPsico(Graphics g) {
 		Position position = psico.getPosition();
 		g.drawImage(image, position.getX(), position.getY(), null);
 	}
 
 	class PsicoObserver implements IPsicoObserver {
 
-		public PsicoObserver() {
-			updateLastPosition();
-		}
-
 		public void positionChanged() {
 			repaint();
-			updateLastPosition();
-		}
-
-		public void updateLastPosition() {
-			psico.getPosition();
 		}
 
 		public void directionChanged() {
