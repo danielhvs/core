@@ -7,9 +7,11 @@ public class RegularMoveHandler implements IMoveHandler {
 
 	private Position position;
 	Map<Direction, Position> speedMap;
+	private final MovingRules movingRules;
 
-	public RegularMoveHandler(Position position, int speed) {
+	public RegularMoveHandler(Position position, int speed, MovingRules movingRules) {
 		this.position = position;
+		this.movingRules = movingRules;
 		initSpeedMap(speed);
 	}
 
@@ -18,7 +20,10 @@ public class RegularMoveHandler implements IMoveHandler {
 	}
 
 	public void move(Direction direction) {
-		position.add(speedMap.get(direction));
+		Position nextPosition = position.add(speedMap.get(direction));
+		if (movingRules.canMove(nextPosition)) {
+			this.position = nextPosition;
+		}
 	}
 
 	private void initSpeedMap(int speed) {

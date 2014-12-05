@@ -17,9 +17,8 @@ public class Position {
 		return y;
 	}
 
-	public void add(Position position) {
-		x += position.getX();
-		y += position.getY();
+	public Position add(Position position) {
+		return new Position(x + position.getX(), y + position.getY());
 	}
 
 	@Override

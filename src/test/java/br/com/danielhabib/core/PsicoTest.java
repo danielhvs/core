@@ -26,7 +26,7 @@ public class PsicoTest {
 	@Before
 	public void setup() throws Exception {
 		directionHandler = new CounterClockWiseDirection();
-		moveHandler = new RegularMoveHandler(new Position(0, 0), 1);
+		moveHandler = new RegularMoveHandler(new Position(0, 0), 1, new MovingRules(new Environment("")));
 		psico = new Psico(directionHandler, moveHandler);
 		MockitoAnnotations.initMocks(this);
 	}
