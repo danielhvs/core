@@ -2,6 +2,7 @@ package br.com.danielhabib.core;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +42,8 @@ public class Main2D extends JApplet {
 			for (Direction direction : Direction.values()) {
 				String fileName = fileBaseName.concat(direction.name().toLowerCase()).concat(".png");
 				InputStream inputStream = readResource(fileName);
-				images.put(direction, ImageIO.read(inputStream));
+				BufferedImage originalImage = ImageIO.read(inputStream);
+				images.put(direction, resizeImage(originalImage, originalImage.getType(), Config.SIZE));
 			}
 			observer.updateDirection();
 		} catch (IOException e) {
@@ -80,6 +82,14 @@ public class Main2D extends JApplet {
 	private void drawPsico(Graphics g) {
 		Position position = psico.getPosition();
 		g.drawImage(image, position.getX(), position.getY(), null);
+	}
+
+	private BufferedImage resizeImage(BufferedImage originalImage, int type, int size) {
+		BufferedImage resizedImage = new BufferedImage(size, size, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, 0, 0, size, size, null);
+		g.dispose();
+		return resizedImage;
 	}
 
 	class PsicoObserver implements IPsicoObserver {

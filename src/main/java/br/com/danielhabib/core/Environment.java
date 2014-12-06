@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Environment {
 
-	public static final int WALL_SIZE = 64;
+	public static final int WALL_SIZE = Config.SIZE;
 	private String input;
 
 	public Environment(String input) {

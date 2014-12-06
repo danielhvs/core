@@ -25,7 +25,7 @@ public class RegularMoveHandlerTest {
 	@Test
 	public void move_ThereIsAWall_DoesntMove() throws Exception {
 		Position initialPosition = new Position(0, 0);
-		RegularMoveHandler moveHandler = new RegularMoveHandler(initialPosition, 64, new MovingRules(new Environment(" w")));
+		RegularMoveHandler moveHandler = new RegularMoveHandler(initialPosition, Config.SIZE, new MovingRules(new Environment(" w")));
 
 		moveHandler.move(Direction.RIGHT);
 

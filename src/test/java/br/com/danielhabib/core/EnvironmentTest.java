@@ -23,7 +23,7 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 public class EnvironmentTest {
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
-	private static final int WALL_SIZE = 64;
+	private static final int WALL_SIZE = Config.SIZE;
 
 	@Test
 	public void itCanReadFromFile() throws Exception {
@@ -84,6 +84,7 @@ public class EnvironmentTest {
 
 		assertThat(walls, hasSize(1));
 		assertThat(walls, is(equalTo(expected)));
+		assertThat(walls.get(0).getSize(), is(equalTo(WALL_SIZE)));
 	}
 
 	@Test

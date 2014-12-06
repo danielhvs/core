@@ -42,7 +42,7 @@ public class PsicoTest {
 	}
 
 	@TestWith({ "0,RIGHT", "1,UP", "2,LEFT", "3,DOWN", "4,RIGHT", "5,UP" })
-	public void turnChangesDirection(int qtdGiros, Direction esperado) throws Exception {
+	public void turn_ChangesDirection(int qtdGiros, Direction esperado) throws Exception {
 		for (int i = 0; i < qtdGiros; i++) {
 			psico.turn();
 		}
@@ -50,13 +50,13 @@ public class PsicoTest {
 	}
 
 	@Test
-	public void moveRight() throws Exception {
+	public void move_Right() throws Exception {
 		psico.move();
 		assertThat(x(), is(equalTo(1)));
 	}
 
 	@Test
-	public void moveLeft() throws Exception {
+	public void move_Left() throws Exception {
 		psico.turn();
 		psico.turn();
 		psico.move();
@@ -64,14 +64,14 @@ public class PsicoTest {
 	}
 
 	@Test
-	public void moveUp() throws Exception {
+	public void move_Up() throws Exception {
 		psico.turn();
 		psico.move();
 		assertThat(y(), is(equalTo(-1)));
 	}
 
 	@Test
-	public void moveDown() throws Exception {
+	public void move_Down() throws Exception {
 		psico.turn();
 		psico.turn();
 		psico.turn();
@@ -80,16 +80,20 @@ public class PsicoTest {
 	}
 
 	@Test
-	public void whenPositionChanges_oberverGetsNotification() throws Exception {
+	public void move_whenPositionChanges_oberverGetsNotification() throws Exception {
 		psico.setObserver(observer);
+
 		psico.move();
+
 		verify(observer).positionChanged();
 	}
 
 	@Test
-	public void whenDirectionChanges_oberverGetsNotification() throws Exception {
+	public void turn_whenDirectionChanges_oberverGetsNotification() throws Exception {
 		psico.setObserver(observer);
+
 		psico.turn();
+
 		verify(observer).directionChanged();
 	}
 
@@ -97,6 +101,15 @@ public class PsicoTest {
 	public void whenNoObserverIsSetted_DefaultObserverUsed_DoesntThrowsNullPointer() throws Exception {
 		psico.move();
 		psico.turn();
+	}
+
+	@Test
+	public void move_IfNewSpeedIsSet_ItMovesFaster() throws Exception {
+		psico.setSpeed(2);
+
+		psico.move();
+
+		assertThat(x(), is(equalTo(2)));
 	}
 
 	private int y() {

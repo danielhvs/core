@@ -12,9 +12,8 @@ import javax.swing.JApplet;
 import javax.swing.JFrame;
 
 public class App {
-	private static final int OFFSET = 32;
-	private static int speed = 64;
-	private static final int WINDOW_SIZE = OFFSET + 64 * 6;
+	private static int speed = Config.SIZE;
+	private static final int WINDOW_SIZE = Config.SIZE / 2 + Config.SIZE * 6;
 
 	public static void main(String[] args) throws InterruptedException, IOException {
 		JFrame f = new JFrame("Psico");
@@ -26,12 +25,13 @@ public class App {
 		});
 
 		Environment env = new Environment(new File("level_1.txt"));
-		final Psico psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(64, 64 * 4), speed, new MovingRules(env)));
+		final Psico psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), speed,
+				new MovingRules(env)));
 		JApplet applet = new Main2D(psico, env);
 		f.getContentPane().add("Center", applet);
 		applet.init();
 		f.pack();
-		f.setSize(new Dimension(WINDOW_SIZE, WINDOW_SIZE));
+		f.setSize(new Dimension(WINDOW_SIZE, WINDOW_SIZE + Config.SIZE / 2));
 		f.setVisible(true);
 
 		f.addKeyListener(new KeyListener() {
