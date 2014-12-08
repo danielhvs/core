@@ -1,5 +1,8 @@
 package br.com.danielhabib.core;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class Ball implements PsicoComponent {
 
 	private final Position position;
@@ -41,6 +44,15 @@ public class Ball implements PsicoComponent {
 			return false;
 		}
 		return true;
+	}
+
+	public void draw(Graphics g) {
+		g.setColor(Color.BLUE);
+		int x = getPosition().getX();
+		int y = getPosition().getY();
+		int offset = 3 * Config.SIZE / 8;
+		int ballSize = Config.SIZE / 4;
+		g.fillOval(x + offset, y + offset, ballSize, ballSize);
 	}
 
 }

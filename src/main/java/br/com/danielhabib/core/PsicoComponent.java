@@ -1,5 +1,9 @@
 package br.com.danielhabib.core;
 
+import java.awt.Graphics;
+
 public interface PsicoComponent {
-	public Position getPosition();
+	Position getPosition();
+
+	void draw(Graphics g);
 }

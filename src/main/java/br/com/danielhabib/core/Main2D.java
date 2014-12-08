@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +21,12 @@ public class Main2D extends JApplet {
 	private Map<Direction, BufferedImage> images;
 	private BufferedImage image;
 	private PsicoObserver observer;
-	private List<PsicoComponent> walls;
-	private List<PsicoComponent> balls;
+	private List<PsicoComponent> components;
 
 	public Main2D(Psico psico, Environment env) {
 		this.psico = psico;
-		this.walls = env.getWalls();
-		this.balls = env.getBalls();
+		this.components = new ArrayList<PsicoComponent>(env.getWalls());
+		this.components.addAll(env.getBalls());
 		observer = new PsicoObserver();
 		psico.setObserver(observer);
 	}
@@ -69,26 +69,13 @@ public class Main2D extends JApplet {
 	@Override
 	public void paint(Graphics g) {
 		g.clearRect(0, 0, getWidth(), getHeight());
-		drawBalls(g);
-		drawWalls(g);
+		drawComponents(g);
 		drawPsico(g);
 	}
 
-	private void drawBalls(Graphics g) {
-		for (PsicoComponent ball : balls) {
-			g.setColor(Color.BLUE);
-			int x = ball.getPosition().getX();
-			int y = ball.getPosition().getY();
-			int offset = 3 * Config.SIZE / 8;
-			int ballSize = Config.SIZE / 4;
-			g.fillOval(x + offset, y + offset, ballSize, ballSize);
-		}
-	}
-
-	private void drawWalls(Graphics g) {
-		for (PsicoComponent wall : walls) {
-			g.setColor(Color.GREEN);
-			g.fillRect(wall.getPosition().getX(), wall.getPosition().getY(), Config.SIZE, Config.SIZE);
+	private void drawComponents(Graphics g) {
+		for (PsicoComponent component : components) {
+			component.draw(g);
 		}
 	}
 

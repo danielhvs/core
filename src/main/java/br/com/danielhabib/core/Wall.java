@@ -1,5 +1,8 @@
 package br.com.danielhabib.core;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class Wall implements PsicoComponent {
 	private Position position;
 
@@ -9,6 +12,11 @@ public class Wall implements PsicoComponent {
 
 	public Position getPosition() {
 		return position;
+	}
+
+	public void draw(Graphics g) {
+		g.setColor(Color.GREEN);
+		g.fillRect(position.getX(), position.getY(), Config.SIZE, Config.SIZE);
 	}
 
 	@Override
