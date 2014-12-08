@@ -1,14 +1,15 @@
 package br.com.danielhabib.core;
 
-public class Wall implements PsicoComponent {
-	private Position position;
+public class Ball implements PsicoComponent {
 
-	public Wall(Position position) {
+	private final Position position;
+
+	public Ball(Position position) {
 		this.position = position;
 	}
 
 	public Position getPosition() {
-		return position;
+		return this.position;
 	}
 
 	@Override
@@ -31,7 +32,7 @@ public class Wall implements PsicoComponent {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Wall other = (Wall) obj;
+		Ball other = (Ball) obj;
 		if (position == null) {
 			if (other.position != null) {
 				return false;

@@ -20,11 +20,13 @@ public class Main2D extends JApplet {
 	private Map<Direction, BufferedImage> images;
 	private BufferedImage image;
 	private PsicoObserver observer;
-	private List<Wall> walls;
+	private List<PsicoComponent> walls;
+	private List<PsicoComponent> balls;
 
 	public Main2D(Psico psico, Environment env) {
 		this.psico = psico;
 		this.walls = env.getWalls();
+		this.balls = env.getBalls();
 		observer = new PsicoObserver();
 		psico.setObserver(observer);
 	}
@@ -67,15 +69,26 @@ public class Main2D extends JApplet {
 	@Override
 	public void paint(Graphics g) {
 		g.clearRect(0, 0, getWidth(), getHeight());
+		drawBalls(g);
 		drawWalls(g);
 		drawPsico(g);
 	}
 
+	private void drawBalls(Graphics g) {
+		for (PsicoComponent ball : balls) {
+			g.setColor(Color.BLUE);
+			int x = ball.getPosition().getX();
+			int y = ball.getPosition().getY();
+			int offset = 3 * Config.SIZE / 8;
+			int ballSize = Config.SIZE / 4;
+			g.fillOval(x + offset, y + offset, ballSize, ballSize);
+		}
+	}
+
 	private void drawWalls(Graphics g) {
-		for (Wall wall : walls) {
-			int size = wall.getSize();
+		for (PsicoComponent wall : walls) {
 			g.setColor(Color.GREEN);
-			g.fillRect(wall.getPosition().getX(), wall.getPosition().getY(), size, size);
+			g.fillRect(wall.getPosition().getX(), wall.getPosition().getY(), Config.SIZE, Config.SIZE);
 		}
 	}
 

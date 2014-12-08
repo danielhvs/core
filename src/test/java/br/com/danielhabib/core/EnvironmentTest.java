@@ -33,7 +33,7 @@ public class EnvironmentTest {
 		write(envFile, "  w");
 		Environment environment = new Environment(envFile);
 
-		List<Wall> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getWalls();
 
 		assertThat(walls, hasSize(3));
 	}
@@ -48,7 +48,7 @@ public class EnvironmentTest {
 	public void getWalls_EmptyEnvironment_emptyList(String input) throws Exception {
 		Environment environment = new Environment(input);
 
-		List<Wall> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getWalls();
 
 		assertThat(walls, hasSize(0));
 	}
@@ -57,7 +57,7 @@ public class EnvironmentTest {
 	public void getWalls_NWallsInOneLineOnly_OneLineEnvironment(String input, int expectedSize) throws Exception {
 		Environment environment = new Environment(input);
 
-		List<Wall> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getWalls();
 
 		assertThat(walls, hasSize(expectedSize));
 	}
@@ -65,11 +65,11 @@ public class EnvironmentTest {
 	@Test
 	public void getWalls_SimpleWithBlanks() throws Exception {
 		Environment environment = new Environment("w w");
-		List<Wall> expected = Arrays.asList(
+		List<PsicoComponent> expected = Arrays.asList(
 				newWallAtPosition(0, 0),
 				newWallAtPosition(2 * WALL_SIZE, 0));
 
-		List<Wall> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getWalls();
 
 		assertThat(walls, hasSize(2));
 		assertThat(walls, is(equalTo(expected)));
@@ -78,23 +78,22 @@ public class EnvironmentTest {
 	@Test
 	public void getWalls_1WallDefaultSize() throws Exception {
 		Environment environment = new Environment("w");
-		List<Wall> expected = Arrays.asList(newWallAtPosition(0, 0));
+		List<PsicoComponent> expected = Arrays.asList(newWallAtPosition(0, 0));
 
-		List<Wall> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getWalls();
 
 		assertThat(walls, hasSize(1));
 		assertThat(walls, is(equalTo(expected)));
-		assertThat(walls.get(0).getSize(), is(equalTo(WALL_SIZE)));
 	}
 
 	@Test
 	public void getWalls_2WallsDefaultSize() throws Exception {
 		Environment environment = new Environment("ww");
-		List<Wall> expected = Arrays.asList(
+		List<PsicoComponent> expected = Arrays.asList(
 				newWallAtPosition(0, 0),
 				newWallAtPosition(WALL_SIZE, 0));
 
-		List<Wall> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getWalls();
 
 		assertThat(walls, hasSize(2));
 		assertThat(walls, is(equalTo(expected)));
@@ -103,11 +102,11 @@ public class EnvironmentTest {
 	@Test
 	public void getWalls_2WallOneOnTopOneUnder() throws Exception {
 		Environment environment = new Environment("w\nw");
-		List<Wall> expected = Arrays.asList(
+		List<PsicoComponent> expected = Arrays.asList(
 				newWallAtPosition(0, 0),
 				newWallAtPosition(0, WALL_SIZE));
 
-		List<Wall> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getWalls();
 
 		assertThat(walls, hasSize(2));
 		assertThat(walls, is(equalTo(expected)));
@@ -116,20 +115,38 @@ public class EnvironmentTest {
 	@Test
 	public void getWalls_3Walls2Floors() throws Exception {
 		Environment environment = new Environment("w\nww\nw");
-		List<Wall> expected = Arrays.asList(
+		List<PsicoComponent> expected = Arrays.asList(
 				newWallAtPosition(0, 0),
 				newWallAtPosition(0, WALL_SIZE),
 				newWallAtPosition(WALL_SIZE, WALL_SIZE),
 				newWallAtPosition(0, 2 * WALL_SIZE));
 
-		List<Wall> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getWalls();
 
 		assertThat(walls, hasSize(4));
 		assertThat(walls, is(equalTo(expected)));
 	}
 
-	private Wall newWallAtPosition(int x, int y) {
-		return new Wall(new Position(x, y), WALL_SIZE);
+	@Test
+	public void getBall_NoBall_EmptyList() throws Exception {
+		Environment environment = new Environment("");
+
+		List<PsicoComponent> balls = environment.getBalls();
+
+		assertThat(balls, hasSize(0));
+	}
+
+	@Test
+	public void getBall_1Ball_ListWithBall() throws Exception {
+		Environment environment = new Environment("o");
+
+		List<PsicoComponent> balls = environment.getBalls();
+
+		assertThat(balls, hasSize(1));
+	}
+
+	private PsicoComponent newWallAtPosition(int x, int y) {
+		return new Wall(new Position(x, y));
 	}
 
 }
