@@ -9,10 +9,10 @@ public class RegularMoveHandler implements IMoveHandler {
 	Map<Direction, Position> speedMap;
 	private final MovingRules movingRules;
 
-	public RegularMoveHandler(Position position, int speed, MovingRules movingRules) {
+	public RegularMoveHandler(Position position, MovingRules movingRules) {
 		this.position = position;
 		this.movingRules = movingRules;
-		initSpeedMap(speed);
+		initSpeedMap();
 	}
 
 	public Position getPosition() {
@@ -28,17 +28,13 @@ public class RegularMoveHandler implements IMoveHandler {
 		return false;
 	}
 
-	private void initSpeedMap(int speed) {
+	private void initSpeedMap() {
 		Map<Direction, Position> map = new HashMap<Direction, Position>();
-		map.put(Direction.UP, new Position(0, -speed));
-		map.put(Direction.DOWN, new Position(0, speed));
-		map.put(Direction.LEFT, new Position(-speed, 0));
-		map.put(Direction.RIGHT, new Position(speed, 0));
+		map.put(Direction.UP, new Position(0, -Config.SIZE));
+		map.put(Direction.DOWN, new Position(0, Config.SIZE));
+		map.put(Direction.LEFT, new Position(-Config.SIZE, 0));
+		map.put(Direction.RIGHT, new Position(Config.SIZE, 0));
 		this.speedMap = map;
-	}
-
-	public void setSpeed(int speed) {
-		initSpeedMap(speed);
 	}
 
 	public boolean hasBall() {
@@ -47,5 +43,10 @@ public class RegularMoveHandler implements IMoveHandler {
 
 	public PsicoComponent getBall() {
 		return movingRules.getBall(position);
+	}
+
+	public PsicoComponent dropBall() {
+		movingRules.dropBall(position);
+		return new NullComponent();
 	}
 }

@@ -6,10 +6,10 @@ public interface IMoveHandler {
 
 	Position getPosition();
 
-	void setSpeed(int speed);
-
 	boolean hasBall();
 
 	PsicoComponent getBall();
+
+	PsicoComponent dropBall();
 
 }

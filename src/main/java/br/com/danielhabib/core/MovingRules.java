@@ -42,4 +42,8 @@ public class MovingRules {
 		return false;
 	}
 
+	public void dropBall(Position position) {
+		env.getBalls().add(new Ball(position));
+	}
+
 }

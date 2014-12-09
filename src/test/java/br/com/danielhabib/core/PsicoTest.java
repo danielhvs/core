@@ -4,6 +4,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -105,15 +106,6 @@ public class PsicoTest {
 	}
 
 	@Test
-	public void move_IfNewSpeedIsSet_ItMovesFaster() throws Exception {
-		psico.setSpeed(2);
-
-		psico.move();
-
-		assertThat(x(), is(equalTo(2)));
-	}
-
-	@Test
 	public void grab_ThereIsABall_NowHasIt() throws Exception {
 		psico = new Psico(directionHandler, newMoveHandlerWith(new Environment("o")));
 		psico.setObserver(observer);
@@ -156,6 +148,18 @@ public class PsicoTest {
 		assertThat(psico.getBall().getPosition(), is(equalTo(psico.getPosition())));
 	}
 
+	@Test
+	public void drop_HasABall_DoesntHaveItAnymore() throws Exception {
+		psico = new Psico(directionHandler, newMoveHandlerWith(new Environment("o")));
+		psico.setObserver(observer);
+
+		psico.grab();
+		psico.drop();
+
+		assertEquals(new NullComponent(), psico.getBall());
+		verify(observer, times(2)).hasChanged();
+	}
+
 	private int y() {
 		return psico.getPosition().getY();
 	}
@@ -165,7 +169,7 @@ public class PsicoTest {
 	}
 
 	private IMoveHandler newMoveHandlerWith(Environment environment) {
-		return new RegularMoveHandler(new Position(0, 0), Config.SIZE, new MovingRules(environment));
+		return new RegularMoveHandler(new Position(0, 0), new MovingRules(environment));
 	}
 
 }

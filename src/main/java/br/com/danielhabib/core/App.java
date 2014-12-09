@@ -25,8 +25,7 @@ public class App {
 		});
 
 		Environment env = new Environment(new File("level_1.txt"));
-		final Psico psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), speed,
-				new MovingRules(env)));
+		final Psico psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), new MovingRules(env)));
 		JApplet applet = new Main2D(psico, env);
 		f.getContentPane().add("Center", applet);
 		applet.init();
@@ -51,19 +50,11 @@ public class App {
 				case 'd':
 					psico.turn();
 					break;
-				case 's':
-					speed *= 2;
-					psico.setSpeed(speed);
-					break;
-				case 'x':
-					speed /= 2;
-					if (speed == 0) {
-						speed = 1;
-					}
-					psico.setSpeed(speed);
-					break;
 				case 'g':
 					psico.grab();
+					break;
+				case 'b':
+					psico.drop();
 					break;
 				case 'q':
 					System.exit(0);

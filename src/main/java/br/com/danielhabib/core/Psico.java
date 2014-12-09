@@ -58,15 +58,16 @@ public class Psico extends PsicoComponent {
 		observer.hasChanged();
 	}
 
-	public void setSpeed(int speed) {
-		moveHandler.setSpeed(speed);
-	}
-
 	public void grab() {
 		if (moveHandler.hasBall()) {
 			ball = moveHandler.getBall();
 			notifyObserver();
 		}
+	}
+
+	public void drop() {
+		ball = moveHandler.dropBall();
+		notifyObserver();
 	}
 
 	public PsicoComponent getBall() {
