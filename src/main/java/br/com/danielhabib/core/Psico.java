@@ -79,10 +79,6 @@ public class Psico extends PsicoComponent {
 	@Override
 	void draw(Graphics g) {
 		drawThis(g);
-		drawBall(g);
-	}
-
-	private void drawBall(Graphics g) {
 		ball.draw(g);
 	}
 
