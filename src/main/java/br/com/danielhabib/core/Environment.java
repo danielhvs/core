@@ -1,5 +1,6 @@
 package br.com.danielhabib.core;
 
+import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,23 +9,33 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-public class Environment {
+public class Environment extends PsicoComponent {
 
 	private String input;
 	private PsicoComponentBuilder builder;
+	private List<PsicoComponent> walls;
+	private List<PsicoComponent> balls;
 
 	public Environment() {
+		super(new Position(0, 0));
 		this.builder = new PsicoComponentBuilder();
 	}
 
 	public Environment(String input) {
 		this();
 		this.input = input;
+		initEnv();
 	}
 
 	public Environment(File envFile) throws IOException {
 		this();
 		this.input = readFile(envFile);
+		initEnv();
+	}
+
+	private void initEnv() {
+		this.walls = getComponentListForType('w');
+		this.balls = getComponentListForType('o');
 	}
 
 	private String readFile(File envFile) throws IOException {
@@ -32,11 +43,11 @@ public class Environment {
 	}
 
 	public List<PsicoComponent> getWalls() {
-		return getComponentListForType('w');
+		return this.walls;
 	}
 
 	public List<PsicoComponent> getBalls() {
-		return getComponentListForType('o');
+		return this.balls;
 	}
 
 	public List<PsicoComponent> getComponentListForType(char type) {
@@ -62,6 +73,19 @@ public class Environment {
 			x += Config.SIZE;
 		}
 		return list;
+	}
+
+	public void removeBall(PsicoComponent ball) {
+		balls.remove(ball);
+	}
+
+	@Override
+	void draw(Graphics g) {
+		List<PsicoComponent> components = new ArrayList<PsicoComponent>(getWalls());
+		components.addAll(getBalls());
+		for (PsicoComponent component : components) {
+			component.draw(g);
+		}
 	}
 
 }

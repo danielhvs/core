@@ -19,11 +19,13 @@ public class RegularMoveHandler implements IMoveHandler {
 		return position;
 	}
 
-	public void move(Direction direction) {
+	public boolean move(Direction direction) {
 		Position nextPosition = position.add(speedMap.get(direction));
 		if (movingRules.canMove(nextPosition)) {
 			this.position = nextPosition;
+			return true;
 		}
+		return false;
 	}
 
 	private void initSpeedMap(int speed) {
@@ -37,5 +39,13 @@ public class RegularMoveHandler implements IMoveHandler {
 
 	public void setSpeed(int speed) {
 		initSpeedMap(speed);
+	}
+
+	public boolean hasBall() {
+		return movingRules.hasBall(position);
+	}
+
+	public PsicoComponent getBall() {
+		return movingRules.getBall(position);
 	}
 }

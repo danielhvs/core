@@ -2,6 +2,7 @@ package br.com.danielhabib.core;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -26,7 +27,7 @@ public class PsicoTest {
 	@Before
 	public void setup() throws Exception {
 		directionHandler = new CounterClockWiseDirection();
-		moveHandler = new RegularMoveHandler(new Position(0, 0), 1, new MovingRules(new Environment("")));
+		moveHandler = newMoveHandlerWith(new Environment(""));
 		psico = new Psico(directionHandler, moveHandler);
 		MockitoAnnotations.initMocks(this);
 	}
@@ -52,7 +53,7 @@ public class PsicoTest {
 	@Test
 	public void move_Right() throws Exception {
 		psico.move();
-		assertThat(x(), is(equalTo(1)));
+		assertThat(x(), is(equalTo(Config.SIZE)));
 	}
 
 	@Test
@@ -60,14 +61,14 @@ public class PsicoTest {
 		psico.turn();
 		psico.turn();
 		psico.move();
-		assertThat(x(), is(equalTo(-1)));
+		assertThat(x(), is(equalTo(-Config.SIZE)));
 	}
 
 	@Test
 	public void move_Up() throws Exception {
 		psico.turn();
 		psico.move();
-		assertThat(y(), is(equalTo(-1)));
+		assertThat(y(), is(equalTo(-Config.SIZE)));
 	}
 
 	@Test
@@ -76,7 +77,7 @@ public class PsicoTest {
 		psico.turn();
 		psico.turn();
 		psico.move();
-		assertThat(y(), is(equalTo(1)));
+		assertThat(y(), is(equalTo(Config.SIZE)));
 	}
 
 	@Test
@@ -85,7 +86,7 @@ public class PsicoTest {
 
 		psico.move();
 
-		verify(observer).positionChanged();
+		verify(observer).hasChanged();
 	}
 
 	@Test
@@ -94,7 +95,7 @@ public class PsicoTest {
 
 		psico.turn();
 
-		verify(observer).directionChanged();
+		verify(observer).hasChanged();
 	}
 
 	@Test
@@ -112,12 +113,59 @@ public class PsicoTest {
 		assertThat(x(), is(equalTo(2)));
 	}
 
+	@Test
+	public void grab_ThereIsABall_NowHasIt() throws Exception {
+		psico = new Psico(directionHandler, newMoveHandlerWith(new Environment("o")));
+		psico.setObserver(observer);
+		PsicoComponent expected = new Ball(new Position(0, 0));
+
+		psico.grab();
+
+		assertThat(psico.getBall(), is(equalTo(expected)));
+		verify(observer).hasChanged();
+	}
+
+	@Test
+	public void grab_MoreBalls_NowHasOne() throws Exception {
+		psico = new Psico(directionHandler, newMoveHandlerWith(new Environment("ooo")));
+		psico.setObserver(observer);
+		PsicoComponent expected = new Ball(new Position(Config.SIZE, 0));
+
+		psico.move();
+		psico.grab();
+
+		assertThat(psico.getBall(), is(equalTo(expected)));
+	}
+
+	@Test
+	public void grab_ThereIsNoBall_DoesntHaveIt() throws Exception {
+		NullComponent nullComponent = new NullComponent();
+
+		psico.grab();
+
+		assertEquals(nullComponent, psico.getBall());
+	}
+
+	@Test
+	public void grabThenMove_ThereIsABall_MovesWithPsico() throws Exception {
+		psico = new Psico(directionHandler, newMoveHandlerWith(new Environment("o")));
+
+		psico.grab();
+		psico.move();
+
+		assertThat(psico.getBall().getPosition(), is(equalTo(psico.getPosition())));
+	}
+
 	private int y() {
 		return psico.getPosition().getY();
 	}
 
 	private int x() {
 		return psico.getPosition().getX();
+	}
+
+	private IMoveHandler newMoveHandlerWith(Environment environment) {
+		return new RegularMoveHandler(new Position(0, 0), Config.SIZE, new MovingRules(environment));
 	}
 
 }

@@ -62,11 +62,14 @@ public class App {
 					}
 					psico.setSpeed(speed);
 					break;
+				case 'g':
+					psico.grab();
+					break;
 				case 'q':
 					System.exit(0);
 					break;
 				}
-				System.out.println("DEBUG: speed = " + speed + ". Position = " + psico.getPosition().toString());
+				//System.out.println("DEBUG: speed = " + speed + ". Position = " + psico.getPosition().toString());
 			}
 		});
 	}

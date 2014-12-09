@@ -31,4 +31,18 @@ public class RegularMoveHandlerTest {
 
 		assertThat(moveHandler.getPosition(), is(equalTo(initialPosition)));
 	}
+
+	@Test
+	public void hasBall_ThereIsntABall_False() throws Exception {
+		RegularMoveHandler moveHandler = new RegularMoveHandler(new Position(0, 0), Config.SIZE, new MovingRules(new Environment("")));
+
+		assertThat(moveHandler.hasBall(), is(equalTo(false)));
+	}
+
+	@Test
+	public void hasBall_ThereIsABall_True() throws Exception {
+		RegularMoveHandler moveHandler = new RegularMoveHandler(new Position(0, 0), Config.SIZE, new MovingRules(new Environment("o")));
+
+		assertThat(moveHandler.hasBall(), is(equalTo(true)));
+	}
 }
