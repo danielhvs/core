@@ -17,6 +17,8 @@ public class Ball extends PsicoComponent {
 		int offset = 3 * Config.SIZE / 8;
 		int ballSize = Config.SIZE / 4;
 		g.fillOval(x + offset, y + offset, ballSize, ballSize);
+		g.setColor(Color.YELLOW);
+		g.drawString("1", x + offset + ballSize / 3, y + offset + 9 * ballSize / 10);
 	}
 
 }
