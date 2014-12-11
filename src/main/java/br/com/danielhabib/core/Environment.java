@@ -79,13 +79,49 @@ public class Environment extends PsicoComponent {
 		balls.remove(ball);
 	}
 
+	public void addBall(Position position) {
+		balls.add(new Ball(position));
+	}
+
+	public boolean hasBall(Position position) {
+		return hasComponentAt(position, balls);
+	}
+
+	public boolean hasWall(Position nextPosition) {
+		return hasComponentAt(nextPosition, walls);
+	}
+
+	public boolean hasComponentAt(Position position, List<PsicoComponent> components) {
+		for (PsicoComponent component : components) {
+			if (component.getPosition().equals(position)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public PsicoComponent getBallAt(Position position) {
+		for (PsicoComponent ball : balls) {
+			if (ball.getPosition().equals(position)) {
+				return ball;
+			}
+		}
+		return new NullComponent();
+	}
+
 	@Override
 	void draw(Graphics g) {
-		List<PsicoComponent> components = new ArrayList<PsicoComponent>(getWalls());
-		components.addAll(getBalls());
+		List<PsicoComponent> components = new ArrayList<PsicoComponent>(walls);
+		components.addAll(balls);
 		for (PsicoComponent component : components) {
 			component.draw(g);
 		}
+	}
+
+	public PsicoComponent popBallAt(Position position) {
+		PsicoComponent ball = getBallAt(position);
+		removeBall(ball);
+		return ball;
 	}
 
 }

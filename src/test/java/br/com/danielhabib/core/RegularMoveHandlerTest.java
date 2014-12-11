@@ -13,25 +13,39 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 public class RegularMoveHandlerTest {
 	@Test
 	public void move_ThereIsAWall_DoesntMove() throws Exception {
-		Position initialPosition = new Position(0, 0);
-		RegularMoveHandler moveHandler = new RegularMoveHandler(initialPosition, new MovingRules(new Environment(" w")));
+		IMoveHandler moveHandler = newMoveHandlerWithEnv(" w");
 
 		moveHandler.move(Direction.RIGHT);
 
-		assertThat(moveHandler.getPosition(), is(equalTo(initialPosition)));
+		assertThat(moveHandler.getPosition(), is(equalTo(new Position(0, 0))));
+	}
+
+	@Test
+	public void canMove_NoWall_CanMove() throws Exception {
+		Position oneSizeToTheRight = new Position(Config.SIZE, 0);
+		IMoveHandler moveHandler = newMoveHandlerWithEnv("");
+
+		moveHandler.move(Direction.RIGHT);
+
+		assertThat(moveHandler.getPosition(), is(equalTo(oneSizeToTheRight)));
 	}
 
 	@Test
 	public void hasBall_ThereIsntABall_False() throws Exception {
-		RegularMoveHandler moveHandler = new RegularMoveHandler(new Position(0, 0), new MovingRules(new Environment("")));
+		IMoveHandler moveHandler = newMoveHandlerWithEnv("");
 
 		assertThat(moveHandler.hasBall(), is(equalTo(false)));
 	}
 
 	@Test
 	public void hasBall_ThereIsABall_True() throws Exception {
-		RegularMoveHandler moveHandler = new RegularMoveHandler(new Position(0, 0), new MovingRules(new Environment("o")));
+		IMoveHandler moveHandler = newMoveHandlerWithEnv("o");
 
 		assertThat(moveHandler.hasBall(), is(equalTo(true)));
 	}
+
+	private IMoveHandler newMoveHandlerWithEnv(String string) {
+		return new RegularMoveHandler(new Position(0, 0), new Environment(string));
+	}
+
 }

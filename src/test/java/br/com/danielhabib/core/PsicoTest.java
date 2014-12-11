@@ -20,7 +20,6 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 public class PsicoTest {
 	private Psico psico;
 	private IDirectionHandler directionHandler;
-	private IMoveHandler moveHandler;
 
 	@Mock
 	private IPsicoObserver observer;
@@ -28,8 +27,7 @@ public class PsicoTest {
 	@Before
 	public void setup() throws Exception {
 		directionHandler = new CounterClockWiseDirection();
-		moveHandler = newMoveHandlerWith(new Environment(""));
-		psico = new Psico(directionHandler, moveHandler);
+		psico = new Psico(directionHandler, newMoveHandlerWithEnv(""));
 		MockitoAnnotations.initMocks(this);
 	}
 
@@ -107,7 +105,7 @@ public class PsicoTest {
 
 	@Test
 	public void grab_ThereIsABall_NowHasIt() throws Exception {
-		psico = new Psico(directionHandler, newMoveHandlerWith(new Environment("o")));
+		psico = new Psico(directionHandler, newMoveHandlerWithEnv("o"));
 		psico.setObserver(observer);
 		PsicoComponent expected = new Ball(new Position(0, 0));
 
@@ -119,7 +117,7 @@ public class PsicoTest {
 
 	@Test
 	public void grab_MoreBalls_NowHasOne() throws Exception {
-		psico = new Psico(directionHandler, newMoveHandlerWith(new Environment("ooo")));
+		psico = new Psico(directionHandler, newMoveHandlerWithEnv("ooo"));
 		psico.setObserver(observer);
 		PsicoComponent expected = new Ball(new Position(Config.SIZE, 0));
 
@@ -140,7 +138,7 @@ public class PsicoTest {
 
 	@Test
 	public void grabThenMove_ThereIsABall_MovesWithPsico() throws Exception {
-		psico = new Psico(directionHandler, newMoveHandlerWith(new Environment("o")));
+		psico = new Psico(directionHandler, newMoveHandlerWithEnv("o"));
 
 		psico.grab();
 		psico.move();
@@ -150,7 +148,7 @@ public class PsicoTest {
 
 	@Test
 	public void drop_HasABall_DoesntHaveItAnymore() throws Exception {
-		psico = new Psico(directionHandler, newMoveHandlerWith(new Environment("o")));
+		psico = new Psico(directionHandler, newMoveHandlerWithEnv("o"));
 		psico.setObserver(observer);
 
 		psico.grab();
@@ -168,8 +166,8 @@ public class PsicoTest {
 		return psico.getPosition().getX();
 	}
 
-	private IMoveHandler newMoveHandlerWith(Environment environment) {
-		return new RegularMoveHandler(new Position(0, 0), new MovingRules(environment));
+	private IMoveHandler newMoveHandlerWithEnv(String string) {
+		return new RegularMoveHandler(new Position(0, 0), new Environment(string));
 	}
 
 }
