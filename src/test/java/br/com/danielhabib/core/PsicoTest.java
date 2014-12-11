@@ -158,6 +158,13 @@ public class PsicoTest {
 		verify(observer, times(2)).hasChanged();
 	}
 
+	@Test
+	public void dropThenGrab_HasNoBall_CantDrop() throws Exception {
+		psico.drop();
+		psico.grab();
+		assertEquals(new NullComponent(), psico.getBall());
+	}
+
 	private int y() {
 		return psico.getPosition().getY();
 	}

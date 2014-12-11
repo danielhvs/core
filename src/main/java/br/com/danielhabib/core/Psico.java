@@ -21,6 +21,7 @@ public class Psico extends PsicoComponent {
 	}
 
 	private PsicoComponent ball;
+	private static final PsicoComponent NULL_BALL = new NullComponent();
 
 	public Psico(IDirectionHandler handler, IMoveHandler moveHandler) {
 		super(moveHandler.getPosition());
@@ -59,15 +60,21 @@ public class Psico extends PsicoComponent {
 	}
 
 	public void grab() {
-		if (moveHandler.hasBall()) {
+		if (!hasBall()) {
 			ball = moveHandler.getBall();
 			notifyObserver();
 		}
 	}
 
 	public void drop() {
-		ball = moveHandler.dropBall();
-		notifyObserver();
+		if (hasBall()) {
+			ball = moveHandler.dropBall();
+			notifyObserver();
+		}
+	}
+
+	private boolean hasBall() {
+		return !NULL_BALL.equals(ball);
 	}
 
 	public PsicoComponent getBall() {
