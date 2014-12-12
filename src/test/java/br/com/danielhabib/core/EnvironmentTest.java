@@ -4,17 +4,24 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 
+import java.awt.Graphics;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.googlecode.zohhak.api.TestWith;
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
@@ -23,7 +30,15 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 public class EnvironmentTest {
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
+	@Mock
+	private Graphics g;
+
 	private static final int WALL_SIZE = Config.SIZE;
+
+	@Before
+	public void setup() {
+		MockitoAnnotations.initMocks(this);
+	}
 
 	@Test
 	public void itCanReadFromFile() throws Exception {
@@ -143,6 +158,16 @@ public class EnvironmentTest {
 		List<PsicoComponent> balls = environment.getBalls();
 
 		assertThat(balls, hasSize(1));
+	}
+
+	@Test
+	public void draw_TwoBalls_DrawsLabelWithNumber() throws Exception {
+		Environment environment = new Environment("o");
+		environment.addBall(new Position(0, 0));
+
+		environment.draw(g);
+
+		verify(g).drawString(eq("2"), anyInt(), anyInt());
 	}
 
 	private PsicoComponent newWallAtPosition(int x, int y) {

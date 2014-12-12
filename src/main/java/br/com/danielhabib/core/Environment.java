@@ -1,10 +1,13 @@
 package br.com.danielhabib.core;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +18,8 @@ public class Environment extends PsicoComponent {
 	private PsicoComponentBuilder builder;
 	private List<PsicoComponent> walls;
 	private List<PsicoComponent> balls;
+	private static final int NUMBER_X_OFFSET = -3;
+	private static final int NUMBER_Y_OFFSET = 5;
 
 	public Environment() {
 		super(new Position(0, 0));
@@ -115,6 +120,28 @@ public class Environment extends PsicoComponent {
 		components.addAll(balls);
 		for (PsicoComponent component : components) {
 			component.draw(g);
+		}
+
+		Map<Position, Integer> ballsQuantity = new HashMap<Position, Integer>();
+		List<Position> positions = new ArrayList<Position>();
+		for (PsicoComponent ball : balls) {
+			positions.add(ball.getPosition());
+		}
+		for (Position position : positions) {
+			if (ballsQuantity.containsKey(position)) {
+				Integer count = ballsQuantity.get(position);
+				ballsQuantity.put(position, count + 1);
+			} else {
+				ballsQuantity.put(position, 1);
+			}
+		}
+		g.setColor(Color.YELLOW);
+		for (Map.Entry<Position, Integer> entry : ballsQuantity.entrySet()) {
+			Position position = entry.getKey();
+			Integer count = entry.getValue();
+			g.drawString(String.valueOf(count),
+					position.getX() + Ball.OFFSET+ NUMBER_X_OFFSET + Ball.DIAMETER / 2,
+					position.getY() + Ball.OFFSET+ NUMBER_Y_OFFSET + Ball.DIAMETER / 2);
 		}
 	}
 
