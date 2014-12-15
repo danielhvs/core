@@ -24,11 +24,14 @@ public class PsicoTest {
 	@Mock
 	private IPsicoObserver observer;
 
+	@Mock
+	private ImageHandler imageHandler;
+
 	@Before
 	public void setup() throws Exception {
-		directionHandler = new CounterClockWiseDirection();
-		psico = new Psico(directionHandler, newMoveHandlerWithEnv(""));
 		MockitoAnnotations.initMocks(this);
+		directionHandler = new CounterClockWiseDirection();
+		psico = newPsicoWithEnv("");
 	}
 
 	@Test
@@ -105,7 +108,7 @@ public class PsicoTest {
 
 	@Test
 	public void grab_ThereIsABall_NowHasIt() throws Exception {
-		psico = new Psico(directionHandler, newMoveHandlerWithEnv("o"));
+		psico = newPsicoWithEnv("o");
 		psico.setObserver(observer);
 		PsicoComponent expected = new Ball(new Position(0, 0));
 
@@ -117,7 +120,7 @@ public class PsicoTest {
 
 	@Test
 	public void grab_MoreBalls_NowHasOne() throws Exception {
-		psico = new Psico(directionHandler, newMoveHandlerWithEnv("ooo"));
+		psico = newPsicoWithEnv("ooo");
 		psico.setObserver(observer);
 		PsicoComponent expected = new Ball(new Position(Config.SIZE, 0));
 
@@ -138,7 +141,7 @@ public class PsicoTest {
 
 	@Test
 	public void grabThenMove_ThereIsABall_MovesWithPsico() throws Exception {
-		psico = new Psico(directionHandler, newMoveHandlerWithEnv("o"));
+		psico = newPsicoWithEnv("o");
 
 		psico.grab();
 		psico.move();
@@ -148,7 +151,7 @@ public class PsicoTest {
 
 	@Test
 	public void drop_HasABall_DoesntHaveItAnymore() throws Exception {
-		psico = new Psico(directionHandler, newMoveHandlerWithEnv("o"));
+		psico = newPsicoWithEnv("o");
 		psico.setObserver(observer);
 
 		psico.grab();
@@ -171,6 +174,10 @@ public class PsicoTest {
 
 	private int x() {
 		return psico.getPosition().getX();
+	}
+
+	private Psico newPsicoWithEnv(String envString) {
+		return new Psico(directionHandler, newMoveHandlerWithEnv(envString), imageHandler);
 	}
 
 	private IMoveHandler newMoveHandlerWithEnv(String string) {

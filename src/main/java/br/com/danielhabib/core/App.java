@@ -24,7 +24,8 @@ public class App {
 		});
 
 		Environment env = new Environment(new File("level_1.txt"));
-		final Psico psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), env));
+		final Psico psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), env),
+				new ImageHandler());
 		JApplet applet = new Main2D(psico, env);
 		f.getContentPane().add("Center", applet);
 		applet.init();
