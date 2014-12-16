@@ -12,28 +12,33 @@ import javax.swing.JApplet;
 import javax.swing.JFrame;
 
 public class App {
-	private static final int WINDOW_SIZE = Config.SIZE / 2 + Config.SIZE * 6;
+	protected static final int WINDOW_SIZE = Config.SIZE / 2 + Config.SIZE * 6;
+	protected static JFrame frame;
+	protected static JApplet applet;
+	protected static Psico psico;
 
 	public static void main(String[] args) throws InterruptedException, IOException {
-		JFrame f = new JFrame("Psico");
-		f.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
+		frame = buildFrame();
 
 		Environment env = new Environment(new File("level_1.txt"));
-		final Psico psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), env),
+		psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), env),
 				new ImageHandler());
-		JApplet applet = new Main2D(psico, env);
-		f.getContentPane().add("Center", applet);
-		applet.init();
-		f.pack();
-		f.setSize(new Dimension(WINDOW_SIZE, WINDOW_SIZE + Config.SIZE / 2));
-		f.setVisible(true);
+		applet = new Main2D(psico, env);
 
-		f.addKeyListener(new KeyListener() {
+		setupFrame();
+		setupCommands();
+	}
+
+	protected static void setupFrame() {
+		frame.getContentPane().add("Center", applet);
+		applet.init();
+		frame.pack();
+		frame.setSize(new Dimension(WINDOW_SIZE, WINDOW_SIZE + Config.SIZE / 2));
+		frame.setVisible(true);
+	}
+
+	protected static void setupCommands() {
+		frame.addKeyListener(new KeyListener() {
 
 			public void keyTyped(KeyEvent e) {
 			}
@@ -63,5 +68,16 @@ public class App {
 				//System.out.println("DEBUG: speed = " + speed + ". Position = " + psico.getPosition().toString());
 			}
 		});
+	}
+
+	protected static JFrame buildFrame() {
+		JFrame f = new JFrame("Psico");
+		f.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+		return f;
 	}
 }

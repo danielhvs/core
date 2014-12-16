@@ -6,8 +6,6 @@ public interface IMoveHandler {
 
 	Position getPosition();
 
-	boolean hasBall();
-
 	PsicoComponent getBall();
 
 	PsicoComponent dropBall();

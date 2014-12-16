@@ -30,20 +30,6 @@ public class RegularMoveHandlerTest {
 		assertThat(moveHandler.getPosition(), is(equalTo(oneSizeToTheRight)));
 	}
 
-	@Test
-	public void hasBall_ThereIsntABall_False() throws Exception {
-		IMoveHandler moveHandler = newMoveHandlerWithEnv("");
-
-		assertThat(moveHandler.hasBall(), is(equalTo(false)));
-	}
-
-	@Test
-	public void hasBall_ThereIsABall_True() throws Exception {
-		IMoveHandler moveHandler = newMoveHandlerWithEnv("o");
-
-		assertThat(moveHandler.hasBall(), is(equalTo(true)));
-	}
-
 	private IMoveHandler newMoveHandlerWithEnv(String string) {
 		return new RegularMoveHandler(new Position(0, 0), new Environment(string));
 	}

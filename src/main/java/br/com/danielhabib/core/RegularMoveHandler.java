@@ -19,10 +19,6 @@ public class RegularMoveHandler implements IMoveHandler {
 		return position;
 	}
 
-	public boolean hasBall() {
-		return env.hasBall(position);
-	}
-
 	public boolean move(Direction direction) {
 		Position nextPosition = position.add(speedMap.get(direction));
 		if (canMove(nextPosition)) {
