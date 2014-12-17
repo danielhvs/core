@@ -1,16 +1,22 @@
 package br.com.danielhabib.core;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class PsicoComponent {
 	protected Position position;
-
-	public Position getPosition(){
-		return position;
-	}
+	protected Color color;
 
 	public PsicoComponent(Position position) {
 		this.position = position;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public Position getPosition(){
+		return position;
 	}
 
 	public void setPosition(Position position) {

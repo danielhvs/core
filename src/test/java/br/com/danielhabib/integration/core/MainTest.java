@@ -17,18 +17,18 @@ import br.com.danielhabib.core.RegularMoveHandler;
 
 @Ignore
 public class MainTest extends App {
-	private static final int TIMEOUT = 100;
+	private static final int TIMEOUT = 350;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		frame = buildFrame();
 
 		Environment env = new Environment(
-			"wwwwww\n" +
-			"w    w\n" +
-			"woooow\n" +
-			"woooow\n" +
-			"woooow\n" +
-			"wwwwww");
+				"wwwwww\n" +
+						"w    w\n" +
+						"woooow\n" +
+						"woooow\n" +
+						"woooow\n" +
+				"wwwwww");
 
 		psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), env), new ImageHandler());
 		applet = new Main2D(psico, env);
@@ -37,35 +37,36 @@ public class MainTest extends App {
 		setupCommands();
 
 		for (int i = 0; i < 11; i++) {
-			env.addBall(psico.getPosition());
+			env.addBall(psico.getPosition().add(new Position(Config.SIZE, -2 * Config.SIZE)));
 		}
 		for (int i = 0; i < 99; i++) {
-			env.addBall(psico.getPosition().add(new Position(Config.SIZE, 0)));
+			env.addBall(psico.getPosition().add(new Position(0, -2 * Config.SIZE)));
 		}
 
-		//		grab();
-		//		move();
-		//		drop();
-		//		move();
-		//		grab();
-		//		left();
-		//		drop();
-		//		move();
-		//		move();
-		//		grab();
-		//		left();
-		//		left();
-		//		drop();
-		//		up();
-		//		grab();
-		//		down();
-		//		drop();
-		//		up();
-		//		left();
-		//		grab();
-		//		move();
-		//		down();
-		//		drop();
+		grab();
+		move();
+		drop();
+		move();
+		grab();
+		left();
+		drop();
+		move();
+		move();
+		grab();
+		left();
+		left();
+		drop();
+		up();
+		grab();
+		down();
+		drop();
+		up();
+		left();
+		grab();
+		move();
+		down();
+		drop();
+		move();
 	}
 
 	private static void down() throws InterruptedException {

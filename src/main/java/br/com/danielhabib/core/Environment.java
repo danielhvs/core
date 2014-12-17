@@ -45,8 +45,15 @@ public class Environment extends PsicoComponent {
 		this.balls = getComponentListForType('o');
 		this.containers = new HashMap<Position, PsicoComponentContainer>();
 		for (PsicoComponent ball : balls) {
-			containers.put(ball.getPosition(), new PsicoComponentContainer(ball));
+			PsicoComponentContainer container = newContainer(ball);
+			containers.put(ball.getPosition(), container);
 		}
+	}
+
+	private PsicoComponentContainer newContainer(PsicoComponent ball) {
+		PsicoComponentContainer container = new PsicoComponentContainer(ball);
+		container.setColorBuilder(new ColorBuilder(new Color[] { Color.BLUE, Color.RED, Color.BLACK, Color.GREEN, Color.MAGENTA }));
+		return container;
 	}
 
 	private String readFile(File envFile) throws IOException {
@@ -90,7 +97,7 @@ public class Environment extends PsicoComponent {
 		if (containers.containsKey(position)) {
 			containers.get(position).push(new Ball(position));
 		} else {
-			containers.put(position, new PsicoComponentContainer(new Ball(position)));
+			containers.put(position, newContainer(new Ball(position)));
 		}
 	}
 
