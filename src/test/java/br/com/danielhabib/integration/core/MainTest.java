@@ -1,7 +1,7 @@
 package br.com.danielhabib.integration.core;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Ignore;
 
@@ -17,23 +17,99 @@ import br.com.danielhabib.core.RegularMoveHandler;
 
 @Ignore
 public class MainTest extends App {
-	public static void main(String[] args) throws IOException {
+	private static final int TIMEOUT = 100;
+
+	public static void main(String[] args) throws IOException, InterruptedException {
 		frame = buildFrame();
 
-		Environment env = new Environment(new File("level_1.txt"));
+		Environment env = new Environment(
+			"wwwwww\n" +
+			"w    w\n" +
+			"woooow\n" +
+			"woooow\n" +
+			"woooow\n" +
+			"wwwwww");
+
 		psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), env), new ImageHandler());
 		applet = new Main2D(psico, env);
 
 		setupFrame();
 		setupCommands();
 
-		psico.move();
-		psico.move();
-		psico.grab();
-		psico.move();
-		psico.turn();
-		psico.move();
+		for (int i = 0; i < 11; i++) {
+			env.addBall(psico.getPosition());
+		}
+		for (int i = 0; i < 99; i++) {
+			env.addBall(psico.getPosition().add(new Position(Config.SIZE, 0)));
+		}
+
+		//		grab();
+		//		move();
+		//		drop();
+		//		move();
+		//		grab();
+		//		left();
+		//		drop();
+		//		move();
+		//		move();
+		//		grab();
+		//		left();
+		//		left();
+		//		drop();
+		//		up();
+		//		grab();
+		//		down();
+		//		drop();
+		//		up();
+		//		left();
+		//		grab();
+		//		move();
+		//		down();
+		//		drop();
+	}
+
+	private static void down() throws InterruptedException {
+		turn();
+		turn();
+		turn();
+		move();
+		turn();
+	}
+
+	private static void up() throws InterruptedException {
+		turn();
+		move();
+		turn();
+		turn();
+		turn();
+	}
+
+	private static void left() throws InterruptedException {
+		turn();
+		turn();
+		move();
+		turn();
+		turn();
+	}
+
+	private static void drop() throws InterruptedException {
+		TimeUnit.MILLISECONDS.sleep(TIMEOUT);
 		psico.drop();
+	}
+
+	private static void grab() throws InterruptedException {
+		TimeUnit.MILLISECONDS.sleep(TIMEOUT);
+		psico.grab();
+	}
+
+	private static void move() throws InterruptedException {
+		TimeUnit.MILLISECONDS.sleep(TIMEOUT);
 		psico.move();
 	}
+
+	private static void turn() throws InterruptedException {
+		TimeUnit.MILLISECONDS.sleep(TIMEOUT);
+		psico.turn();
+	}
+
 }

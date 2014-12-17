@@ -124,9 +124,15 @@ public class Environment extends PsicoComponent {
 			PsicoComponentContainer container = entry.getValue();
 			Position position = container.getPosition();
 			int count = container.size();
-			g.drawString(String.valueOf(count), position.getX() + Ball.OFFSET + NUMBER_X_OFFSET + Ball.DIAMETER / 2, position.getY() + Ball.OFFSET
-					+ NUMBER_Y_OFFSET + Ball.DIAMETER / 2);
+			int x = position.getX() + Ball.OFFSET + xOffset(count) + Ball.DIAMETER / 2;
+			int y = position.getY() + Ball.OFFSET + NUMBER_Y_OFFSET + Ball.DIAMETER / 2;
+			g.drawString(String.valueOf(count), x, y);
 		}
+	}
+
+	private int xOffset(int count) {
+		int numDigits = String.valueOf(count).length();
+		return NUMBER_X_OFFSET - 4 * (numDigits - 1);
 	}
 
 	public PsicoComponent popBallAt(Position position) {
