@@ -6,6 +6,7 @@ import java.awt.Graphics;
 public abstract class PsicoComponent {
 	protected Position position;
 	protected Color color;
+	protected int size;
 
 	public PsicoComponent(Position position) {
 		this.position = position;
@@ -21,6 +22,10 @@ public abstract class PsicoComponent {
 
 	public void setPosition(Position position) {
 		this.position = position;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 	abstract void draw(Graphics g);
