@@ -106,6 +106,11 @@ public class Environment extends PsicoComponent {
 		}
 	}
 
+	public void createBall(Position position) {
+		PsicoComponent newBall = builder.build('o', position.getX(), position.getY());
+		addBall(position, newBall);
+	}
+
 	public boolean hasWall(Position nextPosition) {
 		return hasComponentAt(nextPosition, walls);
 	}
