@@ -6,18 +6,15 @@ import java.util.Stack;
 public class PsicoComponentContainer extends PsicoComponent {
 
 	private Stack<PsicoComponent> balls;
-	private IColorBuilder colorBuilder;
 
 	public PsicoComponentContainer(Position position) {
 		super(position);
-		this.colorBuilder = new NullColorBuilder();
 		this.balls = new Stack<PsicoComponent>();
 	}
 
 	public PsicoComponentContainer(PsicoComponent ball) {
 		super(ball.getPosition());
 		this.balls = new Stack<PsicoComponent>();
-		this.colorBuilder = new NullColorBuilder();
 		push(ball);
 	}
 
@@ -32,7 +29,7 @@ public class PsicoComponentContainer extends PsicoComponent {
 				for (PsicoComponent ball : balls) {
 					int x = ball.getPosition().getX() + i * Ball.INSIDE_OFFSET;
 					int y = ball.getPosition().getY() + i * Ball.INSIDE_OFFSET;
-					g.setColor(colorBuilder.nextColor());
+					g.setColor(ball.getColor());
 					g.fillOval(x + Ball.OFFSET, y + Ball.OFFSET, diameter, diameter);
 					diameter -= Ball.INSIDE_DIAMETER_OFFSET;
 					i++;
@@ -55,14 +52,6 @@ public class PsicoComponentContainer extends PsicoComponent {
 
 	public boolean isEmpty() {
 		return balls.isEmpty();
-	}
-
-	public void setColorBuilder(IColorBuilder colorBuilder) {
-		this.colorBuilder = colorBuilder;
-	}
-
-	public IColorBuilder getColorBuilder() {
-		return colorBuilder;
 	}
 
 }

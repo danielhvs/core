@@ -3,14 +3,12 @@ package br.com.danielhabib.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import org.junit.Before;
@@ -89,25 +87,6 @@ public class PsicoComponentContainerTest {
 		container.draw(g);
 
 		verify(g, times(2)).fillOval(anyInt(), anyInt(), anyInt(), anyInt());
-	}
-
-	@Test
-	public void getColorBuilder_hasNullColorBuilder() throws Exception {
-		IColorBuilder colorBuilder = container.getColorBuilder();
-
-		assertTrue(colorBuilder instanceof NullColorBuilder);
-	}
-
-	@Test
-	public void canSetColorBuilder() throws Exception {
-		container.push(new Ball(ORIGIN));
-		container.push(new Ball(ORIGIN));
-
-		container.setColorBuilder(new ColorBuilder(new Color[] { Color.RED, Color.BLUE }));
-
-		container.draw(g);
-		verify(g).setColor(Color.RED);
-		verify(g).setColor(Color.BLUE);
 	}
 
 }

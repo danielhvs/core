@@ -60,4 +60,8 @@ public abstract class PsicoComponent {
 		return true;
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
 }

@@ -1,6 +1,5 @@
 package br.com.danielhabib.core;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 public class Wall extends PsicoComponent {
@@ -11,7 +10,7 @@ public class Wall extends PsicoComponent {
 
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(Color.GREEN);
+		g.setColor(color);
 		g.fillRect(position.getX(), position.getY(), Config.SIZE, Config.SIZE);
 	}
 

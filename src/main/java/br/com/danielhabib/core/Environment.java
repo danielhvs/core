@@ -25,7 +25,14 @@ public class Environment extends PsicoComponent {
 
 	public Environment() {
 		super(new Position(0, 0));
-		this.builder = new PsicoComponentBuilder();
+		this.builder = newPsicoComponentBuilder();
+	}
+
+	private PsicoComponentBuilder newPsicoComponentBuilder() {
+		PsicoComponentBuilder builder = new PsicoComponentBuilder();
+		builder.setColorBuilder('w', new ColorBuilder(new Color[] { Color.DARK_GRAY.brighter(), Color.DARK_GRAY, Color.DARK_GRAY.darker() }));
+		builder.setColorBuilder('o', new ColorBuilder(new Color[] { Color.BLUE, Color.RED, Color.ORANGE }));
+		return builder;
 	}
 
 	public Environment(String input) {
@@ -51,9 +58,7 @@ public class Environment extends PsicoComponent {
 	}
 
 	private PsicoComponentContainer newContainer(PsicoComponent ball) {
-		PsicoComponentContainer container = new PsicoComponentContainer(ball);
-		container.setColorBuilder(new ColorBuilder(new Color[] { Color.BLUE, Color.RED, Color.BLACK, Color.GREEN, Color.MAGENTA }));
-		return container;
+		return new PsicoComponentContainer(ball);
 	}
 
 	private String readFile(File envFile) throws IOException {
