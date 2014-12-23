@@ -30,8 +30,8 @@ public class Environment extends PsicoComponent {
 
 	private PsicoComponentBuilder newPsicoComponentBuilder() {
 		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-		builder.setColorBuilder('w', new ColorBuilder(new Color[] { Color.DARK_GRAY.brighter(), Color.DARK_GRAY, Color.DARK_GRAY.darker() }));
-		builder.setColorBuilder('o', new ColorBuilder(new Color[] { Color.BLUE, Color.RED, Color.ORANGE }));
+		builder.setColorBuilder('w', new ColorBuilder(new Color[] { Color.BLACK, Color.DARK_GRAY.darker(), Color.DARK_GRAY, Color.DARK_GRAY.brighter() }));
+		builder.setColorBuilder('o', new ColorBuilder(new Color[] { Color.BLUE, Color.RED, Color.ORANGE, Color.CYAN, Color.GREEN, Color.YELLOW }));
 		return builder;
 	}
 
@@ -131,7 +131,7 @@ public class Environment extends PsicoComponent {
 			container.draw(g);
 		}
 
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.BLACK);
 		for (Entry<Position, PsicoComponentContainer> entry : containers.entrySet()) {
 			PsicoComponentContainer container = entry.getValue();
 			Position position = container.getPosition();
