@@ -98,11 +98,11 @@ public class Environment extends PsicoComponent {
 		return list;
 	}
 
-	public void addBall(Position position) {
+	public void addBall(Position position, PsicoComponent ball) {
 		if (containers.containsKey(position)) {
-			containers.get(position).push(new Ball(position));
+			containers.get(position).push(ball);
 		} else {
-			containers.put(position, newContainer(new Ball(position)));
+			containers.put(position, newContainer(ball));
 		}
 	}
 

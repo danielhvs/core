@@ -8,6 +8,6 @@ public interface IMoveHandler {
 
 	PsicoComponent getBall();
 
-	PsicoComponent dropBall();
+	PsicoComponent dropBall(PsicoComponent ball);
 
 }

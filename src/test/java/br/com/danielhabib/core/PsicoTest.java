@@ -3,6 +3,7 @@ package br.com.danielhabib.core;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -166,6 +167,20 @@ public class PsicoTest {
 		psico.drop();
 		psico.grab();
 		assertEquals(new NullComponent(), psico.getBall());
+	}
+
+	@Test
+	public void grabThenDrop_ItsTheSameBall() throws Exception {
+		psico = newPsicoWithEnv("o");
+
+		psico.grab();
+		PsicoComponent ball = psico.getBall();
+
+		psico.drop();
+		psico.grab();
+		PsicoComponent sameBall = psico.getBall();
+
+		assertSame(ball, sameBall);
 	}
 
 	private int y() {

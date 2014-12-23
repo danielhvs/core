@@ -32,8 +32,8 @@ public class RegularMoveHandler implements IMoveHandler {
 		return env.popBallAt(position);
 	}
 
-	public PsicoComponent dropBall() {
-		env.addBall(position);
+	public PsicoComponent dropBall(PsicoComponent ball) {
+		env.addBall(position, ball);
 		return new NullComponent();
 	}
 

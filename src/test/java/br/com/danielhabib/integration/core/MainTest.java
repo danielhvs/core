@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Ignore;
 
 import br.com.danielhabib.core.App;
+import br.com.danielhabib.core.Ball;
 import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.CounterClockWiseDirection;
 import br.com.danielhabib.core.Environment;
@@ -37,10 +38,12 @@ public class MainTest extends App {
 		setupCommands();
 
 		for (int i = 0; i < 11; i++) {
-			env.addBall(psico.getPosition().add(new Position(Config.SIZE, -2 * Config.SIZE)));
+			Position position = psico.getPosition().add(new Position(Config.SIZE, -2 * Config.SIZE));
+			env.addBall(position, new Ball(position));
 		}
 		for (int i = 0; i < 99; i++) {
-			env.addBall(psico.getPosition().add(new Position(0, -2 * Config.SIZE)));
+			Position position = psico.getPosition().add(new Position(0, -2 * Config.SIZE));
+			env.addBall(position, new Ball(position));
 		}
 
 		grab();

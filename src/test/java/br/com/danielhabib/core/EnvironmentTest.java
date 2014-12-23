@@ -163,7 +163,7 @@ public class EnvironmentTest {
 	@Test
 	public void draw_TwoBalls_DrawsLabelWithNumber() throws Exception {
 		Environment environment = new Environment("o");
-		environment.addBall(new Position(0, 0));
+		environment.addBall(new Position(0, 0), new Ball(new Position(0, 0)));
 
 		environment.draw(g);
 

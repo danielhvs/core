@@ -62,7 +62,7 @@ public class Psico extends PsicoComponent {
 
 	public void drop() {
 		if (hasBall()) {
-			ball = moveHandler.dropBall();
+			ball = moveHandler.dropBall(ball);
 			notifyObserver();
 		}
 	}
