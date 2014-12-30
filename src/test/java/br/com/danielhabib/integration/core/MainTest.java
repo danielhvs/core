@@ -17,7 +17,7 @@ import br.com.danielhabib.core.RegularMoveHandler;
 
 @Ignore
 public class MainTest extends App {
-	private static final int TIMEOUT = 350;
+	private static final int TIMEOUT = 100;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		frame = buildFrame();
@@ -96,23 +96,26 @@ public class MainTest extends App {
 	}
 
 	private static void drop() throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(TIMEOUT);
+		sleep();
 		psico.drop();
 	}
 
 	private static void grab() throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(TIMEOUT);
+		sleep();
 		psico.grab();
 	}
 
 	private static void move() throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(TIMEOUT);
+		sleep();
 		psico.move();
 	}
 
 	private static void turn() throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(TIMEOUT);
+		sleep();
 		psico.turn();
 	}
 
+	private static void sleep() throws InterruptedException {
+		TimeUnit.MILLISECONDS.sleep(TIMEOUT);
+	}
 }

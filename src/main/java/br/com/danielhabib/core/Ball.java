@@ -6,8 +6,6 @@ import java.awt.Graphics;
 public class Ball extends PsicoComponent {
 
 	// Must be even
-	public static final int INSIDE_DIAMETER_OFFSET = 4;
-	public static final int INSIDE_OFFSET = INSIDE_DIAMETER_OFFSET / 2;
 	public static int OFFSET = Config.SIZE / 4;
 	public static int DIAMETER = Config.SIZE / 2;
 	public static final Color DEFAULT_COLOR = Color.BLUE;
@@ -21,10 +19,11 @@ public class Ball extends PsicoComponent {
 
 	@Override
 	public void draw(Graphics g) {
-		int x = getPosition().getX();
-		int y = getPosition().getY();
+		int offset = (Config.SIZE - getSize()) / 2;
+		int x = getPosition().getX()+offset;
+		int y = getPosition().getY()+offset;
 		g.setColor(color);
-		g.fillOval(x + OFFSET, y + OFFSET, size, size);
+		g.fillOval(x, y, getSize(), getSize());
 	}
 
 }

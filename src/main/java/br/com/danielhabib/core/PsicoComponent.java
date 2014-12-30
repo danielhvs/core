@@ -6,7 +6,7 @@ import java.awt.Graphics;
 public abstract class PsicoComponent {
 	protected Position position;
 	protected Color color;
-	protected int size;
+	private int size;
 
 	public PsicoComponent(Position position) {
 		this.position = position;
@@ -26,6 +26,14 @@ public abstract class PsicoComponent {
 
 	public void setSize(int size) {
 		this.size = size;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public int getSize() {
+		return size;
 	}
 
 	abstract void draw(Graphics g);
@@ -59,9 +67,4 @@ public abstract class PsicoComponent {
 		}
 		return true;
 	}
-
-	public Color getColor() {
-		return color;
-	}
-
 }

@@ -16,4 +16,8 @@ public class NullComponent extends PsicoComponent {
 	public void setPosition(Position position) {
 	}
 
+	@Override
+	public void setSize(int size) {
+	}
+
 }

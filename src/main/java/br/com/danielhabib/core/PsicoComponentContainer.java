@@ -6,6 +6,8 @@ import java.util.Stack;
 public class PsicoComponentContainer extends PsicoComponent {
 
 	private Stack<PsicoComponent> balls;
+	private int smallerBallSize = 0;
+	public static final int INSIDE_DIAMETER_OFFSET = 4;
 
 	public PsicoComponentContainer(Position position) {
 		super(position);
@@ -20,29 +22,27 @@ public class PsicoComponentContainer extends PsicoComponent {
 
 	@Override
 	void draw(Graphics g) {
-		if (!balls.isEmpty()) {
-			if(balls.size()==1) {
-				balls.peek().draw(g);
-			} else {
-				int diameter = Ball.DIAMETER;
-				int i = 0;
-				for (PsicoComponent ball : balls) {
-					int x = ball.getPosition().getX() + i * Ball.INSIDE_OFFSET;
-					int y = ball.getPosition().getY() + i * Ball.INSIDE_OFFSET;
-					g.setColor(ball.getColor());
-					g.fillOval(x + Ball.OFFSET, y + Ball.OFFSET, diameter, diameter);
-					diameter -= Ball.INSIDE_DIAMETER_OFFSET;
-					i++;
-				}
-			}
+		for (PsicoComponent ball : balls) {
+			ball.draw(g);
 		}
 	}
 
 	public PsicoComponent pop() {
-		return balls.isEmpty() ? new NullComponent() : balls.pop();
+		return balls.isEmpty() ? new NullComponent() : popWithSize(Ball.DEFAULT_SIZE);
+	}
+
+	private PsicoComponent popWithSize(int defaultSize) {
+		PsicoComponent ball = balls.pop();
+		ball.setSize(Ball.DEFAULT_SIZE);
+		smallerBallSize += INSIDE_DIAMETER_OFFSET;
+		return ball;
 	}
 
 	public void push(PsicoComponent component) {
+		if (balls.size() > 0) {
+			component.setSize(smallerBallSize - INSIDE_DIAMETER_OFFSET);
+		}
+		smallerBallSize = component.getSize();
 		balls.push(component);
 	}
 
@@ -52,6 +52,10 @@ public class PsicoComponentContainer extends PsicoComponent {
 
 	public boolean isEmpty() {
 		return balls.isEmpty();
+	}
+
+	public PsicoComponent get(int i) {
+		return balls.get(i);
 	}
 
 }
