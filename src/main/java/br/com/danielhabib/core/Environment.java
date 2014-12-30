@@ -20,8 +20,6 @@ public class Environment extends PsicoComponent {
 	private List<PsicoComponent> walls;
 	private List<PsicoComponent> balls;
 	private Map<Position, PsicoComponentContainer> containers;
-	private static final int NUMBER_X_OFFSET = -3;
-	private static final int NUMBER_Y_OFFSET = 5;
 
 	public Environment() {
 		super(new Position(0, 0));
@@ -135,21 +133,6 @@ public class Environment extends PsicoComponent {
 			PsicoComponentContainer container = entry.getValue();
 			container.draw(g);
 		}
-
-		g.setColor(Color.BLACK);
-		for (Entry<Position, PsicoComponentContainer> entry : containers.entrySet()) {
-			PsicoComponentContainer container = entry.getValue();
-			Position position = container.getPosition();
-			int count = container.size();
-			int x = position.getX() + Ball.OFFSET + xOffset(count) + Ball.DIAMETER / 2;
-			int y = position.getY() + Ball.OFFSET + NUMBER_Y_OFFSET + Ball.DIAMETER / 2;
-			g.drawString(String.valueOf(count), x, y);
-		}
-	}
-
-	private int xOffset(int count) {
-		int numDigits = String.valueOf(count).length();
-		return NUMBER_X_OFFSET - 4 * (numDigits - 1);
 	}
 
 	public PsicoComponent popBallAt(Position position) {
