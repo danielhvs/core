@@ -15,6 +15,9 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Environment extends PsicoComponent {
 
+	private static final Color[] WALL_COLORS = new Color[] { Color.BLACK, Color.DARK_GRAY.darker(), Color.DARK_GRAY, Color.DARK_GRAY.brighter() };
+	private static final Color[] BALL_COLORS = new Color[] { Color.BLUE, Color.RED, Color.ORANGE, Color.CYAN, Color.GREEN, Color.YELLOW };
+	private static final Color[] GOAL_COLORS = new Color[] { Color.ORANGE.darker() };
 	private String input;
 	private PsicoComponentBuilder builder;
 	private List<PsicoComponent> walls;
@@ -29,8 +32,9 @@ public class Environment extends PsicoComponent {
 
 	private PsicoComponentBuilder newPsicoComponentBuilder() {
 		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-		builder.setColorBuilder('w', new ColorBuilder(new Color[] { Color.BLACK, Color.DARK_GRAY.darker(), Color.DARK_GRAY, Color.DARK_GRAY.brighter() }));
-		builder.setColorBuilder('o', new ColorBuilder(new Color[] { Color.BLUE, Color.RED, Color.ORANGE, Color.CYAN, Color.GREEN, Color.YELLOW }));
+		builder.registerTypeBuilder('w', new WallBuilder(new ColorBuilder(WALL_COLORS)));
+		builder.registerTypeBuilder('o', new BallBuilder(new ColorBuilder(BALL_COLORS)));
+		builder.registerTypeBuilder('g', new GoalBuilder(new ColorBuilder(GOAL_COLORS)));
 		return builder;
 	}
 

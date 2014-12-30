@@ -7,13 +7,23 @@ import static org.junit.Assert.assertThat;
 
 import java.awt.Color;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class PsicoComponentBuilderTest {
+
+	private PsicoComponentBuilder builder;
+
+	@Before
+	public void setup() {
+		builder = new PsicoComponentBuilder();
+		builder.registerTypeBuilder('w', new WallBuilder(new ColorBuilder(new Color[] { Color.GREEN })));
+		builder.registerTypeBuilder('o', new BallBuilder(new ColorBuilder(new Color[] { Color.BLUE })));
+		builder.registerTypeBuilder('g', new GoalBuilder(new ColorBuilder(new Color[] { Color.ORANGE.darker() })));
+	}
+
 	@Test
 	public void build_W_Wall() throws Exception {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-
 		PsicoComponent component = builder.build('w', 0, 0);
 
 		assertThat(component, is(instanceOf(Wall.class)));
@@ -22,8 +32,6 @@ public class PsicoComponentBuilderTest {
 
 	@Test
 	public void build_O_Ball() throws Exception {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-
 		PsicoComponent component = builder.build('o', 0, 0);
 
 		assertThat(component, is(instanceOf(Ball.class)));
@@ -32,8 +40,6 @@ public class PsicoComponentBuilderTest {
 
 	@Test
 	public void build_G_Goal() throws Exception {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-
 		PsicoComponent component = builder.build('g', 0, 0);
 
 		assertThat(component, is(instanceOf(Goal.class)));
@@ -49,8 +55,6 @@ public class PsicoComponentBuilderTest {
 
 	@Test
 	public void hasDefaultColorBuilder_ForG() throws Exception {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-
 		PsicoComponent component = builder.build('g', 0, 0);
 
 		assertThat(component.getColor(), is(instanceOf(Color.class)));
@@ -58,8 +62,6 @@ public class PsicoComponentBuilderTest {
 
 	@Test
 	public void hasDefaultColorBuilder_ForW() throws Exception {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-
 		PsicoComponent component = builder.build('w', 0, 0);
 
 		assertThat(component.getColor(), is(instanceOf(Color.class)));
@@ -67,8 +69,6 @@ public class PsicoComponentBuilderTest {
 
 	@Test
 	public void hasDefaultColorBuilder_ForO() throws Exception {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-
 		PsicoComponent component = builder.build('o', 0, 0);
 
 		assertThat(component.getColor(), is(instanceOf(Color.class)));
@@ -77,7 +77,7 @@ public class PsicoComponentBuilderTest {
 	@Test
 	public void canDefineColorBuilderForBalls() throws Exception {
 		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-		builder.setColorBuilder('o', new ColorBuilder(new Color[] { Color.RED, Color.BLUE }));
+		builder.registerTypeBuilder('o', new BallBuilder(new ColorBuilder(new Color[] { Color.RED, Color.BLUE })));
 
 		PsicoComponent component = builder.build('o', 0, 0);
 
@@ -87,7 +87,7 @@ public class PsicoComponentBuilderTest {
 	@Test
 	public void canDefineColorBuilderForWalls() throws Exception {
 		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-		builder.setColorBuilder('w', new ColorBuilder(new Color[] { Color.RED, Color.BLUE }));
+		builder.registerTypeBuilder('w', new WallBuilder(new ColorBuilder(new Color[] { Color.RED, Color.BLUE })));
 
 		PsicoComponent component = builder.build('w', 0, 0);
 
