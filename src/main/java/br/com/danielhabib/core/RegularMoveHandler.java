@@ -3,6 +3,8 @@ package br.com.danielhabib.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.danielhabib.core.nulls.NullComponent;
+
 public class RegularMoveHandler implements IMoveHandler {
 
 	private Position position;

@@ -13,6 +13,13 @@ import java.util.Map.Entry;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import br.com.danielhabib.core.builder.BallBuilder;
+import br.com.danielhabib.core.builder.ColorBuilder;
+import br.com.danielhabib.core.builder.GoalBuilder;
+import br.com.danielhabib.core.builder.PsicoComponentBuilder;
+import br.com.danielhabib.core.builder.WallBuilder;
+import br.com.danielhabib.core.nulls.NullComponent;
+
 public class Environment extends PsicoComponent {
 
 	private static final Color[] WALL_COLORS = new Color[] { Color.BLACK, Color.DARK_GRAY.darker(), Color.DARK_GRAY, Color.DARK_GRAY.brighter() };
@@ -133,7 +140,7 @@ public class Environment extends PsicoComponent {
 	}
 
 	@Override
-	void draw(Graphics g) {
+	protected void draw(Graphics g) {
 		List<PsicoComponent> components = new ArrayList<PsicoComponent>(walls);
 		components.addAll(goals);
 		for (PsicoComponent component : components) {

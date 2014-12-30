@@ -8,6 +8,9 @@ import java.awt.Color;
 
 import org.junit.Test;
 
+import br.com.danielhabib.core.builder.ColorBuilder;
+import br.com.danielhabib.core.builder.IColorBuilder;
+
 public class ColorBuilderTest {
 	@Test
 	public void build_FirstColor_HasColor() throws Exception {

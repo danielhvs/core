@@ -36,7 +36,7 @@ public abstract class PsicoComponent {
 		return size;
 	}
 
-	abstract void draw(Graphics g);
+	protected abstract void draw(Graphics g);
 
 	@Override
 	public int hashCode() {

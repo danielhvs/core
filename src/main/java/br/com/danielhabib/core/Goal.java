@@ -9,7 +9,7 @@ public class Goal extends PsicoComponent {
 	}
 
 	@Override
-	void draw(Graphics g) {
+	protected void draw(Graphics g) {
 		g.setColor(color);
 		g.drawRect(position.getX(), position.getY(), Config.SIZE, Config.SIZE);
 	}

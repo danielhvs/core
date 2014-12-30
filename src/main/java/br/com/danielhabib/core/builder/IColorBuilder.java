@@ -1,4 +1,4 @@
-package br.com.danielhabib.core;
+package br.com.danielhabib.core.builder;
 
 import java.awt.Color;
 

@@ -20,6 +20,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import br.com.danielhabib.core.nulls.NullComponent;
+
 public class PsicoComponentContainerTest {
 
 	@Mock

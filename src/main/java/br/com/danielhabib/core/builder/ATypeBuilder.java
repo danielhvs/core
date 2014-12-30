@@ -1,10 +1,12 @@
-package br.com.danielhabib.core;
+package br.com.danielhabib.core.builder;
 
-public abstract class TypeBuilder {
+import br.com.danielhabib.core.PsicoComponent;
+
+public abstract class ATypeBuilder {
 
 	private final ColorBuilder colorBuilder;
 
-	public TypeBuilder(ColorBuilder colorBuilder) {
+	public ATypeBuilder(ColorBuilder colorBuilder) {
 		this.colorBuilder = colorBuilder;
 	}
 

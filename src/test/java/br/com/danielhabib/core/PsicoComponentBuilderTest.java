@@ -10,6 +10,12 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.com.danielhabib.core.builder.BallBuilder;
+import br.com.danielhabib.core.builder.ColorBuilder;
+import br.com.danielhabib.core.builder.GoalBuilder;
+import br.com.danielhabib.core.builder.PsicoComponentBuilder;
+import br.com.danielhabib.core.builder.WallBuilder;
+
 public class PsicoComponentBuilderTest {
 
 	private PsicoComponentBuilder builder;

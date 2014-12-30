@@ -2,6 +2,9 @@ package br.com.danielhabib.core;
 
 import java.awt.Graphics;
 
+import br.com.danielhabib.core.nulls.NullComponent;
+import br.com.danielhabib.core.nulls.NullObserver;
+
 public class Psico extends PsicoComponent {
 
 	private IDirectionHandler directionHandler;
@@ -76,7 +79,7 @@ public class Psico extends PsicoComponent {
 	}
 
 	@Override
-	void draw(Graphics g) {
+	protected void draw(Graphics g) {
 		drawThis(g);
 		ball.draw(g);
 	}

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Stack;
 
+import br.com.danielhabib.core.nulls.NullComponent;
+
 public class PsicoComponentContainer extends PsicoComponent {
 
 	private Stack<PsicoComponent> balls;
@@ -22,8 +24,9 @@ public class PsicoComponentContainer extends PsicoComponent {
 		this.balls = new Stack<PsicoComponent>();
 		push(ball);
 	}
+
 	@Override
-	void draw(Graphics g) {
+	protected void draw(Graphics g) {
 		for (PsicoComponent ball : balls) {
 			ball.draw(g);
 		}
