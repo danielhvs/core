@@ -24,8 +24,8 @@ public class MainTest extends App {
 
 		Environment env = new Environment(
 				"wwwwww\n" +
-						"w    w\n" +
-						"woooow\n" +
+						"w g gw\n" +
+						"wggoow\n" +
 						"woooow\n" +
 						"woooow\n" +
 				"wwwwww");
@@ -40,7 +40,7 @@ public class MainTest extends App {
 			Position position = psico.getPosition().add(new Position(Config.SIZE, -2 * Config.SIZE));
 			env.createBall(position);
 		}
-		for (int i = 0; i < 99; i++) {
+		for (int i = 0; i < 100; i++) {
 			Position position = psico.getPosition().add(new Position(0, -2 * Config.SIZE));
 			env.createBall(position);
 		}

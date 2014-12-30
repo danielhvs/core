@@ -19,6 +19,7 @@ public class Environment extends PsicoComponent {
 	private PsicoComponentBuilder builder;
 	private List<PsicoComponent> walls;
 	private List<PsicoComponent> balls;
+	private List<PsicoComponent> goals;
 	private Map<Position, PsicoComponentContainer> containers;
 
 	public Environment() {
@@ -48,6 +49,7 @@ public class Environment extends PsicoComponent {
 	private void initEnv() {
 		this.walls = getComponentListForType('w');
 		this.balls = getComponentListForType('o');
+		this.goals = getComponentListForType('g');
 		this.containers = new HashMap<Position, PsicoComponentContainer>();
 		for (PsicoComponent ball : balls) {
 			PsicoComponentContainer container = newContainer(ball);
@@ -61,6 +63,10 @@ public class Environment extends PsicoComponent {
 
 	private String readFile(File envFile) throws IOException {
 		return FileUtils.readFileToString(envFile);
+	}
+
+	public List<PsicoComponent> getGoals() {
+		return this.goals;
 	}
 
 	public List<PsicoComponent> getWalls() {
@@ -125,6 +131,7 @@ public class Environment extends PsicoComponent {
 	@Override
 	void draw(Graphics g) {
 		List<PsicoComponent> components = new ArrayList<PsicoComponent>(walls);
+		components.addAll(goals);
 		for (PsicoComponent component : components) {
 			component.draw(g);
 		}

@@ -161,6 +161,15 @@ public class EnvironmentTest {
 	}
 
 	@Test
+	public void getGoal_1Goal_ListWithGoals() throws Exception {
+		Environment environment = new Environment("g");
+
+		List<PsicoComponent> goals = environment.getGoals();
+
+		assertThat(goals, hasSize(1));
+	}
+
+	@Test
 	public void draw_TwoBalls_DrawsLabelWithNumber() throws Exception {
 		Environment environment = new Environment("o");
 		environment.addBall(new Position(0, 0), new Ball(new Position(0, 0)));

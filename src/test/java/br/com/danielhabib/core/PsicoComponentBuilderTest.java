@@ -30,6 +30,16 @@ public class PsicoComponentBuilderTest {
 		assertThat(component.getPosition(), is(equalTo(new Position(0, 0))));
 	}
 
+	@Test
+	public void build_G_Goal() throws Exception {
+		PsicoComponentBuilder builder = new PsicoComponentBuilder();
+
+		PsicoComponent component = builder.build('g', 0, 0);
+
+		assertThat(component, is(instanceOf(Goal.class)));
+		assertThat(component.getPosition(), is(equalTo(new Position(0, 0))));
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void build_Unknown_Exception() throws Exception {
 		PsicoComponentBuilder builder = new PsicoComponentBuilder();
@@ -38,12 +48,21 @@ public class PsicoComponentBuilderTest {
 	}
 
 	@Test
+	public void hasDefaultColorBuilder_ForG() throws Exception {
+		PsicoComponentBuilder builder = new PsicoComponentBuilder();
+
+		PsicoComponent component = builder.build('g', 0, 0);
+
+		assertThat(component.getColor(), is(instanceOf(Color.class)));
+	}
+
+	@Test
 	public void hasDefaultColorBuilder_ForW() throws Exception {
 		PsicoComponentBuilder builder = new PsicoComponentBuilder();
 
 		PsicoComponent component = builder.build('w', 0, 0);
 
-		assertThat(component.getColor(), is(equalTo(Color.GREEN)));
+		assertThat(component.getColor(), is(instanceOf(Color.class)));
 	}
 
 	@Test
@@ -52,7 +71,7 @@ public class PsicoComponentBuilderTest {
 
 		PsicoComponent component = builder.build('o', 0, 0);
 
-		assertThat(component.getColor(), is(equalTo(Color.BLUE)));
+		assertThat(component.getColor(), is(instanceOf(Color.class)));
 	}
 
 	@Test
