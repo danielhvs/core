@@ -53,7 +53,11 @@ public class RegularMoveHandler implements IMoveHandler {
 				return;
 			}
 		}
-		rulesObserver.levelIsOver();
+		try {
+			rulesObserver.levelIsOver();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private boolean canMove(Position nextPosition) {

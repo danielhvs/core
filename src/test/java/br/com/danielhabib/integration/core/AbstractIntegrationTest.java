@@ -34,9 +34,9 @@ public abstract class AbstractIntegrationTest {
 
 	@Test
 	public void integrationTest() throws Exception {
-		frame = buildFrame();
+		buildFrame();
 
-		env = setupEnv();
+		env = setupEnv(level());
 		psico = setupPsico(psicoInitialPosition());
 		applet = new Main2D(psico, env);
 		timeout = setTimeoutMillis();
@@ -57,7 +57,7 @@ public abstract class AbstractIntegrationTest {
 
 	protected abstract Position psicoInitialPosition();
 
-	private Psico setupPsico(Position position) {
+	protected Psico setupPsico(Position position) {
 		moveHandler = new RegularMoveHandler(position, env);
 		moveHandler.setRules(parser.getGoalRules());
 		return new Psico(new CounterClockWiseDirection(), moveHandler, new ImageHandler());
@@ -67,8 +67,8 @@ public abstract class AbstractIntegrationTest {
 		return parser.getGoalRules();
 	}
 
-	protected Environment setupEnv() {
-		parser = new LevelParser(level());
+	protected Environment setupEnv(String level) {
+		parser = new LevelParser(level);
 		Environment env = new Environment();
 		env.setBalls(parser.getBalls());
 		env.setWalls(parser.getWalls());
@@ -121,14 +121,14 @@ public abstract class AbstractIntegrationTest {
 	}
 
 	protected JFrame buildFrame() {
-		JFrame f = new JFrame("Psico");
-		f.addWindowListener(new WindowAdapter() {
+		frame = new JFrame("Psico");
+		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
 		});
-		return f;
+		return frame;
 	}
 
 	protected int timeout = 100;
