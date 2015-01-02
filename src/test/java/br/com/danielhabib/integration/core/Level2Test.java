@@ -18,9 +18,15 @@ public class Level2Test extends AbstractIntegrationTest {
 		grab();
 		move();
 		drop();
+		move();
+		move();
+		move();
 		assertEquals(false, rulesObserver.isOver());
 
 		left();
+		left();
+		left();
+		move();
 		grab();
 		move();
 		drop();
@@ -35,7 +41,7 @@ public class Level2Test extends AbstractIntegrationTest {
 
 	@Override
 	protected int setTimeoutMillis() {
-		return 25;
+		return 50;
 	}
 
 	@Override

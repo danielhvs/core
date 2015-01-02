@@ -10,14 +10,21 @@ public class Level1Test extends AbstractIntegrationTest {
 
 	@Override
 	protected void testIt() throws Exception {
+		left();
+		left();
+		left();
 		move();
 		grab();
+		left();
+		move();
 		drop();
 		assertEquals(false, rulesObserver.isOver());
 
 		grab();
 		move();
 		drop();
+		move();
+		move();
 
 		assertEquals(true, rulesObserver.isOver());
 		rulesObserver.setNotOver();
@@ -27,6 +34,9 @@ public class Level1Test extends AbstractIntegrationTest {
 		drop();
 
 		assertEquals(false, rulesObserver.isOver());
+
+		left();
+		left();
 	}
 
 	@Override
@@ -36,7 +46,7 @@ public class Level1Test extends AbstractIntegrationTest {
 
 	@Override
 	protected int setTimeoutMillis() {
-		return 25;
+		return 50;
 	}
 
 	@Override
