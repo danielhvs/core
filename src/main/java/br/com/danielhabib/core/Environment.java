@@ -34,6 +34,8 @@ public class Environment {
 
 	public Environment() {
 		this.builder = newPsicoComponentBuilder();
+		this.input = "";
+		initEnv();
 	}
 
 	private PsicoComponentBuilder newPsicoComponentBuilder() {
@@ -163,6 +165,20 @@ public class Environment {
 			component = new NullComponent();
 		}
 		return component;
+	}
+
+	public void setBalls(List<PsicoComponent> balls) {
+		for (PsicoComponent ball : balls) {
+			addBall(ball.getPosition(), ball);
+		}
+	}
+
+	public void setWalls(List<PsicoComponent> walls) {
+		this.walls = walls;
+	}
+
+	public void setGoals(List<PsicoComponent> goals) {
+		this.goals = goals;
 	}
 
 }
