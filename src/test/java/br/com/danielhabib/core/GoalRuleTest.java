@@ -2,6 +2,8 @@ package br.com.danielhabib.core;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 
 public class GoalRuleTest {
@@ -25,5 +27,29 @@ public class GoalRuleTest {
 		boolean isOver = rule.isLevelOver();
 
 		assertEquals(true, isOver);
+	}
+
+	@Test
+	public void levelOver_2Balls1Goal_IsOverIfAllBallsAreInsideIt() throws Exception {
+		PsicoComponent ball1 = new Ball(new Position(0, 0));
+		PsicoComponent ball2 = new Ball(new Position(0, 0));
+		PsicoComponent goal = new Goal(new Position(0, 0));
+		GoalRule rule = new GoalRule(Arrays.asList(ball1, ball2), goal);
+
+		boolean isOver = rule.isLevelOver();
+
+		assertEquals(true, isOver);
+	}
+
+	@Test
+	public void levelOver_2Balls1Goal_IsNotOverIfAllBallsAreNotInsideIt() throws Exception {
+		PsicoComponent ball1 = new Ball(new Position(0, Config.SIZE));
+		PsicoComponent ball2 = new Ball(new Position(0, 0));
+		PsicoComponent goal = new Goal(new Position(0, Config.SIZE));
+		GoalRule rule = new GoalRule(Arrays.asList(ball1, ball2), goal);
+
+		boolean isOver = rule.isLevelOver();
+
+		assertEquals(false, isOver);
 	}
 }

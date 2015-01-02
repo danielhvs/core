@@ -20,7 +20,7 @@ import br.com.danielhabib.core.builder.PsicoComponentBuilder;
 import br.com.danielhabib.core.builder.WallBuilder;
 import br.com.danielhabib.core.nulls.NullComponent;
 
-public class Environment extends PsicoComponent {
+public class Environment {
 
 	private static final Color[] WALL_COLORS = new Color[] { Color.BLACK, Color.DARK_GRAY.darker(), Color.DARK_GRAY, Color.DARK_GRAY.brighter() };
 	private static final Color[] BALL_COLORS = new Color[] { Color.BLUE, Color.RED, Color.ORANGE, Color.CYAN, Color.GREEN, Color.YELLOW };
@@ -33,7 +33,6 @@ public class Environment extends PsicoComponent {
 	private Map<Position, PsicoComponentContainer> containers;
 
 	public Environment() {
-		super(new Position(0, 0));
 		this.builder = newPsicoComponentBuilder();
 	}
 
@@ -139,7 +138,6 @@ public class Environment extends PsicoComponent {
 		return false;
 	}
 
-	@Override
 	protected void draw(Graphics g) {
 		List<PsicoComponent> components = new ArrayList<PsicoComponent>(walls);
 		components.addAll(goals);
