@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -34,6 +35,16 @@ public class PsicoComponentContainerTest {
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		container = new PsicoComponentContainer(ORIGIN);
+	}
+
+	@Test
+	public void draw_TwoBalls_DrawsLabelWithNumber() throws Exception {
+		container.push(new Ball(ORIGIN));
+		container.push(new Ball(ORIGIN));
+
+		container.draw(g);
+
+		verify(g).drawString(eq("2"), anyInt(), anyInt());
 	}
 
 	@Test

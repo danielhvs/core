@@ -4,9 +4,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
 
 import java.awt.Graphics;
 import java.io.BufferedWriter;
@@ -167,16 +164,6 @@ public class EnvironmentTest {
 		List<PsicoComponent> goals = environment.getGoals();
 
 		assertThat(goals, hasSize(1));
-	}
-
-	@Test
-	public void draw_TwoBalls_DrawsLabelWithNumber() throws Exception {
-		Environment environment = new Environment("o");
-		environment.addBall(new Position(0, 0), new Ball(new Position(0, 0)));
-
-		environment.draw(g);
-
-		verify(g).drawString(eq("2"), anyInt(), anyInt());
 	}
 
 	private PsicoComponent newWallAtPosition(int x, int y) {
