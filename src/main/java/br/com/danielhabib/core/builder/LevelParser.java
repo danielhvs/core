@@ -101,11 +101,14 @@ public class LevelParser {
 		int yb = Config.SIZE * Integer.parseInt(ballPosition[1]);
 		int xg = Config.SIZE * Integer.parseInt(goalPosition[0]);
 		int yg = Config.SIZE * Integer.parseInt(goalPosition[1]);
-		add('o', builder.build('o', xb, yb));
+		PsicoComponent ball = builder.build('o', xb, yb);
+		add('o', ball);
 		Position candidateGoalPosition = new Position(xg, yg);
+		PsicoComponent goal = builder.build('g', xg, yg);
 		if (canAddGoal(candidateGoalPosition)) {
-			add('g', builder.build('g', xg, yg));
+			add('g', goal);
 		}
+		goalRules.add(new GoalRule(ball, goal));
 	}
 
 	private boolean canAddGoal(Position candidateGoalPosition) {

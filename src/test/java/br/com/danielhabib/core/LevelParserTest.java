@@ -50,7 +50,6 @@ public class LevelParserTest {
 	public void parse_GIsImplicitInRule() throws Exception {
 		LevelParser parser = new LevelParser("r:0,0-0,0");
 
-		List<GoalRule> rules = parser.getGoalRules();
 		List<PsicoComponent> goals = parser.getGoals();
 		List<PsicoComponent> balls = parser.getBalls();
 
@@ -88,6 +87,24 @@ public class LevelParserTest {
 
 		assertEquals(ball(0, Config.SIZE), balls.get(1));
 		assertEquals(goal(2 * Config.SIZE, 0), goals.get(0));
+	}
+
+	@Test
+	public void getGoalRule_LevelNotOver() {
+		LevelParser parser = new LevelParser("r:0,1-2,0");
+		List<GoalRule> rules = parser.getGoalRules();
+		GoalRule rule = rules.get(0);
+
+		assertEquals(false, rule.isLevelOver());
+	}
+
+	@Test
+	public void getGoalRule_LevelIsOver() {
+		LevelParser parser = new LevelParser("r:0,0-0,0");
+		List<GoalRule> rules = parser.getGoalRules();
+		GoalRule rule = rules.get(0);
+
+		assertEquals(true, rule.isLevelOver());
 	}
 
 	private Ball ball(int x, int y) {
