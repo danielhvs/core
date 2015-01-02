@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JApplet;
@@ -16,6 +17,7 @@ import org.junit.Test;
 import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.CounterClockWiseDirection;
 import br.com.danielhabib.core.Environment;
+import br.com.danielhabib.core.GoalRule;
 import br.com.danielhabib.core.ImageHandler;
 import br.com.danielhabib.core.Main2D;
 import br.com.danielhabib.core.Position;
@@ -42,7 +44,12 @@ public abstract class AbstractIntegrationTest {
 		setupCommands();
 
 		sleep();
+		setup();
 		testIt();
+	}
+
+	protected void setup() {
+		// Hook to finish setting stuff up.
 	}
 
 	protected abstract void testIt() throws Exception;
@@ -50,8 +57,12 @@ public abstract class AbstractIntegrationTest {
 	protected abstract Position psicoInitialPosition();
 
 	private Psico setupPsico(Position position) {
-		return new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(position, env), new ImageHandler());
+		moveHandler = new RegularMoveHandler(position, env);
+		moveHandler.setRules(rules());
+		return new Psico(new CounterClockWiseDirection(), moveHandler, new ImageHandler());
 	}
+
+	protected abstract List<GoalRule> rules();
 
 	protected abstract Environment setupEnv() throws IOException;
 
@@ -109,6 +120,7 @@ public abstract class AbstractIntegrationTest {
 	}
 
 	protected int timeout = 100;
+	protected RegularMoveHandler moveHandler;
 
 	protected abstract int setTimeoutMillis();
 

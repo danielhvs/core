@@ -1,12 +1,17 @@
 package br.com.danielhabib.core.builder;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
+
 import br.com.danielhabib.core.Config;
+import br.com.danielhabib.core.GoalRule;
 import br.com.danielhabib.core.Position;
 import br.com.danielhabib.core.PsicoComponent;
 
@@ -18,6 +23,7 @@ public class LevelParser {
 	private static final Color[] GOAL_COLORS = new Color[] { Color.ORANGE.darker() };
 	private final String string;
 	private Map<Character, List<PsicoComponent>> map = new HashMap<Character, List<PsicoComponent>>();
+	private List<GoalRule> goalRules = new ArrayList<GoalRule>();
 
 	private PsicoComponentBuilder newPsicoComponentBuilder() {
 		PsicoComponentBuilder builder = new PsicoComponentBuilder();
@@ -27,15 +33,28 @@ public class LevelParser {
 		return builder;
 	}
 
+	public LevelParser(File file) throws IOException {
+		this.string = FileUtils.readFileToString(file);
+		parseIt();
+	}
+
 	public LevelParser(String string) {
 		this.string = string;
+		parseIt();
+	}
+
+	private void parseIt() {
 		this.builder = newPsicoComponentBuilder();
 		map.put('w', new ArrayList<PsicoComponent>());
 		map.put('o', new ArrayList<PsicoComponent>());
 		map.put('g', new ArrayList<PsicoComponent>());
 		parse();
+		computeRules();
 	}
 
+	public List<GoalRule> getGoalRules() {
+		return goalRules;
+	}
 
 	public List<PsicoComponent> getWalls() {
 		return map.get('w');
@@ -99,6 +118,21 @@ public class LevelParser {
 			}
 		}
 		return canAdd;
+	}
+
+	private void computeRules() {
+		List<PsicoComponent> goals = getGoals();
+		List<PsicoComponent> balls = getBalls();
+		for (PsicoComponent goal : goals) {
+			Position position = goal.getPosition();
+			List<PsicoComponent> ballsAtPosition = new ArrayList<PsicoComponent>();
+			for (PsicoComponent ball : balls) {
+				if (ball.getPosition().equals(position)) {
+					ballsAtPosition.add(ball);
+				}
+			}
+			goalRules.add(new GoalRule(ballsAtPosition, goal));
+		}
 	}
 
 }

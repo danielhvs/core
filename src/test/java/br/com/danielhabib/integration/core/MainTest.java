@@ -1,9 +1,12 @@
 package br.com.danielhabib.integration.core;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.Environment;
+import br.com.danielhabib.core.GoalRule;
 import br.com.danielhabib.core.Position;
 
 public class MainTest extends AbstractIntegrationTest {
@@ -64,5 +67,10 @@ public class MainTest extends AbstractIntegrationTest {
 	@Override
 	protected int setTimeoutMillis() {
 		return 25;
+	}
+
+	@Override
+	protected List<GoalRule> rules() {
+		return new ArrayList<GoalRule>();
 	}
 }

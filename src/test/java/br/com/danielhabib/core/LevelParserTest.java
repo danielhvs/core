@@ -50,6 +50,7 @@ public class LevelParserTest {
 	public void parse_GIsImplicitInRule() throws Exception {
 		LevelParser parser = new LevelParser("r:0,0-0,0");
 
+		List<GoalRule> rules = parser.getGoalRules();
 		List<PsicoComponent> goals = parser.getGoals();
 		List<PsicoComponent> balls = parser.getBalls();
 

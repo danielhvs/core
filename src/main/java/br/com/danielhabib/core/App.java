@@ -11,22 +11,40 @@ import java.io.IOException;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 
+import br.com.danielhabib.core.builder.LevelParser;
+
 public class App {
 	protected static final int WINDOW_SIZE = Config.SIZE / 2 + Config.SIZE * 6;
 	protected static JFrame frame;
 	protected static JApplet applet;
 	protected static Psico psico;
+	private static LevelParser parser;
 
 	public static void main(String[] args) throws InterruptedException, IOException {
 		frame = buildFrame();
 
-		Environment env = new Environment(new File("level_1.txt"));
-		psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), env),
-				new ImageHandler());
+		Environment env = newEnv();
+		RegularMoveHandler moveHandler = new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), env);
+		moveHandler.setRules(parser.getGoalRules());
+		moveHandler.setObserver(new IRulesObserver() {
+			public void levelIsOver() {
+				System.out.println("levelIsOver!!!");
+			}
+		});
+		psico = new Psico(new CounterClockWiseDirection(), moveHandler, new ImageHandler());
 		applet = new Main2D(psico, env);
 
 		setupFrame();
 		setupCommands();
+	}
+
+	private static Environment newEnv() throws IOException {
+		parser = new LevelParser(new File("level_1.txt"));
+		Environment env = new Environment();
+		env.setBalls(parser.getBalls());
+		env.setWalls(parser.getWalls());
+		env.setGoals(parser.getGoals());
+		return env;
 	}
 
 	protected static void setupFrame() {
