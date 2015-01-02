@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.Position;
 
-public class Level1Test extends AbstractIntegrationTest {
+public class Level2Test extends AbstractIntegrationTest {
 
 	private TestObserver rulesObserver;
 
@@ -18,15 +18,14 @@ public class Level1Test extends AbstractIntegrationTest {
 		grab();
 		move();
 		drop();
+		assertEquals(false, rulesObserver.isOver());
 
-		assertEquals(true, rulesObserver.isOver());
-		rulesObserver.setNotOver();
-
-		grab();
 		left();
+		grab();
+		move();
 		drop();
 
-		assertEquals(false, rulesObserver.isOver());
+		assertEquals(true, rulesObserver.isOver());
 	}
 
 	@Override
@@ -40,14 +39,14 @@ public class Level1Test extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected void setup() {
-		rulesObserver = new TestObserver();
-		moveHandler.setObserver(rulesObserver);
+	protected String level() {
+		return "w:0,0\nr:2,0-3,0\nw:4,0\nr:2,0-3,0";
 	}
 
 	@Override
-	protected String level() {
-		return "w:0,0\nr:2,0-3,0\nw:4,0";
+	protected void setup() {
+		rulesObserver = new TestObserver();
+		moveHandler.setObserver(rulesObserver);
 	}
 
 }

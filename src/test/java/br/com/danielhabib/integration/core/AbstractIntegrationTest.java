@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -23,13 +22,15 @@ import br.com.danielhabib.core.Main2D;
 import br.com.danielhabib.core.Position;
 import br.com.danielhabib.core.Psico;
 import br.com.danielhabib.core.RegularMoveHandler;
+import br.com.danielhabib.core.builder.LevelParser;
 
 public abstract class AbstractIntegrationTest {
-	protected static final int WINDOW_SIZE = Config.SIZE / 2 + Config.SIZE * 6;
-	protected static JFrame frame;
-	protected static JApplet applet;
-	protected static Psico psico;
-	protected static Environment env;
+	protected final int WINDOW_SIZE = Config.SIZE / 2 + Config.SIZE * 6;
+	protected JFrame frame;
+	protected JApplet applet;
+	protected Psico psico;
+	protected Environment env;
+	protected LevelParser parser;
 
 	@Test
 	public void integrationTest() throws Exception {
@@ -43,8 +44,8 @@ public abstract class AbstractIntegrationTest {
 		setupFrame();
 		setupCommands();
 
-		sleep();
 		setup();
+		sleep();
 		testIt();
 	}
 
@@ -58,13 +59,24 @@ public abstract class AbstractIntegrationTest {
 
 	private Psico setupPsico(Position position) {
 		moveHandler = new RegularMoveHandler(position, env);
-		moveHandler.setRules(rules());
+		moveHandler.setRules(parser.getGoalRules());
 		return new Psico(new CounterClockWiseDirection(), moveHandler, new ImageHandler());
 	}
 
-	protected abstract List<GoalRule> rules();
+	protected List<GoalRule> rules() {
+		return parser.getGoalRules();
+	}
 
-	protected abstract Environment setupEnv() throws IOException;
+	protected Environment setupEnv() {
+		parser = new LevelParser(level());
+		Environment env = new Environment();
+		env.setBalls(parser.getBalls());
+		env.setWalls(parser.getWalls());
+		env.setGoals(parser.getGoals());
+		return env;
+	}
+
+	protected abstract String level();
 
 	protected void setupFrame() {
 		frame.getContentPane().add("Center", applet);
@@ -149,23 +161,23 @@ public abstract class AbstractIntegrationTest {
 	}
 
 	protected void drop() throws InterruptedException {
-		sleep();
 		psico.drop();
+		sleep();
 	}
 
 	protected void grab() throws InterruptedException {
-		sleep();
 		psico.grab();
+		sleep();
 	}
 
 	protected void move() throws InterruptedException {
-		sleep();
 		psico.move();
+		sleep();
 	}
 
 	protected void turn() throws InterruptedException {
-		sleep();
 		psico.turn();
+		sleep();
 	}
 
 	protected void sleep() throws InterruptedException {

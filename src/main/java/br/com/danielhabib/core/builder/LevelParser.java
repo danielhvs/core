@@ -49,7 +49,6 @@ public class LevelParser {
 		map.put('o', new ArrayList<PsicoComponent>());
 		map.put('g', new ArrayList<PsicoComponent>());
 		parse();
-		computeRules();
 	}
 
 	public List<GoalRule> getGoalRules() {
@@ -70,6 +69,9 @@ public class LevelParser {
 	}
 
 	private void parse() {
+		if (string.isEmpty()) {
+			return;
+		}
 		String[] tokens = string.split("\n");
 		for (String token : tokens) {
 			String[] elements = token.split(":");
@@ -121,21 +123,6 @@ public class LevelParser {
 			}
 		}
 		return canAdd;
-	}
-
-	private void computeRules() {
-		List<PsicoComponent> goals = getGoals();
-		List<PsicoComponent> balls = getBalls();
-		for (PsicoComponent goal : goals) {
-			Position position = goal.getPosition();
-			List<PsicoComponent> ballsAtPosition = new ArrayList<PsicoComponent>();
-			for (PsicoComponent ball : balls) {
-				if (ball.getPosition().equals(position)) {
-					ballsAtPosition.add(ball);
-				}
-			}
-			goalRules.add(new GoalRule(ballsAtPosition, goal));
-		}
 	}
 
 }

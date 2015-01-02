@@ -10,6 +10,16 @@ import br.com.danielhabib.core.builder.LevelParser;
 
 public class LevelParserTest {
 	@Test
+	public void parse_Empty_Empty() throws Exception {
+		LevelParser parser = new LevelParser("");
+
+		assertEquals(0, parser.getBalls().size());
+		assertEquals(0, parser.getWalls().size());
+		assertEquals(0, parser.getGoals().size());
+		assertEquals(0, parser.getGoalRules().size());
+	}
+
+	@Test
 	public void parse_W() throws Exception {
 		LevelParser parser = new LevelParser("w:0,0");
 
