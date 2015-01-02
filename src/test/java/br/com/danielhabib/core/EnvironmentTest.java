@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.awt.Graphics;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,7 +16,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.googlecode.zohhak.api.TestWith;
@@ -27,8 +25,6 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 public class EnvironmentTest {
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
-	@Mock
-	private Graphics g;
 
 	private static final int WALL_SIZE = Config.SIZE;
 

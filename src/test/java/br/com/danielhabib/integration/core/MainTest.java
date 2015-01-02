@@ -1,41 +1,31 @@
 package br.com.danielhabib.integration.core;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
-import org.junit.Ignore;
-
-import br.com.danielhabib.core.App;
 import br.com.danielhabib.core.Config;
-import br.com.danielhabib.core.CounterClockWiseDirection;
 import br.com.danielhabib.core.Environment;
-import br.com.danielhabib.core.ImageHandler;
-import br.com.danielhabib.core.Main2D;
 import br.com.danielhabib.core.Position;
-import br.com.danielhabib.core.Psico;
-import br.com.danielhabib.core.RegularMoveHandler;
 
-@Ignore
-public class MainTest extends App {
-	private static final int TIMEOUT = 100;
+public class MainTest extends AbstractIntegrationTest {
 
-	public static void main(String[] args) throws IOException, InterruptedException {
-		frame = buildFrame();
+	@Override
+	protected Position psicoInitialPosition() {
+		return new Position(Config.SIZE, Config.SIZE * 4);
+	}
 
-		Environment env = new Environment(
+	@Override
+	protected Environment setupEnv() throws IOException {
+		return new Environment(
 				"wwwwww\n" +
 						"w g gw\n" +
 						"wggoow\n" +
 						"woooow\n" +
 						"woooow\n" +
 				"wwwwww");
+	}
 
-		psico = new Psico(new CounterClockWiseDirection(), new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), env), new ImageHandler());
-		applet = new Main2D(psico, env);
-
-		setupFrame();
-		setupCommands();
-
+	@Override
+	protected void testIt() throws InterruptedException {
 		for (int i = 0; i < 11; i++) {
 			Position position = psico.getPosition().add(new Position(Config.SIZE, -2 * Config.SIZE));
 			env.createBall(position);
@@ -71,51 +61,8 @@ public class MainTest extends App {
 		move();
 	}
 
-	private static void down() throws InterruptedException {
-		turn();
-		turn();
-		turn();
-		move();
-		turn();
-	}
-
-	private static void up() throws InterruptedException {
-		turn();
-		move();
-		turn();
-		turn();
-		turn();
-	}
-
-	private static void left() throws InterruptedException {
-		turn();
-		turn();
-		move();
-		turn();
-		turn();
-	}
-
-	private static void drop() throws InterruptedException {
-		sleep();
-		psico.drop();
-	}
-
-	private static void grab() throws InterruptedException {
-		sleep();
-		psico.grab();
-	}
-
-	private static void move() throws InterruptedException {
-		sleep();
-		psico.move();
-	}
-
-	private static void turn() throws InterruptedException {
-		sleep();
-		psico.turn();
-	}
-
-	private static void sleep() throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(TIMEOUT);
+	@Override
+	protected int setTimeoutMillis() {
+		return 25;
 	}
 }
