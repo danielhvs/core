@@ -4,15 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.danielhabib.core.Config;
+import br.com.danielhabib.core.Environment;
 import br.com.danielhabib.core.GoalRule;
 import br.com.danielhabib.core.Position;
 
 public class DrawingTest extends AbstractIntegrationTest {
-
-	@Override
-	protected Position psicoInitialPosition() {
-		return new Position(0, 0);
-	}
 
 	@Override
 	protected void testIt() throws InterruptedException {
@@ -20,6 +16,7 @@ public class DrawingTest extends AbstractIntegrationTest {
 
 	@Override
 	protected void setup() {
+		Environment env = parser.getEnv();
 		for (int i = 0; i < 12; i++) {
 			Position position = psico.getPosition().add(new Position(Config.SIZE, Config.SIZE));
 			env.createBall(position);
@@ -42,6 +39,6 @@ public class DrawingTest extends AbstractIntegrationTest {
 
 	@Override
 	protected String level() {
-		return "w:2,2\nr:3,3-4,3";
+		return "w:2,2\nr:3,3-4,3\np:0,0";
 	}
 }

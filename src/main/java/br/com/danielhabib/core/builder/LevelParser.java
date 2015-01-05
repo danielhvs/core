@@ -11,9 +11,16 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 
 import br.com.danielhabib.core.Config;
+import br.com.danielhabib.core.CounterClockWiseDirection;
+import br.com.danielhabib.core.Environment;
 import br.com.danielhabib.core.GoalRule;
+import br.com.danielhabib.core.IRulesObserver;
+import br.com.danielhabib.core.ImageHandler;
 import br.com.danielhabib.core.Position;
+import br.com.danielhabib.core.Psico;
 import br.com.danielhabib.core.PsicoComponent;
+import br.com.danielhabib.core.RegularMoveHandler;
+import br.com.danielhabib.core.nulls.NullMoveHandler;
 
 public class LevelParser {
 
@@ -24,6 +31,9 @@ public class LevelParser {
 	private final String string;
 	private Map<Character, List<PsicoComponent>> map = new HashMap<Character, List<PsicoComponent>>();
 	private List<GoalRule> goalRules = new ArrayList<GoalRule>();
+	private Environment env;
+	private RegularMoveHandler moveHandler = new NullMoveHandler();
+	private Psico psico;
 
 	private PsicoComponentBuilder newPsicoComponentBuilder() {
 		PsicoComponentBuilder builder = new PsicoComponentBuilder();
@@ -36,11 +46,28 @@ public class LevelParser {
 	public LevelParser(File file) throws IOException {
 		this.string = FileUtils.readFileToString(file);
 		parseIt();
+		this.env = initEnv();
+		setupMoveHandler();
 	}
 
 	public LevelParser(String string) {
 		this.string = string;
 		parseIt();
+		this.env = initEnv();
+		setupMoveHandler();
+	}
+
+	private void setupMoveHandler() {
+		moveHandler.setEnv(env);
+		moveHandler.setRules(getGoalRules());
+	}
+
+	private Environment initEnv() {
+		Environment env = new Environment();
+		env.setBalls(getBalls());
+		env.setWalls(getWalls());
+		env.setGoals(getGoals());
+		return env;
 	}
 
 	private void parseIt() {
@@ -77,7 +104,9 @@ public class LevelParser {
 			String[] elements = token.split(":");
 			String stype = elements[0];
 			char type = stype.charAt(0);
-			if (type == 'r') {
+			if (type == 'p') {
+				buildPsico(elements[1]);
+			} else if (type == 'r') {
 				parseRule(elements[1]);
 			} else {
 				String[] positions = elements[1].split(",");
@@ -87,6 +116,19 @@ public class LevelParser {
 				add(type, component);
 			}
 		}
+	}
+
+	private void buildPsico(String position) {
+		String[] xy = position.split(",");
+		int x = Config.SIZE * Integer.parseInt(xy[0]);
+		int y = Config.SIZE * Integer.parseInt(xy[1]);
+		moveHandler = new RegularMoveHandler(new Position(x, y));
+
+		this.psico = new Psico(new CounterClockWiseDirection(), moveHandler, new ImageHandler());
+	}
+
+	public Environment getEnv() {
+		return env;
 	}
 
 	private void add(char type, PsicoComponent component) {
@@ -123,6 +165,18 @@ public class LevelParser {
 			}
 		}
 		return canAdd;
+	}
+
+	public Psico getPsico() {
+		return psico;
+	}
+
+	public RegularMoveHandler getMoveHandler() {
+		return moveHandler;
+	}
+
+	public void setMoveHandlerObserver(IRulesObserver iRulesObserver) {
+		moveHandler.setObserver(iRulesObserver);
 	}
 
 }

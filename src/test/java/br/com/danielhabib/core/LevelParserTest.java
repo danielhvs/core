@@ -20,6 +20,15 @@ public class LevelParserTest {
 	}
 
 	@Test
+	public void parse_Psico() throws Exception {
+		LevelParser parser = new LevelParser("p:1,0");
+
+		Psico psico = parser.getPsico();
+
+		assertEquals(new Position(Config.SIZE, 0), psico.getPosition());
+	}
+
+	@Test
 	public void parse_W() throws Exception {
 		LevelParser parser = new LevelParser("w:0,0");
 
@@ -68,7 +77,7 @@ public class LevelParserTest {
 	}
 
 	@Test
-	public void parse_ManyGoals() throws Exception {
+	public void parse_ManyGoals_OnlyOneGoalPerPosition() throws Exception {
 		LevelParser parser = new LevelParser("r:0,0-0,0\nr:1,0-0,0\nr:0,1-1,0");
 
 		List<PsicoComponent> goals = parser.getGoals();

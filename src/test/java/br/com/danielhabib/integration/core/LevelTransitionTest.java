@@ -1,10 +1,9 @@
 package br.com.danielhabib.integration.core;
 
 import static org.junit.Assert.assertEquals;
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.IRulesObserver;
 import br.com.danielhabib.core.Main2D;
-import br.com.danielhabib.core.Position;
+import br.com.danielhabib.core.builder.LevelParser;
 
 public class LevelTransitionTest extends AbstractIntegrationTest {
 
@@ -20,7 +19,7 @@ public class LevelTransitionTest extends AbstractIntegrationTest {
 
 	@Override
 	protected void setup() {
-		moveHandler.setObserver(new IRulesObserver() {
+		parser.setMoveHandlerObserver(new IRulesObserver() {
 			public void levelIsOver() throws InterruptedException {
 				loadNextLevel();
 			}
@@ -29,10 +28,10 @@ public class LevelTransitionTest extends AbstractIntegrationTest {
 				frame.dispose();
 
 				buildFrame();
-				env = setupEnv("w:0,0\nr:2,0-3,0\nw:4,0\nr:2,0-3,0");
-				psico = setupPsico(psicoInitialPosition());
-				applet = new Main2D(psico, env);
-				moveHandler.setObserver(RULES_OBSERVER);
+				parser = new LevelParser("w:0,0\nr:2,0-3,0\nw:4,0\nr:2,0-3,0\np:1,0");
+				psico = parser.getPsico();
+				applet = new Main2D(psico, parser.getEnv());
+				parser.setMoveHandlerObserver(RULES_OBSERVER);
 				setupFrame();
 				setupCommands();
 
@@ -57,13 +56,8 @@ public class LevelTransitionTest extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected Position psicoInitialPosition() {
-		return new Position(Config.SIZE, 0);
-	}
-
-	@Override
 	protected String level() {
-		return "w:0,0\nr:2,0-3,0\nw:4,0";
+		return "w:0,0\nr:2,0-3,0\nw:4,0\np:1,0";
 	}
 
 	@Override

@@ -14,12 +14,9 @@ import javax.swing.JFrame;
 import org.junit.Test;
 
 import br.com.danielhabib.core.Config;
-import br.com.danielhabib.core.CounterClockWiseDirection;
 import br.com.danielhabib.core.Environment;
 import br.com.danielhabib.core.GoalRule;
-import br.com.danielhabib.core.ImageHandler;
 import br.com.danielhabib.core.Main2D;
-import br.com.danielhabib.core.Position;
 import br.com.danielhabib.core.Psico;
 import br.com.danielhabib.core.RegularMoveHandler;
 import br.com.danielhabib.core.builder.LevelParser;
@@ -29,16 +26,15 @@ public abstract class AbstractIntegrationTest {
 	protected JFrame frame;
 	protected JApplet applet;
 	protected Psico psico;
-	protected Environment env;
 	protected LevelParser parser;
 
 	@Test
 	public void integrationTest() throws Exception {
 		buildFrame();
 
-		env = setupEnv(level());
-		psico = setupPsico(psicoInitialPosition());
-		applet = new Main2D(psico, env);
+		parser = new LevelParser(level());
+		psico = parser.getPsico();
+		applet = new Main2D(psico, parser.getEnv());
 		timeout = setTimeoutMillis();
 
 		setupFrame();
@@ -55,25 +51,13 @@ public abstract class AbstractIntegrationTest {
 
 	protected abstract void testIt() throws Exception;
 
-	protected abstract Position psicoInitialPosition();
-
-	protected Psico setupPsico(Position position) {
-		moveHandler = new RegularMoveHandler(position, env);
-		moveHandler.setRules(parser.getGoalRules());
-		return new Psico(new CounterClockWiseDirection(), moveHandler, new ImageHandler());
-	}
-
 	protected List<GoalRule> rules() {
 		return parser.getGoalRules();
 	}
 
 	protected Environment setupEnv(String level) {
 		parser = new LevelParser(level);
-		Environment env = new Environment();
-		env.setBalls(parser.getBalls());
-		env.setWalls(parser.getWalls());
-		env.setGoals(parser.getGoals());
-		return env;
+		return parser.getEnv();
 	}
 
 	protected abstract String level();

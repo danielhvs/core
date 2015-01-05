@@ -23,28 +23,17 @@ public class App {
 	public static void main(String[] args) throws InterruptedException, IOException {
 		frame = buildFrame();
 
-		Environment env = newEnv();
-		RegularMoveHandler moveHandler = new RegularMoveHandler(new Position(Config.SIZE, Config.SIZE * 4), env);
-		moveHandler.setRules(parser.getGoalRules());
-		moveHandler.setObserver(new IRulesObserver() {
+		parser = new LevelParser(new File("level_1.txt"));
+		psico = parser.getPsico();
+		parser.setMoveHandlerObserver(new IRulesObserver() {
 			public void levelIsOver() {
 				System.out.println("levelIsOver!!!");
 			}
 		});
-		psico = new Psico(new CounterClockWiseDirection(), moveHandler, new ImageHandler());
-		applet = new Main2D(psico, env);
+		applet = new Main2D(psico, parser.getEnv());
 
 		setupFrame();
 		setupCommands();
-	}
-
-	private static Environment newEnv() throws IOException {
-		parser = new LevelParser(new File("level_1.txt"));
-		Environment env = new Environment();
-		env.setBalls(parser.getBalls());
-		env.setWalls(parser.getWalls());
-		env.setGoals(parser.getGoals());
-		return env;
 	}
 
 	protected static void setupFrame() {

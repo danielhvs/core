@@ -24,6 +24,10 @@ public class RegularMoveHandler implements IMoveHandler {
 		initSpeedMap();
 	}
 
+	public RegularMoveHandler(Position position) {
+		this(position, null);
+	}
+
 	public Position getPosition() {
 		return position;
 	}
@@ -79,6 +83,10 @@ public class RegularMoveHandler implements IMoveHandler {
 
 	public void setObserver(IRulesObserver rulesObserver) {
 		this.rulesObserver = rulesObserver;
+	}
+
+	public void setEnv(Environment env) {
+		this.env = env;
 	}
 
 }
