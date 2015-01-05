@@ -16,6 +16,7 @@ import org.junit.Test;
 import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.Environment;
 import br.com.danielhabib.core.GoalRule;
+import br.com.danielhabib.core.LevelHandler;
 import br.com.danielhabib.core.Main2D;
 import br.com.danielhabib.core.Psico;
 import br.com.danielhabib.core.RegularMoveHandler;
@@ -30,19 +31,23 @@ public abstract class AbstractIntegrationTest {
 
 	@Test
 	public void integrationTest() throws Exception {
-		buildFrame();
+		List<LevelParser> parsers = new LevelHandler(levels()).getParsers();
+		for (LevelParser levelParser : parsers) {
+			buildFrame();
+			parser = levelParser;
+			psico = parser.getPsico();
+			applet = new Main2D(psico, parser.getEnv());
+			timeout = setTimeoutMillis();
 
-		parser = new LevelParser(level());
-		psico = parser.getPsico();
-		applet = new Main2D(psico, parser.getEnv());
-		timeout = setTimeoutMillis();
+			setupFrame();
+			setupCommands();
 
-		setupFrame();
-		setupCommands();
+			setup();
+			sleep();
+			testIt();
 
-		setup();
-		sleep();
-		testIt();
+			frame.dispose();
+		}
 	}
 
 	protected void setup() {
@@ -60,7 +65,7 @@ public abstract class AbstractIntegrationTest {
 		return parser.getEnv();
 	}
 
-	protected abstract String level();
+	protected abstract String[] levels();
 
 	protected void setupFrame() {
 		frame.getContentPane().add("Center", applet);

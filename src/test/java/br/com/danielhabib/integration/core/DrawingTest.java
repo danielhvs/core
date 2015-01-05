@@ -38,7 +38,7 @@ public class DrawingTest extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected String level() {
-		return "w:2,2\nr:3,3-4,3\np:0,0";
+	protected String[] levels() {
+		return new String[] { "w:2,2\nr:3,3-4,3\np:0,0" };
 	}
 }

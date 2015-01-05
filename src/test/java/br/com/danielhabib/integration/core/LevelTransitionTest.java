@@ -56,13 +56,13 @@ public class LevelTransitionTest extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected String level() {
-		return "w:0,0\nr:2,0-3,0\nw:4,0\np:1,0";
+	protected String[] levels() {
+		return new String[] { "w:0,0\nr:2,0-3,0\nw:4,0\np:1,0" };
 	}
 
 	@Override
 	protected int setTimeoutMillis() {
-		return 75;
+		return 25;
 	}
 
 }

@@ -7,9 +7,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JApplet;
 import javax.swing.JFrame;
+
+import org.apache.commons.io.FileUtils;
 
 import br.com.danielhabib.core.builder.LevelParser;
 
@@ -19,21 +22,47 @@ public class App {
 	protected static JApplet applet;
 	protected static Psico psico;
 	private static LevelParser parser;
+	private static List<LevelParser> parsers;
+	private static int level = 0;
 
 	public static void main(String[] args) throws InterruptedException, IOException {
-		frame = buildFrame();
+		String level1 = FileUtils.readFileToString(new File("level_1.txt"));
+		String level2 = FileUtils.readFileToString(new File("level_1.txt"));
 
-		parser = new LevelParser(new File("level_1.txt"));
+		parsers = new LevelHandler(new String[] { level1, level2 }).getParsers();
+		nextLevel();
+	}
+
+	protected static void nextLevel() {
+		if (lastLevelIsDone()) {
+			gameOver();
+		} else {
+			displayNextLevel();
+		}
+	}
+
+	private static boolean lastLevelIsDone() {
+		return level == parsers.size();
+	}
+
+	private static void displayNextLevel() {
+		frame = buildFrame();
+		parser = parsers.get(level++);
 		psico = parser.getPsico();
 		parser.setMoveHandlerObserver(new IRulesObserver() {
-			public void levelIsOver() {
-				System.out.println("levelIsOver!!!");
+			public void levelIsOver() throws Exception {
+				frame.dispose();
+				nextLevel();
 			}
 		});
-		applet = new Main2D(psico, parser.getEnv());
 
+		applet = new Main2D(psico, parser.getEnv());
 		setupFrame();
 		setupCommands();
+	}
+
+	private static void gameOver() {
+		// Whe're done!
 	}
 
 	protected static void setupFrame() {
@@ -72,7 +101,6 @@ public class App {
 					System.exit(0);
 					break;
 				}
-				//System.out.println("DEBUG: speed = " + speed + ". Position = " + psico.getPosition().toString());
 			}
 		});
 	}
