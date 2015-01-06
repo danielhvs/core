@@ -7,10 +7,10 @@ import br.com.danielhabib.core.builder.LevelParser;
 
 public class LevelHandler {
 
-	private final String[] levels;
 	private List<LevelParser> parsers = new ArrayList<LevelParser>();
+	private final List<String> levels;
 
-	public LevelHandler(String[] levels) {
+	public LevelHandler(List<String> levels) {
 		this.levels = levels;
 		buildParsers();
 	}

@@ -7,6 +7,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JApplet;
@@ -26,11 +30,24 @@ public class App {
 	private static int level = 0;
 
 	public static void main(String[] args) throws InterruptedException, IOException {
-		String level1 = FileUtils.readFileToString(new File("level_1.txt"));
-		String level2 = FileUtils.readFileToString(new File("level_1.txt"));
+		File dir = new File("levels");
+		File[] files = dir.listFiles();
+		sortByName(files);
 
-		parsers = new LevelHandler(new String[] { level1, level2 }).getParsers();
+		List<String> levels = new ArrayList<String>();
+		for (File file : files) {
+			levels.add(FileUtils.readFileToString(file));
+		}
+		parsers = new LevelHandler(levels).getParsers();
 		nextLevel();
+	}
+
+	private static void sortByName(File[] files) {
+		Collections.sort(Arrays.asList(files), new Comparator<File>() {
+			public int compare(File o1, File o2) {
+				return o1.getName().compareToIgnoreCase(o2.getName());
+			}
+		});
 	}
 
 	protected static void nextLevel() {

@@ -65,7 +65,7 @@ public abstract class AbstractIntegrationTest {
 		return parser.getEnv();
 	}
 
-	protected abstract String[] levels();
+	protected abstract List<String> levels();
 
 	protected void setupFrame() {
 		frame.getContentPane().add("Center", applet);

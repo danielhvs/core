@@ -2,6 +2,9 @@ package br.com.danielhabib.integration.core;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Level2Test extends AbstractIntegrationTest {
 
 	private TestObserver rulesObserver;
@@ -38,8 +41,8 @@ public class Level2Test extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected String[] levels() {
-		return new String[] { "w:0,0\nr:2,0-3,0\nw:4,0\nr:2,0-3,0\np:1,0" };
+	protected List<String> levels() {
+		return Arrays.asList("w:0,0\nr:2,0-3,0\nw:4,0\nr:2,0-3,0\np:1,0");
 	}
 
 	@Override

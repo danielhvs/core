@@ -1,6 +1,7 @@
 package br.com.danielhabib.integration.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import br.com.danielhabib.core.Config;
@@ -38,7 +39,7 @@ public class DrawingTest extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected String[] levels() {
-		return new String[] { "w:2,2\nr:3,3-4,3\np:0,0" };
+	protected List<String> levels() {
+		return Arrays.asList("w:2,2\nr:3,3-4,3\np:0,0");
 	}
 }
