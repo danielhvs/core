@@ -71,8 +71,16 @@ public abstract class AbstractIntegrationTest {
 		frame.getContentPane().add("Center", applet);
 		applet.init();
 		frame.pack();
-		frame.setSize(new Dimension(WINDOW_SIZE, WINDOW_SIZE + Config.SIZE / 2));
+		frame.setSize(new Dimension(xWindowSize(), yWindowSize()));
 		frame.setVisible(true);
+	}
+
+	protected int xWindowSize() {
+		return WINDOW_SIZE;
+	}
+
+	protected int yWindowSize() {
+		return WINDOW_SIZE + Config.SIZE / 2;
 	}
 
 	protected void setupCommands() {
