@@ -28,6 +28,7 @@ public abstract class AbstractIntegrationTest {
 	protected JApplet applet;
 	protected Psico psico;
 	protected LevelParser parser;
+	protected int level = 1;
 
 	@Test
 	public void integrationTest() throws Exception {
@@ -47,6 +48,8 @@ public abstract class AbstractIntegrationTest {
 			testIt();
 
 			frame.dispose();
+
+			level++;
 		}
 	}
 

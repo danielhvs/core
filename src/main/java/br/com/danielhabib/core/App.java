@@ -79,7 +79,8 @@ public class App {
 	}
 
 	private static void gameOver() {
-		// Whe're done!
+		System.out.println("Game over!");
+		// We're done!
 	}
 
 	protected static void setupFrame() {
