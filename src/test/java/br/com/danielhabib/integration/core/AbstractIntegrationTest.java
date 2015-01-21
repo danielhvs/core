@@ -38,7 +38,6 @@ public abstract class AbstractIntegrationTest {
 			parser = levelParser;
 			psico = parser.getPsico();
 			applet = new Main2D(psico, parser.getEnv());
-			timeout = setTimeoutMillis();
 
 			setupFrame();
 			setupCommands();
@@ -131,10 +130,9 @@ public abstract class AbstractIntegrationTest {
 		return frame;
 	}
 
-	protected int timeout = 100;
 	protected RegularMoveHandler moveHandler;
 
-	protected abstract int setTimeoutMillis();
+	protected abstract int timeoutMillis();
 
 	protected void down() throws InterruptedException {
 		turn();
@@ -181,6 +179,6 @@ public abstract class AbstractIntegrationTest {
 	}
 
 	protected void sleep() throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(timeout);
+		TimeUnit.MILLISECONDS.sleep(timeoutMillis());
 	}
 }

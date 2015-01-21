@@ -41,7 +41,7 @@ public class Level1Test extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected int setTimeoutMillis() {
+	protected int timeoutMillis() {
 		return 25;
 	}
 
