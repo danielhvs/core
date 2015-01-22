@@ -1,7 +1,7 @@
 package br.com.danielhabib.core.nulls;
 
-import br.com.danielhabib.core.IPsicoObserver;
-import br.com.danielhabib.core.IRulesObserver;
+import br.com.danielhabib.core.rules.IPsicoObserver;
+import br.com.danielhabib.core.rules.IRulesObserver;
 
 public class NullObserver implements IPsicoObserver, IRulesObserver {
 

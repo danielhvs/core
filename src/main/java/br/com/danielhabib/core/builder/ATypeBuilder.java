@@ -1,6 +1,6 @@
 package br.com.danielhabib.core.builder;
 
-import br.com.danielhabib.core.PsicoComponent;
+import br.com.danielhabib.core.component.PsicoComponent;
 
 public abstract class ATypeBuilder {
 

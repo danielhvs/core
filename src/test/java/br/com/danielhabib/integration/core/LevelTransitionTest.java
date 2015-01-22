@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
-import br.com.danielhabib.core.IRulesObserver;
-import br.com.danielhabib.core.Main2D;
 import br.com.danielhabib.core.builder.LevelParser;
+import br.com.danielhabib.core.gui.Main2D;
+import br.com.danielhabib.core.rules.IRulesObserver;
 
 public class LevelTransitionTest extends AbstractIntegrationTest {
 

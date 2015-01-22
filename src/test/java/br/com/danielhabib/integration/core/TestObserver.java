@@ -1,6 +1,6 @@
 package br.com.danielhabib.integration.core;
 
-import br.com.danielhabib.core.IRulesObserver;
+import br.com.danielhabib.core.rules.IRulesObserver;
 
 public class TestObserver implements IRulesObserver {
 	private boolean isOver = false;

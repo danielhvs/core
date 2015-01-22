@@ -1,7 +1,7 @@
 package br.com.danielhabib.core.nulls;
 
-import br.com.danielhabib.core.Position;
-import br.com.danielhabib.core.RegularMoveHandler;
+import br.com.danielhabib.core.component.Position;
+import br.com.danielhabib.core.rules.RegularMoveHandler;
 
 
 public class NullMoveHandler extends RegularMoveHandler {

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.com.danielhabib.core.PsicoComponent;
+import br.com.danielhabib.core.component.PsicoComponent;
 
 public class PsicoComponentBuilder {
 

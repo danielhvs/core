@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import br.com.danielhabib.core.Config;
-import br.com.danielhabib.core.Environment;
-import br.com.danielhabib.core.GoalRule;
-import br.com.danielhabib.core.Position;
+import br.com.danielhabib.core.component.Environment;
+import br.com.danielhabib.core.component.Position;
+import br.com.danielhabib.core.rules.GoalRule;
 
 public class DrawingTest extends AbstractIntegrationTest {
 

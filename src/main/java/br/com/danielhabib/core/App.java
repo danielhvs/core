@@ -19,6 +19,10 @@ import javax.swing.JFrame;
 import org.apache.commons.io.FileUtils;
 
 import br.com.danielhabib.core.builder.LevelParser;
+import br.com.danielhabib.core.component.LevelHandler;
+import br.com.danielhabib.core.component.Psico;
+import br.com.danielhabib.core.gui.Main2D;
+import br.com.danielhabib.core.rules.IRulesObserver;
 
 public class App {
 	protected static final int WINDOW_SIZE = Config.SIZE / 2 + Config.SIZE * 6;

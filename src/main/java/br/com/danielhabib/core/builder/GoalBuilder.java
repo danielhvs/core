@@ -1,8 +1,8 @@
 package br.com.danielhabib.core.builder;
 
-import br.com.danielhabib.core.Goal;
-import br.com.danielhabib.core.Position;
-import br.com.danielhabib.core.PsicoComponent;
+import br.com.danielhabib.core.component.Goal;
+import br.com.danielhabib.core.component.Position;
+import br.com.danielhabib.core.component.PsicoComponent;
 
 public class GoalBuilder extends ATypeBuilder {
 

@@ -11,16 +11,16 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 
 import br.com.danielhabib.core.Config;
-import br.com.danielhabib.core.CounterClockWiseDirection;
-import br.com.danielhabib.core.Environment;
-import br.com.danielhabib.core.GoalRule;
-import br.com.danielhabib.core.IRulesObserver;
-import br.com.danielhabib.core.ImageHandler;
-import br.com.danielhabib.core.Position;
-import br.com.danielhabib.core.Psico;
-import br.com.danielhabib.core.PsicoComponent;
-import br.com.danielhabib.core.RegularMoveHandler;
+import br.com.danielhabib.core.component.Environment;
+import br.com.danielhabib.core.component.Position;
+import br.com.danielhabib.core.component.Psico;
+import br.com.danielhabib.core.component.PsicoComponent;
 import br.com.danielhabib.core.nulls.NullMoveHandler;
+import br.com.danielhabib.core.rules.CounterClockWiseDirection;
+import br.com.danielhabib.core.rules.GoalRule;
+import br.com.danielhabib.core.rules.IRulesObserver;
+import br.com.danielhabib.core.rules.ImageHandler;
+import br.com.danielhabib.core.rules.RegularMoveHandler;
 
 public class LevelParser {
 
