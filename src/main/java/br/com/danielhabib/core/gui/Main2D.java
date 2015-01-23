@@ -33,8 +33,9 @@ public class Main2D extends JApplet {
 	@Override
 	public void paint(Graphics g) {
 		g.clearRect(0, 0, getWidth(), getHeight());
-		env.draw(g);
-		psico.draw(g);
+		br.com.danielhabib.core.gui.Graphics awt = GraphicsAdapter.fromAwt(g);
+		env.draw(awt);
+		psico.draw(awt);
 	}
 
 }

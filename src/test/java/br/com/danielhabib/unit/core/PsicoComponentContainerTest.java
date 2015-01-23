@@ -14,8 +14,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-import java.awt.Graphics;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -25,6 +23,7 @@ import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
 import br.com.danielhabib.core.component.PsicoComponentContainer;
+import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 
 public class PsicoComponentContainerTest {

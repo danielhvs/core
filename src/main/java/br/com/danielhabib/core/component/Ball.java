@@ -1,9 +1,9 @@
 package br.com.danielhabib.core.component;
 
 import java.awt.Color;
-import java.awt.Graphics;
 
 import br.com.danielhabib.core.Config;
+import br.com.danielhabib.core.gui.Graphics;
 
 public class Ball extends PsicoComponent {
 

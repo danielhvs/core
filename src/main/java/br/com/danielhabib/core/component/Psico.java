@@ -1,7 +1,6 @@
 package br.com.danielhabib.core.component;
 
-import java.awt.Graphics;
-
+import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 import br.com.danielhabib.core.nulls.NullObserver;
 import br.com.danielhabib.core.rules.Direction;

@@ -1,9 +1,9 @@
 package br.com.danielhabib.core.nulls;
 
-import java.awt.Graphics;
 
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.gui.Graphics;
 
 public class NullComponent extends PsicoComponent {
 

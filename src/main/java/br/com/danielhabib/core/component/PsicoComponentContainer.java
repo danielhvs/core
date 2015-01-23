@@ -1,9 +1,9 @@
 package br.com.danielhabib.core.component;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.util.Stack;
 
+import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 
 public class PsicoComponentContainer extends PsicoComponent {

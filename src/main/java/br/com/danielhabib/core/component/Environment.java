@@ -1,7 +1,6 @@
 package br.com.danielhabib.core.component;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import br.com.danielhabib.core.builder.ColorBuilder;
 import br.com.danielhabib.core.builder.GoalBuilder;
 import br.com.danielhabib.core.builder.PsicoComponentBuilder;
 import br.com.danielhabib.core.builder.WallBuilder;
+import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 
 public class Environment {

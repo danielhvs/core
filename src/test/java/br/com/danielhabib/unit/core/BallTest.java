@@ -5,7 +5,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.awt.Color;
-import java.awt.Graphics;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.gui.Graphics;
 
 public class BallTest {
 	@Mock
