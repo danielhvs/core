@@ -45,16 +45,12 @@ public class LevelParser {
 
 	public LevelParser(File file) throws IOException {
 		this.string = FileUtils.readFileToString(file);
-		parseIt();
-		this.env = initEnv();
-		setupMoveHandler();
+		doParse();
 	}
 
 	public LevelParser(String string) {
 		this.string = string;
-		parseIt();
-		this.env = initEnv();
-		setupMoveHandler();
+		doParse();
 	}
 
 	private void setupMoveHandler() {
@@ -103,17 +99,41 @@ public class LevelParser {
 		for (String token : tokens) {
 			String[] elements = token.split(":");
 			String stype = elements[0];
+			if (stype.isEmpty()) {
+				continue;
+			}
 			char type = stype.charAt(0);
 			if (type == 'p') {
 				buildPsico(elements[1]);
 			} else if (type == 'r') {
 				parseRule(elements[1]);
 			} else {
-				String[] positions = elements[1].split(",");
-				int x = Config.SIZE * Integer.parseInt(positions[0]);
-				int y = Config.SIZE * Integer.parseInt(positions[1]);
-				PsicoComponent component = builder.build(type, x, y);
-				add(type, component);
+				String[] p = elements[1].split("-");
+				if (p.length == 1) {
+					String[] positions = elements[1].split(",");
+					int x = Config.SIZE * Integer.parseInt(positions[0]);
+					int y = Config.SIZE * Integer.parseInt(positions[1]);
+					PsicoComponent component = builder.build(type, x, y);
+					add(type, component);
+				} else {
+					String[] pi = p[0].split(",");
+					String[] pf = p[1].split(",");
+					int x = Config.SIZE * Integer.parseInt(pi[0]);
+					int y = Config.SIZE * Integer.parseInt(pi[1]);
+					if (pi[1].equals(pf[1])) {
+						int finalX = Config.SIZE * Integer.parseInt(pf[0]);
+						for (; x <= finalX; x += Config.SIZE) {
+							PsicoComponent component = builder.build(type, x, y);
+							add(type, component);
+						}
+					} else if (pi[0].equals(pf[0])) {
+						int finalY = Config.SIZE * Integer.parseInt(pf[1]);
+						for (; y <= finalY; y += Config.SIZE) {
+							PsicoComponent component = builder.build(type, x, y);
+							add(type, component);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -177,6 +197,12 @@ public class LevelParser {
 
 	public void setMoveHandlerObserver(IRulesObserver iRulesObserver) {
 		moveHandler.setObserver(iRulesObserver);
+	}
+
+	private void doParse() {
+		parseIt();
+		this.env = initEnv();
+		setupMoveHandler();
 	}
 
 }

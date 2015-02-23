@@ -16,4 +16,9 @@ public class Wall extends PsicoComponent {
 		g.fillRect(position.getX(), position.getY(), Config.SIZE, Config.SIZE);
 	}
 
+	@Override
+	public String toString() {
+		return position.getX() + "," + position.getY();
+	}
+
 }

@@ -101,6 +101,27 @@ public class LevelParserTest {
 	}
 
 	@Test
+	public void parse_LineYWall_ManyWallsInYLine() throws Exception {
+		LevelParser parser = new LevelParser("w:0,1-0,5");
+		List<PsicoComponent> walls = parser.getWalls();
+		assertEquals(5, walls.size());
+	}
+
+	@Test
+	public void parse_LineXWall_ManyWallsInLine() throws Exception {
+		LevelParser parser = new LevelParser("w:1,0-5,0");
+		List<PsicoComponent> walls = parser.getWalls();
+		assertEquals(5, walls.size());
+	}
+
+	@Test
+	public void parse_LineXBall_ManyBallsInLine() throws Exception {
+		LevelParser parser = new LevelParser("o:1,0-5,0");
+		List<PsicoComponent> balls = parser.getBalls();
+		assertEquals(5, balls.size());
+	}
+
+	@Test
 	public void parse_ComplexCenario() throws Exception {
 		LevelParser parser = new LevelParser("w:1,0\no:2,0\nr:0,1-2,0");
 
