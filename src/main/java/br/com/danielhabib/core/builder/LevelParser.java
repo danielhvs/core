@@ -95,42 +95,37 @@ public class LevelParser {
 		if (string.isEmpty()) {
 			return;
 		}
-		String[] tokens = string.split("\n");
-		for (String token : tokens) {
-			String[] elements = token.split(":");
-			String stype = elements[0];
+		String[] components = string.split("\n");
+		for (String component : components) {
+			String[] data = component.split(":");
+			String stype = data[0];
 			if (stype.isEmpty()) {
 				continue;
 			}
 			char type = stype.charAt(0);
 			if (type == 'p') {
-				buildPsico(elements[1]);
+				buildPsico(data[1]);
 			} else if (type == 'r') {
-				parseRule(elements[1]);
+				buildRule(data[1]);
 			} else {
-				String[] p = elements[1].split("-");
-				if (p.length == 1) {
-					String[] positions = elements[1].split(",");
-					int x = Config.SIZE * Integer.parseInt(positions[0]);
-					int y = Config.SIZE * Integer.parseInt(positions[1]);
-					PsicoComponent component = builder.build(type, x, y);
-					add(type, component);
+				String[] points = data[1].split("-");
+				if (points.length == 1) {
+					Position position = positionFromCSV(data[1]);
+					addComponent(type, position);
 				} else {
-					String[] pi = p[0].split(",");
-					String[] pf = p[1].split(",");
-					int x = Config.SIZE * Integer.parseInt(pi[0]);
-					int y = Config.SIZE * Integer.parseInt(pi[1]);
+					String[] pi = points[0].split(",");
+					String[] pf = points[1].split(",");
 					if (pi[1].equals(pf[1])) {
+						int y = extracted(pi);
 						int finalX = Config.SIZE * Integer.parseInt(pf[0]);
-						for (; x <= finalX; x += Config.SIZE) {
-							PsicoComponent component = builder.build(type, x, y);
-							add(type, component);
+						for (int x = Config.SIZE * Integer.parseInt(pi[0]); x <= finalX; x += Config.SIZE) {
+							addComponent(type, new Position(x, y));
 						}
 					} else if (pi[0].equals(pf[0])) {
-						int finalY = Config.SIZE * Integer.parseInt(pf[1]);
-						for (; y <= finalY; y += Config.SIZE) {
-							PsicoComponent component = builder.build(type, x, y);
-							add(type, component);
+						int x = Config.SIZE * Integer.parseInt(pi[0]);
+						int finalY = extracted(pf);
+						for (int y = extracted(pi); y <= finalY; y += Config.SIZE) {
+							addComponent(type, new Position(x, y));
 						}
 					}
 				}
@@ -138,10 +133,26 @@ public class LevelParser {
 		}
 	}
 
+	private int extracted(String[] pf) {
+		return Config.SIZE * Integer.parseInt(pf[1]);
+	}
+
+	private Position positionFromCSV(String data) {
+		String[] positions = data.split(",");
+		int x = Config.SIZE * Integer.parseInt(positions[0]);
+		int y = extracted(positions);
+		return new Position(x, y);
+	}
+
+	private void addComponent(char type, Position position) {
+		PsicoComponent newComponent = builder.build(type, position.getX(), position.getY());
+		add(type, newComponent);
+	}
+
 	private void buildPsico(String position) {
 		String[] xy = position.split(",");
 		int x = Config.SIZE * Integer.parseInt(xy[0]);
-		int y = Config.SIZE * Integer.parseInt(xy[1]);
+		int y = extracted(xy);
 		moveHandler = new RegularMoveHandler(new Position(x, y));
 
 		this.psico = new Psico(new CounterClockWiseDirection(), moveHandler, new ImageHandler());
@@ -157,14 +168,14 @@ public class LevelParser {
 		map.put(type, list);
 	}
 
-	private void parseRule(String elements) {
+	private void buildRule(String elements) {
 		String[] positions = elements.split("-");
 		String[] ballPosition = positions[0].split(",");
 		String[] goalPosition = positions[1].split(",");
 		int xb = Config.SIZE * Integer.parseInt(ballPosition[0]);
-		int yb = Config.SIZE * Integer.parseInt(ballPosition[1]);
+		int yb = extracted(ballPosition);
 		int xg = Config.SIZE * Integer.parseInt(goalPosition[0]);
-		int yg = Config.SIZE * Integer.parseInt(goalPosition[1]);
+		int yg = extracted(goalPosition);
 		PsicoComponent ball = builder.build('o', xb, yb);
 		add('o', ball);
 		Position candidateGoalPosition = new Position(xg, yg);
