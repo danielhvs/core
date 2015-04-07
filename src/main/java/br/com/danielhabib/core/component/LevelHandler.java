@@ -17,8 +17,7 @@ public class LevelHandler {
 
 	private void buildParsers() {
 		for (String level : levels) {
-			LevelParser parser = new LevelParser(level);
-			parsers.add(parser);
+			parsers.add(new LevelParser(level));
 		}
 	}
 
