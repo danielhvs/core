@@ -1,6 +1,5 @@
 package br.com.danielhabib.core.builder;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Environment;
@@ -25,23 +26,13 @@ import br.com.danielhabib.core.rules.RegularMoveHandler;
 public class LevelParser {
 
 	private PsicoComponentBuilder builder;
-	private static final Color[] WALL_COLORS = new Color[] { Color.BLACK, Color.DARK_GRAY.darker(), Color.DARK_GRAY, Color.DARK_GRAY.brighter() };
-	private static final Color[] BALL_COLORS = new Color[] { Color.BLUE, Color.RED, Color.ORANGE, Color.CYAN, Color.GREEN, Color.YELLOW };
-	private static final Color[] GOAL_COLORS = new Color[] { Color.ORANGE.darker() };
 	private final String string;
 	private Map<Character, List<PsicoComponent>> map = new HashMap<Character, List<PsicoComponent>>();
 	private List<GoalRule> goalRules = new ArrayList<GoalRule>();
 	private Environment env;
 	private RegularMoveHandler moveHandler = new NullMoveHandler();
 	private Psico psico;
-
-	private PsicoComponentBuilder newPsicoComponentBuilder() {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-		builder.registerTypeBuilder('w', new WallBuilder(new ColorBuilder(WALL_COLORS)));
-		builder.registerTypeBuilder('o', new BallBuilder(new ColorBuilder(BALL_COLORS)));
-		builder.registerTypeBuilder('g', new GoalBuilder(new ColorBuilder(GOAL_COLORS)));
-		return builder;
-	}
+	private static final ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
 
 	public LevelParser(File file) throws IOException {
 		this.string = FileUtils.readFileToString(file);
@@ -72,6 +63,15 @@ public class LevelParser {
 		map.put('o', new ArrayList<PsicoComponent>());
 		map.put('g', new ArrayList<PsicoComponent>());
 		parse();
+	}
+
+	private PsicoComponentBuilder newPsicoComponentBuilder() {
+		PsicoComponentBuilder builder = new PsicoComponentBuilder();
+		// TODO: implements ApplicationContextAware
+		builder.registerTypeBuilder('w', context.getBean("wallBuilder", ATypeBuilder.class));
+		builder.registerTypeBuilder('o', context.getBean("ballBuilder", ATypeBuilder.class));
+		builder.registerTypeBuilder('g', context.getBean("goalBuilder", ATypeBuilder.class));
+		return builder;
 	}
 
 	public List<GoalRule> getGoalRules() {
@@ -215,5 +215,6 @@ public class LevelParser {
 		this.env = initEnv();
 		setupMoveHandler();
 	}
+
 
 }

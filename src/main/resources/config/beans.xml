@@ -1,11 +1,68 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-<bean name="testString" class="java.lang.String">
-	<constructor-arg value="Hello, World!"/>
-</bean>
+	<bean name="testString" class="java.lang.String">
+		<constructor-arg value="Hello, World!" />
+	</bean>
+	
+	<bean name="goalBuilder" class="br.com.danielhabib.core.builder.GoalBuilder">
+		<constructor-arg ref="goalColorBuilder" />
+	</bean>	
+	
+	<bean name="ballBuilder" class="br.com.danielhabib.core.builder.BallBuilder">
+		<constructor-arg ref="ballColorBuilder" />
+	</bean>
+
+	<bean name="wallBuilder" class="br.com.danielhabib.core.builder.WallBuilder">
+		<constructor-arg ref="wallColorBuilder" />
+	</bean>
+
+	<bean name="wallColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">
+		<constructor-arg>
+			<list>
+				<util:constant static-field="java.awt.Color.BLUE" />
+				<util:constant static-field="java.awt.Color.YELLOW" />
+				<util:constant static-field="java.awt.Color.ORANGE" />
+				<util:constant static-field="java.awt.Color.RED" />
+				<util:constant static-field="java.awt.Color.CYAN" />
+				<util:constant static-field="java.awt.Color.GREEN" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean name="ballColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">
+		<constructor-arg>
+			<list>
+				<util:constant static-field="java.awt.Color.BLUE" />
+				<util:constant static-field="java.awt.Color.RED" />
+				<util:constant static-field="java.awt.Color.ORANGE" />
+				<util:constant static-field="java.awt.Color.CYAN" />
+				<util:constant static-field="java.awt.Color.GREEN" />
+				<util:constant static-field="java.awt.Color.YELLOW" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="goalColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">
+		<constructor-arg>
+			<list>
+				<util:constant static-field="java.awt.Color.ORANGE" />
+				<util:constant static-field="java.awt.Color.BLUE" />
+				<util:constant static-field="java.awt.Color.YELLOW" />
+				<util:constant static-field="java.awt.Color.GREEN" />
+				<util:constant static-field="java.awt.Color.CYAN" />
+				<util:constant static-field="java.awt.Color.RED" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	
 
 </beans>
