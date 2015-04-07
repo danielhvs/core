@@ -155,7 +155,8 @@ public class LevelParser {
 		int y = extracted(xy);
 		moveHandler = new RegularMoveHandler(new Position(x, y));
 
-		this.psico = new Psico(new CounterClockWiseDirection(), moveHandler, new ImageHandler());
+		CounterClockWiseDirection handler = context.getBean("directionHandler", CounterClockWiseDirection.class);
+		this.psico = new Psico(handler, moveHandler, new ImageHandler());
 	}
 
 	public Environment getEnv() {

@@ -12,6 +12,23 @@
 		<constructor-arg value="Hello, World!" />
 	</bean>
 	
+	<!-- Movement Rules -->
+	<bean name="directionHandler" class="br.com.danielhabib.core.rules.CounterClockWiseDirection" scope="prototype">
+		<property name="direction">
+			<util:constant static-field="br.com.danielhabib.core.rules.Direction.RIGHT" />
+		</property>
+		<property name="directionsMap" ref="directionsMap"/>
+	</bean>
+	
+	<util:map id="directionsMap" map-class="java.util.HashMap" key-type="br.com.danielhabib.core.rules.Direction" value-type="br.com.danielhabib.core.rules.Direction">
+	    <entry key="RIGHT" value="UP"/>
+	    <entry key="UP" value="LEFT"/>
+	    <entry key="LEFT" value="DOWN"/>
+	    <entry key="DOWN" value="RIGHT"/>
+	</util:map>
+	
+	
+	<!-- Component Builders -->
 	<bean name="goalBuilder" class="br.com.danielhabib.core.builder.GoalBuilder">
 		<constructor-arg ref="goalColorBuilder" />
 	</bean>	
@@ -24,6 +41,8 @@
 		<constructor-arg ref="wallColorBuilder" />
 	</bean>
 
+
+	<!-- Color Builders -->
 	<bean name="wallColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">
 		<constructor-arg>
 			<list>

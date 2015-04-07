@@ -4,22 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CounterClockWiseDirection implements IDirectionHandler {
-	private Direction direction;
-	private Map<Direction, Direction> nextDirections = new HashMap<Direction, Direction>();
 
-	public CounterClockWiseDirection() {
-		direction = Direction.RIGHT;
-		nextDirections.put(Direction.RIGHT, Direction.UP);
-		nextDirections.put(Direction.UP, Direction.LEFT);
-		nextDirections.put(Direction.LEFT, Direction.DOWN);
-		nextDirections.put(Direction.DOWN, Direction.RIGHT);
-	}
+	private Direction direction;
+	private Map<Direction, Direction> directionsMap = new HashMap<Direction, Direction>();
 
 	public void turn() {
-		direction = nextDirections.get(direction);
+		direction = directionsMap.get(direction);
 	}
 
 	public Direction getDirection() {
 		return direction;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
+
+	public void setDirectionsMap(Map<Direction, Direction> directionsMap) {
+		this.directionsMap = directionsMap;
 	}
 }
