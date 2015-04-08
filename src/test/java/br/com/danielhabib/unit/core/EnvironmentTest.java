@@ -47,9 +47,7 @@ public class EnvironmentTest {
 		write(envFile, "  w");
 		Environment environment = new Environment(envFile);
 
-		List<PsicoComponent> walls = environment.getWalls();
-
-		assertThat(walls, hasSize(3));
+		assertThat(environment.hasWall(new Position(0, 0)), is(equalTo(true)));
 	}
 
 	private void write(File arquivo, String string) throws Exception {
@@ -62,18 +60,14 @@ public class EnvironmentTest {
 	public void getWalls_EmptyEnvironment_emptyList(String input) throws Exception {
 		Environment environment = new Environment(input);
 
-		List<PsicoComponent> walls = environment.getWalls();
-
-		assertThat(walls, hasSize(0));
+		assertThat(environment.hasWall(new Position(0, 0)), is(equalTo(false)));
 	}
 
 	@TestWith({ "w,1", "ww,2", "w w w,3" })
 	public void getWalls_NWallsInOneLineOnly_OneLineEnvironment(String input, int expectedSize) throws Exception {
 		Environment environment = new Environment(input);
 
-		List<PsicoComponent> walls = environment.getWalls();
-
-		assertThat(walls, hasSize(expectedSize));
+		assertThat(environment.getComponentListForType('w'), hasSize(expectedSize));
 	}
 
 	@Test
@@ -83,7 +77,7 @@ public class EnvironmentTest {
 				newWallAtPosition(0, 0),
 				newWallAtPosition(2 * WALL_SIZE, 0));
 
-		List<PsicoComponent> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getComponentListForType('w');
 
 		assertThat(walls, hasSize(2));
 		assertThat(walls, is(equalTo(expected)));
@@ -94,7 +88,7 @@ public class EnvironmentTest {
 		Environment environment = new Environment("w");
 		List<PsicoComponent> expected = Arrays.asList(newWallAtPosition(0, 0));
 
-		List<PsicoComponent> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getComponentListForType('w');
 
 		assertThat(walls, hasSize(1));
 		assertThat(walls, is(equalTo(expected)));
@@ -107,7 +101,7 @@ public class EnvironmentTest {
 				newWallAtPosition(0, 0),
 				newWallAtPosition(WALL_SIZE, 0));
 
-		List<PsicoComponent> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getComponentListForType('w');
 
 		assertThat(walls, hasSize(2));
 		assertThat(walls, is(equalTo(expected)));
@@ -120,7 +114,7 @@ public class EnvironmentTest {
 				newWallAtPosition(0, 0),
 				newWallAtPosition(0, WALL_SIZE));
 
-		List<PsicoComponent> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getComponentListForType('w');
 
 		assertThat(walls, hasSize(2));
 		assertThat(walls, is(equalTo(expected)));
@@ -135,7 +129,7 @@ public class EnvironmentTest {
 				newWallAtPosition(WALL_SIZE, WALL_SIZE),
 				newWallAtPosition(0, 2 * WALL_SIZE));
 
-		List<PsicoComponent> walls = environment.getWalls();
+		List<PsicoComponent> walls = environment.getComponentListForType('w');
 
 		assertThat(walls, hasSize(4));
 		assertThat(walls, is(equalTo(expected)));
@@ -145,7 +139,7 @@ public class EnvironmentTest {
 	public void getBall_NoBall_EmptyList() throws Exception {
 		Environment environment = new Environment("");
 
-		List<PsicoComponent> balls = environment.getBalls();
+		List<PsicoComponent> balls = environment.getComponentListForType('o');
 
 		assertThat(balls, hasSize(0));
 	}
@@ -154,7 +148,7 @@ public class EnvironmentTest {
 	public void getBall_1Ball_ListWithBall() throws Exception {
 		Environment environment = new Environment("o");
 
-		List<PsicoComponent> balls = environment.getBalls();
+		List<PsicoComponent> balls = environment.getComponentListForType('o');
 
 		assertThat(balls, hasSize(1));
 	}
@@ -163,7 +157,7 @@ public class EnvironmentTest {
 	public void getGoal_1Goal_ListWithGoals() throws Exception {
 		Environment environment = new Environment("g");
 
-		List<PsicoComponent> goals = environment.getGoals();
+		List<PsicoComponent> goals = environment.getComponentListForType('g');
 
 		assertThat(goals, hasSize(1));
 	}

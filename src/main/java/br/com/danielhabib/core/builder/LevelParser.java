@@ -17,7 +17,7 @@ import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.component.PsicoComponent;
 import br.com.danielhabib.core.nulls.NullMoveHandler;
-import br.com.danielhabib.core.rules.CounterClockWiseDirection;
+import br.com.danielhabib.core.rules.DirectionHandler;
 import br.com.danielhabib.core.rules.GoalRule;
 import br.com.danielhabib.core.rules.IRulesObserver;
 import br.com.danielhabib.core.rules.ImageHandler;
@@ -58,20 +58,11 @@ public class LevelParser {
 	}
 
 	private void parseIt() {
-		this.builder = newPsicoComponentBuilder();
+		this.builder = context.getBean("componentBuilder", PsicoComponentBuilder.class);
 		map.put('w', new ArrayList<PsicoComponent>());
 		map.put('o', new ArrayList<PsicoComponent>());
 		map.put('g', new ArrayList<PsicoComponent>());
 		parse();
-	}
-
-	private PsicoComponentBuilder newPsicoComponentBuilder() {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-		// TODO: implements ApplicationContextAware
-		builder.registerTypeBuilder('w', context.getBean("wallBuilder", ATypeBuilder.class));
-		builder.registerTypeBuilder('o', context.getBean("ballBuilder", ATypeBuilder.class));
-		builder.registerTypeBuilder('g', context.getBean("goalBuilder", ATypeBuilder.class));
-		return builder;
 	}
 
 	public List<GoalRule> getGoalRules() {
@@ -155,7 +146,7 @@ public class LevelParser {
 		int y = extracted(xy);
 		moveHandler = new RegularMoveHandler(new Position(x, y));
 
-		CounterClockWiseDirection handler = context.getBean("directionHandler", CounterClockWiseDirection.class);
+		DirectionHandler handler = context.getBean("directionHandler", DirectionHandler.class);
 		this.psico = new Psico(handler, moveHandler, new ImageHandler());
 	}
 

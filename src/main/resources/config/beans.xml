@@ -8,27 +8,31 @@
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<bean name="testString" class="java.lang.String">
-		<constructor-arg value="Hello, World!" />
-	</bean>
-	
 	<!-- Movement Rules -->
-	<bean name="directionHandler" class="br.com.danielhabib.core.rules.CounterClockWiseDirection" scope="prototype">
-		<property name="direction">
-			<util:constant static-field="br.com.danielhabib.core.rules.Direction.RIGHT" />
+	<bean name="directionHandler" class="br.com.danielhabib.core.rules.DirectionHandler" scope="prototype">
+		<property name="direction" value="RIGHT"/>
+		<property name="directionsMap">
+			<util:map id="directionsMap" map-class="java.util.HashMap"
+				key-type="br.com.danielhabib.core.rules.Direction" value-type="br.com.danielhabib.core.rules.Direction">
+				<entry key="RIGHT" value="UP" />
+				<entry key="UP" value="LEFT" />
+				<entry key="LEFT" value="DOWN" />
+				<entry key="DOWN" value="RIGHT" />
+			</util:map>
 		</property>
-		<property name="directionsMap" ref="directionsMap"/>
 	</bean>
-	
-	<util:map id="directionsMap" map-class="java.util.HashMap" key-type="br.com.danielhabib.core.rules.Direction" value-type="br.com.danielhabib.core.rules.Direction">
-	    <entry key="RIGHT" value="UP"/>
-	    <entry key="UP" value="LEFT"/>
-	    <entry key="LEFT" value="DOWN"/>
-	    <entry key="DOWN" value="RIGHT"/>
-	</util:map>
-	
 	
 	<!-- Component Builders -->
+	<bean name="componentBuilder" class="br.com.danielhabib.core.builder.PsicoComponentBuilder">
+		<property name="map">
+			<util:map id="componentBuilderMap" map-class="java.util.HashMap" key-type="java.lang.Character" value-type="br.com.danielhabib.core.builder.ATypeBuilder">
+			    <entry key="w" value-ref="wallBuilder"/>
+			    <entry key="o" value-ref="ballBuilder"/>
+			    <entry key="g" value-ref="goalBuilder"/>
+			</util:map>
+		</property>
+	</bean>
+	
 	<bean name="goalBuilder" class="br.com.danielhabib.core.builder.GoalBuilder">
 		<constructor-arg ref="goalColorBuilder" />
 	</bean>	

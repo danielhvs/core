@@ -3,7 +3,7 @@ package br.com.danielhabib.core.rules;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CounterClockWiseDirection implements IDirectionHandler {
+public class DirectionHandler implements IDirectionHandler {
 
 	private Direction direction;
 	private Map<Direction, Direction> directionsMap = new HashMap<Direction, Direction>();

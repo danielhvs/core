@@ -21,7 +21,7 @@ import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.component.PsicoComponent;
 import br.com.danielhabib.core.nulls.NullComponent;
-import br.com.danielhabib.core.rules.CounterClockWiseDirection;
+import br.com.danielhabib.core.rules.DirectionHandler;
 import br.com.danielhabib.core.rules.Direction;
 import br.com.danielhabib.core.rules.IDirectionHandler;
 import br.com.danielhabib.core.rules.IMoveHandler;
@@ -46,7 +46,7 @@ public class PsicoTest {
 	@Before
 	public void setup() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		directionHandler = new CounterClockWiseDirection();
+		directionHandler = new DirectionHandler();
 		psico = newPsicoWithEnv("");
 	}
 

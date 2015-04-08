@@ -6,10 +6,13 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import br.com.danielhabib.core.builder.ATypeBuilder;
 import br.com.danielhabib.core.builder.BallBuilder;
 import br.com.danielhabib.core.builder.ColorBuilder;
 import br.com.danielhabib.core.builder.GoalBuilder;
@@ -28,9 +31,11 @@ public class PsicoComponentBuilderTest {
 	@Before
 	public void setup() {
 		builder = new PsicoComponentBuilder();
-		builder.registerTypeBuilder('w', new WallBuilder(new ColorBuilder(new Color[] { Color.GREEN })));
-		builder.registerTypeBuilder('o', new BallBuilder(new ColorBuilder(new Color[] { Color.BLUE })));
-		builder.registerTypeBuilder('g', new GoalBuilder(new ColorBuilder(new Color[] { Color.ORANGE.darker() })));
+		Map<Character, ATypeBuilder> map = new HashMap<Character, ATypeBuilder>();
+		map.put('w', new WallBuilder(new ColorBuilder(new Color[] { Color.GREEN })));
+		map.put('o', new BallBuilder(new ColorBuilder(new Color[] { Color.BLUE })));
+		map.put('g', new GoalBuilder(new ColorBuilder(new Color[] { Color.ORANGE.darker() })));
+		builder.setMap(map);
 	}
 
 	@Test
@@ -85,23 +90,4 @@ public class PsicoComponentBuilderTest {
 		assertThat(component.getColor(), is(instanceOf(Color.class)));
 	}
 
-	@Test
-	public void canDefineColorBuilderForBalls() throws Exception {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-		builder.registerTypeBuilder('o', new BallBuilder(new ColorBuilder(new Color[] { Color.RED, Color.BLUE })));
-
-		PsicoComponent component = builder.build('o', 0, 0);
-
-		assertThat(component.getColor(), is(equalTo(Color.RED)));
-	}
-
-	@Test
-	public void canDefineColorBuilderForWalls() throws Exception {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-		builder.registerTypeBuilder('w', new WallBuilder(new ColorBuilder(new Color[] { Color.RED, Color.BLUE })));
-
-		PsicoComponent component = builder.build('w', 0, 0);
-
-		assertThat(component.getColor(), is(equalTo(Color.RED)));
-	}
 }

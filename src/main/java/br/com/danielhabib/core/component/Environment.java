@@ -1,6 +1,5 @@
 package br.com.danielhabib.core.component;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,27 +10,23 @@ import java.util.Map.Entry;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import br.com.danielhabib.core.Config;
-import br.com.danielhabib.core.builder.BallBuilder;
-import br.com.danielhabib.core.builder.ColorBuilder;
-import br.com.danielhabib.core.builder.GoalBuilder;
 import br.com.danielhabib.core.builder.PsicoComponentBuilder;
-import br.com.danielhabib.core.builder.WallBuilder;
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 
 public class Environment {
 
-	private static final Color[] WALL_COLORS = new Color[] { Color.BLACK, Color.DARK_GRAY.darker(), Color.DARK_GRAY, Color.DARK_GRAY.brighter() };
-	private static final Color[] BALL_COLORS = new Color[] { Color.BLUE, Color.RED, Color.ORANGE, Color.CYAN, Color.GREEN, Color.YELLOW };
-	private static final Color[] GOAL_COLORS = new Color[] { Color.ORANGE.darker() };
 	private String input;
 	private PsicoComponentBuilder builder;
 	private List<PsicoComponent> walls;
 	private List<PsicoComponent> balls;
 	private List<PsicoComponent> goals;
 	private Map<Position, PsicoComponentContainer> containers;
+	private static final ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
 
 	public Environment() {
 		this.builder = newPsicoComponentBuilder();
@@ -40,11 +35,7 @@ public class Environment {
 	}
 
 	private PsicoComponentBuilder newPsicoComponentBuilder() {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-		builder.registerTypeBuilder('w', new WallBuilder(new ColorBuilder(WALL_COLORS)));
-		builder.registerTypeBuilder('o', new BallBuilder(new ColorBuilder(BALL_COLORS)));
-		builder.registerTypeBuilder('g', new GoalBuilder(new ColorBuilder(GOAL_COLORS)));
-		return builder;
+		return context.getBean("componentBuilder", PsicoComponentBuilder.class);
 	}
 
 	public Environment(String input) {
@@ -76,18 +67,6 @@ public class Environment {
 
 	private String readFile(File envFile) throws IOException {
 		return FileUtils.readFileToString(envFile);
-	}
-
-	public List<PsicoComponent> getGoals() {
-		return this.goals;
-	}
-
-	public List<PsicoComponent> getWalls() {
-		return this.walls;
-	}
-
-	public List<PsicoComponent> getBalls() {
-		return this.balls;
 	}
 
 	public List<PsicoComponent> getComponentListForType(char type) {
