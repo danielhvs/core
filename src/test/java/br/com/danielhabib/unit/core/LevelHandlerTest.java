@@ -15,7 +15,8 @@ import br.com.danielhabib.core.component.Position;
 public class LevelHandlerTest {
 	@Test
 	public void nextLevel_1Level() throws Exception {
-		LevelHandler handler = new LevelHandler(Arrays.asList("p:0,0"));
+		LevelHandler handler = new LevelHandler();
+		handler.setLevels(Arrays.asList("p:0,0"));
 
 		List<LevelParser> parsers = handler.getParsers();
 
@@ -24,7 +25,8 @@ public class LevelHandlerTest {
 
 	@Test
 	public void nextLevel_2Levels() throws Exception {
-		LevelHandler handler = new LevelHandler(Arrays.asList("p:0,0", "p:1,0"));
+		LevelHandler handler = new LevelHandler();
+		handler.setLevels(Arrays.asList("p:0,0", "p:1,0"));
 
 		List<LevelParser> parsers = handler.getParsers();
 

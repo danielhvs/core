@@ -45,6 +45,17 @@
 		<constructor-arg value="1"/><constructor-arg value="0"/>
 	</bean>
 	
+	<!-- Parser -->
+	<bean name="levelHandler" class="br.com.danielhabib.core.component.LevelHandler">
+	<property name="files">
+		<list>
+			<bean name="level1" class="java.io.File"><constructor-arg value="levels/level_1.txt"/></bean>
+			<bean name="level2" class="java.io.File"><constructor-arg value="levels/level_2.txt"/></bean>
+			<bean name="level3" class="java.io.File"><constructor-arg value="levels/level_3.txt"/></bean>
+		</list>
+	</property>
+	</bean>
+	
 	<!-- Component Builders -->
 	<bean name="componentBuilder" class="br.com.danielhabib.core.builder.PsicoComponentBuilder">
 		<property name="map">

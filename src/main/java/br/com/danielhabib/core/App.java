@@ -5,18 +5,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 
-import org.apache.commons.io.FileUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.LevelHandler;
@@ -32,26 +28,11 @@ public class App {
 	private static LevelParser parser;
 	private static List<LevelParser> parsers;
 	private static int level = 0;
+	private static final ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
 
 	public static void main(String[] args) throws InterruptedException, IOException {
-		File dir = new File("levels");
-		File[] files = dir.listFiles();
-		sortByName(files);
-
-		List<String> levels = new ArrayList<String>();
-		for (File file : files) {
-			levels.add(FileUtils.readFileToString(file));
-		}
-		parsers = new LevelHandler(levels).getParsers();
+		parsers = context.getBean("levelHandler", LevelHandler.class).getParsers();
 		nextLevel();
-	}
-
-	private static void sortByName(File[] files) {
-		Collections.sort(Arrays.asList(files), new Comparator<File>() {
-			public int compare(File o1, File o2) {
-				return o1.getName().compareToIgnoreCase(o2.getName());
-			}
-		});
 	}
 
 	protected static void nextLevel() {

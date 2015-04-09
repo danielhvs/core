@@ -1,13 +1,10 @@
 package br.com.danielhabib.core.builder;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -33,11 +30,6 @@ public class LevelParser {
 	private RegularMoveHandler moveHandler = new NullMoveHandler();
 	private Psico psico;
 	private static final ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
-
-	public LevelParser(File file) throws IOException {
-		this.string = FileUtils.readFileToString(file);
-		doParse();
-	}
 
 	public LevelParser(String string) {
 		this.string = string;

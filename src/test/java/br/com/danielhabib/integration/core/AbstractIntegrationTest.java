@@ -32,7 +32,9 @@ public abstract class AbstractIntegrationTest {
 
 	@Test
 	public void integrationTest() throws Exception {
-		List<LevelParser> parsers = new LevelHandler(levels()).getParsers();
+		LevelHandler handler = new LevelHandler();
+		handler.setLevels(levels());
+		List<LevelParser> parsers = handler.getParsers();
 		for (LevelParser levelParser : parsers) {
 			buildFrame();
 			parser = levelParser;
