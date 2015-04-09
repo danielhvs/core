@@ -62,13 +62,6 @@ public class PsicoComponentBuilderTest {
 		assertThat(component.getPosition(), is(equalTo(new Position(0, 0))));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void build_Unknown_Exception() throws Exception {
-		PsicoComponentBuilder builder = new PsicoComponentBuilder();
-
-		builder.build(' ', 0, 0);
-	}
-
 	@Test
 	public void hasDefaultColorBuilder_ForG() throws Exception {
 		PsicoComponent component = builder.build('g', 0, 0);

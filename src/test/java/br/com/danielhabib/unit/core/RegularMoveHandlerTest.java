@@ -6,6 +6,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -69,7 +71,15 @@ public class RegularMoveHandlerTest {
 	}
 
 	private IMoveHandler newMoveHandlerWithEnv(String string) {
-		return new RegularMoveHandler(new Position(0, 0), new Environment(string));
+		RegularMoveHandler regularMoveHandler = new RegularMoveHandler(new Position(0, 0));
+		regularMoveHandler.setEnv(new Environment(string));
+		Map<Direction, Position> speedMap = new HashMap<Direction, Position>();
+		speedMap.put(Direction.UP, new Position(0, -1));
+		speedMap.put(Direction.DOWN, new Position(0, 1));
+		speedMap.put(Direction.LEFT, new Position(-1, 0));
+		speedMap.put(Direction.RIGHT, new Position(1, 0));
+		regularMoveHandler.setSpeedMap(speedMap);
+		return regularMoveHandler;
 	}
 
 }

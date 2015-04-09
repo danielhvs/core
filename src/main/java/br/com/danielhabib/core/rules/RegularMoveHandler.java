@@ -1,7 +1,6 @@
 package br.com.danielhabib.core.rules;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,16 +19,14 @@ public class RegularMoveHandler implements IMoveHandler {
 	private List<GoalRule> rules;
 	private IRulesObserver rulesObserver;
 
-	public RegularMoveHandler(Position position, Environment env) {
+	public RegularMoveHandler(Position position) {
 		this.position = position;
-		this.env = env;
 		this.rulesObserver = new NullObserver();
 		this.rules = new ArrayList<GoalRule>();
-		initSpeedMap();
 	}
 
-	public RegularMoveHandler(Position position) {
-		this(position, null);
+	public RegularMoveHandler() {
+		this(new Position(0, 0));
 	}
 
 	public Position getPosition() {
@@ -37,7 +34,7 @@ public class RegularMoveHandler implements IMoveHandler {
 	}
 
 	public boolean move(Direction direction) {
-		Position nextPosition = position.add(speedMap.get(direction));
+		Position nextPosition = position.add(speedMap.get(direction).times(Config.SIZE));
 		if (canMove(nextPosition)) {
 			this.position = nextPosition;
 			return true;
@@ -72,15 +69,6 @@ public class RegularMoveHandler implements IMoveHandler {
 		return !env.hasWall(nextPosition);
 	}
 
-	private void initSpeedMap() {
-		Map<Direction, Position> map = new HashMap<Direction, Position>();
-		map.put(Direction.UP, new Position(0, -Config.SIZE));
-		map.put(Direction.DOWN, new Position(0, Config.SIZE));
-		map.put(Direction.LEFT, new Position(-Config.SIZE, 0));
-		map.put(Direction.RIGHT, new Position(Config.SIZE, 0));
-		this.speedMap = map;
-	}
-
 	public void setRules(List<GoalRule> rules) {
 		this.rules = rules;
 	}
@@ -91,6 +79,14 @@ public class RegularMoveHandler implements IMoveHandler {
 
 	public void setEnv(Environment env) {
 		this.env = env;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	public void setSpeedMap(Map<Direction, Position> speedMap) {
+		this.speedMap = speedMap;
 	}
 
 }

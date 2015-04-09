@@ -56,4 +56,8 @@ public class Position {
 		return true;
 	}
 
+	public Position times(int size) {
+		return new Position(x * size, y * size);
+	}
+
 }

@@ -71,7 +71,6 @@ public class LevelParser {
 
 	public List<PsicoComponent> getWalls() {
 		return map.get('w');
-
 	}
 
 	public List<PsicoComponent> getBalls() {
@@ -144,8 +143,8 @@ public class LevelParser {
 		String[] xy = position.split(",");
 		int x = Config.SIZE * Integer.parseInt(xy[0]);
 		int y = extracted(xy);
-		moveHandler = new RegularMoveHandler(new Position(x, y));
-
+		moveHandler = context.getBean("moveHandler", RegularMoveHandler.class);
+		moveHandler.setPosition(new Position(x, y));
 		DirectionHandler handler = context.getBean("directionHandler", DirectionHandler.class);
 		this.psico = new Psico(handler, moveHandler, new ImageHandler());
 	}

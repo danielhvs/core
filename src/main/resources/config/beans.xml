@@ -22,6 +22,29 @@
 		</property>
 	</bean>
 	
+	<bean name="moveHandler" class="br.com.danielhabib.core.rules.RegularMoveHandler" scope="prototype">
+		<property name="speedMap" ref="speedMap"/>
+	</bean>
+	
+	<util:map id="speedMap" map-class="java.util.HashMap" key-type="br.com.danielhabib.core.rules.Direction" value-type="br.com.danielhabib.core.component.Position">
+		<entry key="RIGHT" value-ref="rightSpeed"/>
+		<entry key="UP" value-ref="upSpeed" />
+		<entry key="LEFT" value-ref="leftSpeed" />
+		<entry key="DOWN" value-ref="downSpeed" />
+	</util:map>
+	<bean name="upSpeed" class="br.com.danielhabib.core.component.Position">
+		<constructor-arg value="0"/><constructor-arg value="-1"/>
+	</bean>
+	<bean name="downSpeed" class="br.com.danielhabib.core.component.Position">
+		<constructor-arg value="0"/><constructor-arg value="1"/>
+	</bean>
+	<bean name="leftSpeed" class="br.com.danielhabib.core.component.Position">
+		<constructor-arg value="-1"/><constructor-arg value="0"/>
+	</bean>
+	<bean name="rightSpeed" class="br.com.danielhabib.core.component.Position">
+		<constructor-arg value="1"/><constructor-arg value="0"/>
+	</bean>
+	
 	<!-- Component Builders -->
 	<bean name="componentBuilder" class="br.com.danielhabib.core.builder.PsicoComponentBuilder">
 		<property name="map">

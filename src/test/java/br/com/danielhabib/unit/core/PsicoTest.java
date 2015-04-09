@@ -8,6 +8,9 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +24,8 @@ import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.component.PsicoComponent;
 import br.com.danielhabib.core.nulls.NullComponent;
-import br.com.danielhabib.core.rules.DirectionHandler;
 import br.com.danielhabib.core.rules.Direction;
-import br.com.danielhabib.core.rules.IDirectionHandler;
+import br.com.danielhabib.core.rules.DirectionHandler;
 import br.com.danielhabib.core.rules.IMoveHandler;
 import br.com.danielhabib.core.rules.IPsicoObserver;
 import br.com.danielhabib.core.rules.ImageHandler;
@@ -35,7 +37,7 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 @RunWith(ZohhakRunner.class)
 public class PsicoTest {
 	private Psico psico;
-	private IDirectionHandler directionHandler;
+	private DirectionHandler directionHandler;
 
 	@Mock
 	private IPsicoObserver observer;
@@ -47,6 +49,13 @@ public class PsicoTest {
 	public void setup() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		directionHandler = new DirectionHandler();
+		Map<Direction, Direction> directionMap = new HashMap<Direction, Direction>();
+		directionMap.put(Direction.UP, Direction.LEFT);
+		directionMap.put(Direction.DOWN, Direction.RIGHT);
+		directionMap.put(Direction.LEFT, Direction.DOWN);
+		directionMap.put(Direction.RIGHT, Direction.UP);
+		directionHandler.setDirectionsMap(directionMap);
+		directionHandler.setDirection(Direction.RIGHT);
 		psico = newPsicoWithEnv("");
 	}
 
@@ -211,7 +220,15 @@ public class PsicoTest {
 	}
 
 	private IMoveHandler newMoveHandlerWithEnv(String string) {
-		return new RegularMoveHandler(new Position(0, 0), new Environment(string));
+		RegularMoveHandler regularMoveHandler = new RegularMoveHandler(new Position(0, 0));
+		regularMoveHandler.setEnv(new Environment(string));
+		Map<Direction, Position> speedMap = new HashMap<Direction, Position>();
+		speedMap.put(Direction.UP, new Position(0, -1));
+		speedMap.put(Direction.DOWN, new Position(0, 1));
+		speedMap.put(Direction.LEFT, new Position(-1, 0));
+		speedMap.put(Direction.RIGHT, new Position(1, 0));
+		regularMoveHandler.setSpeedMap(speedMap);
+		return regularMoveHandler;
 	}
 
 }
