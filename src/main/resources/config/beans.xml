@@ -8,7 +8,7 @@
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<!-- Movement Rules -->
+	<!-- DirectionHandler -->
 	<bean name="directionHandler" class="br.com.danielhabib.core.rules.DirectionHandler" scope="prototype">
 		<property name="direction" value="RIGHT"/>
 		<property name="directionsMap">
@@ -22,6 +22,24 @@
 		</property>
 	</bean>
 	
+	<!-- ImageHandler -->
+	<bean name="imageHandler" class="br.com.danielhabib.core.rules.ImageHandler">
+		<property name="imagesMap" ref="imagesMap"></property>
+	</bean>
+
+	<util:map id="imagesMap" map-class="java.util.HashMap" key-type="br.com.danielhabib.core.rules.Direction" value-type="java.io.File">
+		<entry key="RIGHT" value-ref="imageRight"/>
+		<entry key="UP" value-ref="imageUp" />
+		<entry key="LEFT" value-ref="imageLeft" />
+		<entry key="DOWN" value-ref="imageDown" />
+	</util:map>
+	<bean name="imageDown" class="java.io.File"><constructor-arg value="images/psico_down.png"/></bean>
+	<bean name="imageUp" class="java.io.File"><constructor-arg value="images/psico_up.png"/></bean>
+	<bean name="imageLeft" class="java.io.File"><constructor-arg value="images/psico_left.png"/></bean>
+	<bean name="imageRight" class="java.io.File"><constructor-arg value="images/psico_right.png"/></bean>
+	
+	
+	<!-- MoveHandler -->
 	<bean name="moveHandler" class="br.com.danielhabib.core.rules.RegularMoveHandler" scope="prototype">
 		<property name="speedMap" ref="speedMap"/>
 	</bean>
@@ -45,7 +63,7 @@
 		<constructor-arg value="1"/><constructor-arg value="0"/>
 	</bean>
 	
-	<!-- Parser -->
+	<!-- LevelParser -->
 	<bean name="levelHandler" class="br.com.danielhabib.core.component.LevelHandler">
 	<property name="files">
 		<list>

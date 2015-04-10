@@ -3,9 +3,10 @@ package br.com.danielhabib.core.rules;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
@@ -18,35 +19,12 @@ public class ImageHandler {
 
 	private HashMap<Direction, BufferedImage> images;
 
-	public Image initImage(Direction initDirection) {
-		try {
-			images = new HashMap<Direction, BufferedImage>();
-			String fileBaseName = "psico_";
-			for (Direction direction : Direction.values()) {
-				String fileName = fileBaseName.concat(
-						direction.name().toLowerCase()).concat(".png");
-				InputStream inputStream = readResource(fileName);
-				BufferedImage originalImage = ImageIO.read(inputStream);
-				images.put(direction, resizeImage(originalImage, originalImage.getType(), Config.SIZE));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+	public void setImagesMap(HashMap<Direction, File> imagesMap) throws IOException {
+		images = new HashMap<Direction, BufferedImage>();
+		for (Entry<Direction, File> entry : imagesMap.entrySet()) {
+			BufferedImage originalImage = ImageIO.read(entry.getValue());
+			images.put(entry.getKey(), resizeImage(originalImage, originalImage.getType(), Config.SIZE));
 		}
-		return get(initDirection);
-	}
-
-	private InputStream readResource(String fileName) {
-		final ClassLoader loader = Thread.currentThread()
-				.getContextClassLoader();
-		InputStream stream = loader.getResourceAsStream(fileName);
-		if (stream == null) {
-			stream = getClass().getClassLoader().getResourceAsStream(fileName);
-			if (stream == null) {
-				stream = getClass().getResourceAsStream(fileName);
-			}
-		}
-		return stream;
-
 	}
 
 	private BufferedImage resizeImage(BufferedImage originalImage, int type,

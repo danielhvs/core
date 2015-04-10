@@ -138,7 +138,8 @@ public class LevelParser {
 		moveHandler = context.getBean("moveHandler", RegularMoveHandler.class);
 		moveHandler.setPosition(new Position(x, y));
 		DirectionHandler handler = context.getBean("directionHandler", DirectionHandler.class);
-		this.psico = new Psico(handler, moveHandler, new ImageHandler());
+		ImageHandler imageHandler = context.getBean("imageHandler", ImageHandler.class);
+		this.psico = new Psico(handler, moveHandler, imageHandler);
 	}
 
 	public Environment getEnv() {

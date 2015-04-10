@@ -30,8 +30,6 @@ public class Psico extends PsicoComponent {
 		this.observer = new NullObserver();
 		this.ball = new NullComponent();
 		this.imageHandler = imageHandler;
-
-		imageHandler.initImage(getDirection());
 	}
 
 	public void move() {
