@@ -147,7 +147,7 @@ public class PsicoTest {
 	public void grab_MoreBalls_NowHasOne() throws Exception {
 		psico = newPsicoWithEnv("ooo");
 		psico.setObserver(observer);
-		PsicoComponent expected = new Ball(new Position(Config.SIZE, 0));
+		PsicoComponent expected = new Ball(new Position(1, 0));
 
 		psico.move();
 		psico.grab();

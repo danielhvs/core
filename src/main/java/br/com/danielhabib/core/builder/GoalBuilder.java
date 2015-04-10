@@ -11,8 +11,8 @@ public class GoalBuilder extends ATypeBuilder {
 	}
 
 	@Override
-	protected PsicoComponent newComponent(int x, int y) {
-		return new Goal(new Position(x, y));
+	protected PsicoComponent newComponent(Position position) {
+		return new Goal(position);
 	}
 
 }

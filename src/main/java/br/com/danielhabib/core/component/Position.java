@@ -1,5 +1,7 @@
 package br.com.danielhabib.core.component;
 
+import br.com.danielhabib.core.Config;
+
 public class Position {
 	private int x;
 	private int y;
@@ -10,15 +12,23 @@ public class Position {
 	}
 
 	public int getX() {
-		return x;
+		return x * Config.SIZE;
 	}
 
 	public int getY() {
+		return y * Config.SIZE;
+	}
+
+	public int x() {
+		return x;
+	}
+
+	public int y() {
 		return y;
 	}
 
 	public Position add(Position position) {
-		return new Position(x + position.getX(), y + position.getY());
+		return new Position(x + position.x(), y + position.y());
 	}
 
 	@Override

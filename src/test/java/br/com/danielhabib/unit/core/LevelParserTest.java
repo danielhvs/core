@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Goal;
@@ -33,7 +32,7 @@ public class LevelParserTest {
 
 		Psico psico = parser.getPsico();
 
-		assertEquals(new Position(Config.SIZE, 0), psico.getPosition());
+		assertEquals(new Position(1, 0), psico.getPosition());
 	}
 
 	@Test
@@ -60,7 +59,7 @@ public class LevelParserTest {
 
 		List<PsicoComponent> balls = parser.getBalls();
 
-		assertEquals(ball(Config.SIZE, 0), balls.get(1));
+		assertEquals(ball(1, 0), balls.get(1));
 	}
 
 	@Test
@@ -94,10 +93,10 @@ public class LevelParserTest {
 		assertEquals(ball(0, 0), balls.get(0));
 		assertEquals(goal(0, 0), goals.get(0));
 
-		assertEquals(ball(Config.SIZE, 0), balls.get(1));
+		assertEquals(ball(1, 0), balls.get(1));
 
-		assertEquals(ball(0, Config.SIZE), balls.get(2));
-		assertEquals(goal(Config.SIZE, 0), goals.get(1));
+		assertEquals(ball(0, 1), balls.get(2));
+		assertEquals(goal(1, 0), goals.get(1));
 	}
 
 	@Test
@@ -129,12 +128,12 @@ public class LevelParserTest {
 		List<PsicoComponent> balls = parser.getBalls();
 		List<PsicoComponent> walls = parser.getWalls();
 
-		assertEquals(wall(Config.SIZE, 0), walls.get(0));
+		assertEquals(wall(1, 0), walls.get(0));
 
-		assertEquals(ball(2 * Config.SIZE, 0), balls.get(0));
+		assertEquals(ball(2 * 1, 0), balls.get(0));
 
-		assertEquals(ball(0, Config.SIZE), balls.get(1));
-		assertEquals(goal(2 * Config.SIZE, 0), goals.get(0));
+		assertEquals(ball(0, 1), balls.get(1));
+		assertEquals(goal(2 * 1, 0), goals.get(0));
 	}
 
 	@Test

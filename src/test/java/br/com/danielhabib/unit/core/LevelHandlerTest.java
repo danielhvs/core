@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.LevelHandler;
 import br.com.danielhabib.core.component.Position;
@@ -30,6 +29,6 @@ public class LevelHandlerTest {
 
 		List<LevelParser> parsers = handler.getParsers();
 
-		assertEquals(new Position(Config.SIZE, 0), parsers.get(1).getPsico().getPosition());
+		assertEquals(new Position(1, 0), parsers.get(1).getPsico().getPosition());
 	}
 }

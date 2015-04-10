@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
@@ -98,15 +97,15 @@ public class LevelParser {
 					String[] pi = points[0].split(",");
 					String[] pf = points[1].split(",");
 					if (pi[1].equals(pf[1])) {
-						int y = extracted(pi);
-						int finalX = Config.SIZE * Integer.parseInt(pf[0]);
-						for (int x = Config.SIZE * Integer.parseInt(pi[0]); x <= finalX; x += Config.SIZE) {
+						int y = Integer.parseInt(pi[1]);
+						int finalX = Integer.parseInt(pf[0]);
+						for (int x = Integer.parseInt(pi[0]); x <= finalX; x++) {
 							addComponent(type, new Position(x, y));
 						}
 					} else if (pi[0].equals(pf[0])) {
-						int x = Config.SIZE * Integer.parseInt(pi[0]);
-						int finalY = extracted(pf);
-						for (int y = extracted(pi); y <= finalY; y += Config.SIZE) {
+						int x = Integer.parseInt(pi[0]);
+						int finalY = Integer.parseInt(pf[1]);
+						for (int y = Integer.parseInt(pi[1]); y <= finalY; y++) {
 							addComponent(type, new Position(x, y));
 						}
 					}
@@ -115,26 +114,22 @@ public class LevelParser {
 		}
 	}
 
-	private int extracted(String[] pf) {
-		return Config.SIZE * Integer.parseInt(pf[1]);
-	}
-
 	private Position positionFromCSV(String data) {
 		String[] positions = data.split(",");
-		int x = Config.SIZE * Integer.parseInt(positions[0]);
-		int y = extracted(positions);
+		int x = Integer.parseInt(positions[0]);
+		int y = Integer.parseInt(positions[1]);
 		return new Position(x, y);
 	}
 
 	private void addComponent(char type, Position position) {
-		PsicoComponent newComponent = builder.build(type, position.getX(), position.getY());
+		PsicoComponent newComponent = builder.build(type, position);
 		add(type, newComponent);
 	}
 
 	private void buildPsico(String position) {
 		String[] xy = position.split(",");
-		int x = Config.SIZE * Integer.parseInt(xy[0]);
-		int y = extracted(xy);
+		int x = Integer.parseInt(xy[0]);
+		int y = Integer.parseInt(xy[1]);
 		moveHandler = context.getBean("moveHandler", RegularMoveHandler.class);
 		moveHandler.setPosition(new Position(x, y));
 		DirectionHandler handler = context.getBean("directionHandler", DirectionHandler.class);
@@ -156,14 +151,14 @@ public class LevelParser {
 		String[] positions = elements.split("-");
 		String[] ballPosition = positions[0].split(",");
 		String[] goalPosition = positions[1].split(",");
-		int xb = Config.SIZE * Integer.parseInt(ballPosition[0]);
-		int yb = extracted(ballPosition);
-		int xg = Config.SIZE * Integer.parseInt(goalPosition[0]);
-		int yg = extracted(goalPosition);
-		PsicoComponent ball = builder.build('o', xb, yb);
+		int xb = Integer.parseInt(ballPosition[0]);
+		int yb = Integer.parseInt(ballPosition[1]);
+		int xg = Integer.parseInt(goalPosition[0]);
+		int yg = Integer.parseInt(goalPosition[1]);
+		PsicoComponent ball = builder.build('o', new Position(xb, yb));
 		add('o', ball);
 		Position candidateGoalPosition = new Position(xg, yg);
-		PsicoComponent goal = builder.build('g', xg, yg);
+		PsicoComponent goal = builder.build('g', candidateGoalPosition);
 		if (canAddGoal(candidateGoalPosition)) {
 			add('g', goal);
 		}

@@ -18,7 +18,6 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
@@ -31,8 +30,6 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 public class EnvironmentTest {
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
-
-	private static final int WALL_SIZE = Config.SIZE;
 
 	@Before
 	public void setup() {
@@ -75,7 +72,7 @@ public class EnvironmentTest {
 		Environment environment = new Environment("w w");
 		List<PsicoComponent> expected = Arrays.asList(
 				newWallAtPosition(0, 0),
-				newWallAtPosition(2 * WALL_SIZE, 0));
+				newWallAtPosition(2 * 1, 0));
 
 		List<PsicoComponent> walls = environment.getComponentListForType('w');
 
@@ -99,7 +96,7 @@ public class EnvironmentTest {
 		Environment environment = new Environment("ww");
 		List<PsicoComponent> expected = Arrays.asList(
 				newWallAtPosition(0, 0),
-				newWallAtPosition(WALL_SIZE, 0));
+				newWallAtPosition(1, 0));
 
 		List<PsicoComponent> walls = environment.getComponentListForType('w');
 
@@ -112,7 +109,7 @@ public class EnvironmentTest {
 		Environment environment = new Environment("w\nw");
 		List<PsicoComponent> expected = Arrays.asList(
 				newWallAtPosition(0, 0),
-				newWallAtPosition(0, WALL_SIZE));
+				newWallAtPosition(0, 1));
 
 		List<PsicoComponent> walls = environment.getComponentListForType('w');
 
@@ -125,9 +122,9 @@ public class EnvironmentTest {
 		Environment environment = new Environment("w\nww\nw");
 		List<PsicoComponent> expected = Arrays.asList(
 				newWallAtPosition(0, 0),
-				newWallAtPosition(0, WALL_SIZE),
-				newWallAtPosition(WALL_SIZE, WALL_SIZE),
-				newWallAtPosition(0, 2 * WALL_SIZE));
+				newWallAtPosition(0, 1),
+				newWallAtPosition(1, 1),
+				newWallAtPosition(0, 2 * 1));
 
 		List<PsicoComponent> walls = environment.getComponentListForType('w');
 

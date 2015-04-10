@@ -15,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Goal;
@@ -49,7 +48,7 @@ public class RegularMoveHandlerTest {
 
 	@Test
 	public void canMove_NoWall_CanMove() throws Exception {
-		Position oneSizeToTheRight = new Position(Config.SIZE, 0);
+		Position oneSizeToTheRight = new Position(1, 0);
 		IMoveHandler moveHandler = newMoveHandlerWithEnv("");
 
 		moveHandler.move(Direction.RIGHT);

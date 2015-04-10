@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
@@ -34,7 +33,7 @@ public class RegularMoveHandler implements IMoveHandler {
 	}
 
 	public boolean move(Direction direction) {
-		Position nextPosition = position.add(speedMap.get(direction).times(Config.SIZE));
+		Position nextPosition = position.add(speedMap.get(direction));
 		if (canMove(nextPosition)) {
 			this.position = nextPosition;
 			return true;

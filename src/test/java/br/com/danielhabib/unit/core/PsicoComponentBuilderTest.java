@@ -40,7 +40,7 @@ public class PsicoComponentBuilderTest {
 
 	@Test
 	public void build_W_Wall() throws Exception {
-		PsicoComponent component = builder.build('w', 0, 0);
+		PsicoComponent component = builder.build('w', new Position(0, 0));
 
 		assertThat(component, is(instanceOf(Wall.class)));
 		assertThat(component.getPosition(), is(equalTo(new Position(0, 0))));
@@ -48,7 +48,7 @@ public class PsicoComponentBuilderTest {
 
 	@Test
 	public void build_O_Ball() throws Exception {
-		PsicoComponent component = builder.build('o', 0, 0);
+		PsicoComponent component = builder.build('o', new Position(0, 0));
 
 		assertThat(component, is(instanceOf(Ball.class)));
 		assertThat(component.getPosition(), is(equalTo(new Position(0, 0))));
@@ -56,7 +56,7 @@ public class PsicoComponentBuilderTest {
 
 	@Test
 	public void build_G_Goal() throws Exception {
-		PsicoComponent component = builder.build('g', 0, 0);
+		PsicoComponent component = builder.build('g', new Position(0, 0));
 
 		assertThat(component, is(instanceOf(Goal.class)));
 		assertThat(component.getPosition(), is(equalTo(new Position(0, 0))));
@@ -64,21 +64,21 @@ public class PsicoComponentBuilderTest {
 
 	@Test
 	public void hasDefaultColorBuilder_ForG() throws Exception {
-		PsicoComponent component = builder.build('g', 0, 0);
+		PsicoComponent component = builder.build('g', new Position(0, 0));
 
 		assertThat(component.getColor(), is(instanceOf(Color.class)));
 	}
 
 	@Test
 	public void hasDefaultColorBuilder_ForW() throws Exception {
-		PsicoComponent component = builder.build('w', 0, 0);
+		PsicoComponent component = builder.build('w', new Position(0, 0));
 
 		assertThat(component.getColor(), is(instanceOf(Color.class)));
 	}
 
 	@Test
 	public void hasDefaultColorBuilder_ForO() throws Exception {
-		PsicoComponent component = builder.build('o', 0, 0);
+		PsicoComponent component = builder.build('o', new Position(0, 0));
 
 		assertThat(component.getColor(), is(instanceOf(Color.class)));
 	}

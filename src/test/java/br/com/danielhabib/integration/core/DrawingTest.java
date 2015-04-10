@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.rules.GoalRule;
@@ -19,11 +18,11 @@ public class DrawingTest extends AbstractIntegrationTest {
 	protected void setup() {
 		Environment env = parser.getEnv();
 		for (int i = 0; i < 12; i++) {
-			Position position = psico.getPosition().add(new Position(Config.SIZE, Config.SIZE));
+			Position position = psico.getPosition().add(new Position(1, 1));
 			env.createBall(position);
 		}
 		for (int i = 0; i < 101; i++) {
-			Position position = psico.getPosition().add(new Position(0, Config.SIZE));
+			Position position = psico.getPosition().add(new Position(0, 1));
 			env.createBall(position);
 		}
 	}

@@ -11,8 +11,8 @@ public class WallBuilder extends ATypeBuilder {
 	}
 
 	@Override
-	public PsicoComponent newComponent(int x, int y) {
-		return new Wall(new Position(x, y));
+	public PsicoComponent newComponent(Position position) {
+		return new Wall(position);
 	}
 
 }

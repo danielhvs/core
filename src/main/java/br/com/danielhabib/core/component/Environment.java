@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.builder.PsicoComponentBuilder;
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
@@ -76,7 +75,7 @@ public class Environment {
 			String[] lines = input.split("\n");
 			for (String line : lines) {
 				list.addAll(getComponentListForY(y, line, type));
-				y += Config.SIZE;
+				y++;
 			}
 		}
 		return list;
@@ -87,9 +86,9 @@ public class Environment {
 		int x = 0;
 		for (int i = 0; i < line.length(); i++) {
 			if (line.charAt(i) == type) {
-				list.add(builder.build(type, x, y));
+				list.add(builder.build(type, new Position(x, y)));
 			}
-			x += Config.SIZE;
+			x++;
 		}
 		return list;
 	}
@@ -103,7 +102,7 @@ public class Environment {
 	}
 
 	public void createBall(Position position) {
-		PsicoComponent newBall = builder.build('o', position.getX(), position.getY());
+		PsicoComponent newBall = builder.build('o', position);
 		addBall(position, newBall);
 	}
 

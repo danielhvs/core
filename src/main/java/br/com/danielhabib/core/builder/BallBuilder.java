@@ -11,8 +11,8 @@ public class BallBuilder extends ATypeBuilder {
 	}
 
 	@Override
-	protected PsicoComponent newComponent(int x, int y) {
-		return new Ball(new Position(x, y));
+	protected PsicoComponent newComponent(Position position) {
+		return new Ball(position);
 	}
 
 }
