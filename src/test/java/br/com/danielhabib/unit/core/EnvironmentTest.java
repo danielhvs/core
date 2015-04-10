@@ -18,6 +18,7 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 
+import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
@@ -160,7 +161,7 @@ public class EnvironmentTest {
 	}
 
 	private PsicoComponent newWallAtPosition(int x, int y) {
-		return new Wall(new Position(x, y));
+		return new Wall(new Position(x, y), Config.SIZE);
 	}
 
 }

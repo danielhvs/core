@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
@@ -42,19 +43,23 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void draw_TwoBalls_DrawsLabelWithNumber() throws Exception {
-		container.push(new Ball(ORIGIN));
-		container.push(new Ball(ORIGIN));
+		container.push(newBall(ORIGIN));
+		container.push(newBall(ORIGIN));
 
 		container.draw(g);
 
 		verify(g).drawString(eq("2"), anyInt(), anyInt());
 	}
 
+	public Ball newBall(Position position) {
+		return new Ball(position, Config.SIZE / 2);
+	}
+
 	@Test
 	public void push_ManyBalls_LastIsSmaller() throws Exception {
-		container.push(new Ball(ORIGIN));
-		container.push(new Ball(ORIGIN));
-		container.push(new Ball(ORIGIN));
+		container.push(newBall(ORIGIN));
+		container.push(newBall(ORIGIN));
+		container.push(newBall(ORIGIN));
 
 		PsicoComponent thirdBall = container.get(2);
 		PsicoComponent secondBall = container.get(1);
@@ -74,11 +79,11 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void pop_HasSomeBalls_ReturnsBallWithDefaultSize() throws Exception {
-		Ball thirdBall = new Ball(ORIGIN);
+		Ball thirdBall = newBall(ORIGIN);
 		int originalSize = thirdBall.getSize();
 
-		container.push(new Ball(ORIGIN));
-		container.push(new Ball(ORIGIN));
+		container.push(newBall(ORIGIN));
+		container.push(newBall(ORIGIN));
 		container.push(thirdBall);
 
 		PsicoComponent ball = container.pop();
@@ -88,7 +93,7 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void pushPop_hasOneBall_CanPop_ReturnsTheBall() throws Exception {
-		PsicoComponent ball = new Ball(ORIGIN);
+		PsicoComponent ball = newBall(ORIGIN);
 
 		container.push(ball);
 
@@ -97,8 +102,8 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void pushPop_ManyBalls_UpdatesSize() throws Exception {
-		PsicoComponent first = new Ball(ORIGIN);
-		PsicoComponent second = new Ball(ORIGIN);
+		PsicoComponent first = newBall(ORIGIN);
+		PsicoComponent second = newBall(ORIGIN);
 		int originalSize = second.getSize();
 
 		container.push(first);
@@ -115,8 +120,8 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void pushPop_hasMoreBalls_CanPop_ReturnsTheBalls() throws Exception {
-		PsicoComponent ball1 = new Ball(ORIGIN);
-		PsicoComponent ball2 = new Ball(ORIGIN);
+		PsicoComponent ball1 = newBall(ORIGIN);
+		PsicoComponent ball2 = newBall(ORIGIN);
 
 		container.push(ball1);
 		container.push(ball2);
@@ -135,7 +140,7 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void draw_OneBall_DrawsIt() throws Exception {
-		PsicoComponent ball = spy(new Ball(ORIGIN));
+		PsicoComponent ball = spy(newBall(ORIGIN));
 		container.push(ball);
 
 		container.draw(g);
@@ -145,8 +150,8 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void draw_MoreBalls_DrawsThem() throws Exception {
-		PsicoComponent ball = spy(new Ball(ORIGIN));
-		PsicoComponent ball2 = spy(new Ball(ORIGIN));
+		PsicoComponent ball = spy(newBall(ORIGIN));
+		PsicoComponent ball2 = spy(newBall(ORIGIN));
 		container.push(ball);
 		container.push(ball2);
 

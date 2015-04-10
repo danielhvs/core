@@ -12,6 +12,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.builder.ATypeBuilder;
 import br.com.danielhabib.core.builder.BallBuilder;
 import br.com.danielhabib.core.builder.ColorBuilder;
@@ -32,9 +33,20 @@ public class PsicoComponentBuilderTest {
 	public void setup() {
 		builder = new PsicoComponentBuilder();
 		Map<Character, ATypeBuilder> map = new HashMap<Character, ATypeBuilder>();
-		map.put('w', new WallBuilder(new ColorBuilder(new Color[] { Color.GREEN })));
-		map.put('o', new BallBuilder(new ColorBuilder(new Color[] { Color.BLUE })));
-		map.put('g', new GoalBuilder(new ColorBuilder(new Color[] { Color.ORANGE.darker() })));
+		WallBuilder wallBuilder = new WallBuilder();
+		wallBuilder.setColorBuilder(new ColorBuilder(new Color[] { Color.GREEN }));
+		wallBuilder.setSize(Config.SIZE);
+		BallBuilder ballBuilder = new BallBuilder();
+		ballBuilder.setColorBuilder(new ColorBuilder(new Color[] { Color.BLUE }));
+		ballBuilder.setSize(Config.SIZE);
+		GoalBuilder goalBuilder = new GoalBuilder();
+		goalBuilder.setColorBuilder(new ColorBuilder(new Color[] { Color.ORANGE.darker() }));
+		goalBuilder.setSize(Config.SIZE);
+
+		map.put('w', wallBuilder);
+		map.put('o', ballBuilder);
+		map.put('g', goalBuilder);
+
 		builder.setMap(map);
 	}
 

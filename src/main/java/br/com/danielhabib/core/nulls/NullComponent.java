@@ -8,7 +8,7 @@ import br.com.danielhabib.core.gui.Graphics;
 public class NullComponent extends PsicoComponent {
 
 	public NullComponent() {
-		super(new Position(-1, -1));
+		super(new Position(-1, -1), -1);
 	}
 
 	@Override

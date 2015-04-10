@@ -6,8 +6,8 @@ import br.com.danielhabib.core.gui.Graphics;
 
 public class Goal extends PsicoComponent {
 
-	public Goal(Position position) {
-		super(position);
+	public Goal(Position position, int size) {
+		super(position, size);
 	}
 
 	@Override

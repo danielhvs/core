@@ -11,8 +11,10 @@ import java.util.List;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.LevelHandler;
@@ -20,6 +22,7 @@ import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.gui.Main2D;
 import br.com.danielhabib.core.rules.IRulesObserver;
 
+@Component
 public class App {
 	protected static final int WINDOW_SIZE = Config.SIZE / 2 + Config.SIZE * 6;
 	protected static JFrame frame;
@@ -28,10 +31,20 @@ public class App {
 	private static LevelParser parser;
 	private static List<LevelParser> parsers;
 	private static int level = 0;
-	private static final ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
+
+	private LevelHandler levelHandler;
+	public void setLevelHandler(LevelHandler levelHandler) {
+		this.levelHandler = levelHandler;
+	}
 
 	public static void main(String[] args) throws InterruptedException, IOException {
-		parsers = context.getBean("levelHandler", LevelHandler.class).getParsers();
+		ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
+		App app = context.getBean(App.class);
+		app.start(args);
+	}
+
+	private void start(String[] args) throws BeansException, IOException {
+		parsers = levelHandler.getParsers();
 		nextLevel();
 	}
 

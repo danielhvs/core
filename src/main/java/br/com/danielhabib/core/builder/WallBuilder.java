@@ -6,13 +6,9 @@ import br.com.danielhabib.core.component.Wall;
 
 public class WallBuilder extends ATypeBuilder {
 
-	public WallBuilder(ColorBuilder colorBuilder) {
-		super(colorBuilder);
-	}
-
 	@Override
 	public PsicoComponent newComponent(Position position) {
-		return new Wall(position);
+		return new Wall(position, size);
 	}
 
 }

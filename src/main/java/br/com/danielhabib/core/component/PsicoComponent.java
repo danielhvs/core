@@ -9,8 +9,9 @@ public abstract class PsicoComponent {
 	protected Color color;
 	private int size;
 
-	public PsicoComponent(Position position) {
+	public PsicoComponent(Position position, int size) {
 		this.position = position;
+		this.size = size;
 	}
 
 	public void setColor(Color color) {

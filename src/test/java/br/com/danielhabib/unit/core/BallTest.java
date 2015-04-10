@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
@@ -27,7 +28,7 @@ public class BallTest {
 
 	@Test
 	public void draw_HasAColor_DrawsTheColor() throws Exception {
-		PsicoComponent ball = new Ball(new Position(0, 0));
+		PsicoComponent ball = newBallAt(new Position(0, 0));
 
 		ball.setColor(Color.RED);
 		ball.draw(g);
@@ -37,7 +38,7 @@ public class BallTest {
 
 	@Test
 	public void draw_HasADefaultColor() throws Exception {
-		PsicoComponent ball = new Ball(new Position(0, 0));
+		PsicoComponent ball = newBallAt(new Position(0, 0));
 
 		ball.draw(g);
 
@@ -45,22 +46,17 @@ public class BallTest {
 	}
 
 	@Test
-	public void draw_HasADefaultSize() throws Exception {
-		PsicoComponent ball = new Ball(new Position(0, 0));
-
-		ball.draw(g);
-
-		verify(g).fillOval(anyInt(), anyInt(), eq(Ball.DEFAULT_SIZE), eq(Ball.DEFAULT_SIZE));
-	}
-
-	@Test
 	public void draw_HasASize_DrawsWithSize() throws Exception {
-		PsicoComponent ball = new Ball(new Position(0, 0));
+		PsicoComponent ball = newBallAt(new Position(0, 0));
 		int size = 50;
 
 		ball.setSize(size);
 		ball.draw(g);
 
 		verify(g).fillOval(anyInt(), anyInt(), eq(size), eq(size));
+	}
+
+	private Ball newBallAt(Position position) {
+		return new Ball(position, Config.SIZE);
 	}
 }

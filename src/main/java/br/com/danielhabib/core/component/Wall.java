@@ -6,8 +6,8 @@ import br.com.danielhabib.core.gui.Graphics;
 
 public class Wall extends PsicoComponent {
 
-	public Wall(Position position) {
-		super(position);
+	public Wall(Position position, int size) {
+		super(position, size);
 	}
 
 	@Override

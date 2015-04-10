@@ -4,11 +4,14 @@ import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
 
 public abstract class ATypeBuilder {
-
-	private final ColorBuilder colorBuilder;
-
-	public ATypeBuilder(ColorBuilder colorBuilder) {
+	private ColorBuilder colorBuilder;
+	public void setColorBuilder(ColorBuilder colorBuilder) {
 		this.colorBuilder = colorBuilder;
+	}
+
+	protected int size;
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 	public PsicoComponent build(Position position) {

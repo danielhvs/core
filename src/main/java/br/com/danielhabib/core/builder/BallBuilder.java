@@ -6,13 +6,9 @@ import br.com.danielhabib.core.component.PsicoComponent;
 
 public class BallBuilder extends ATypeBuilder {
 
-	public BallBuilder(ColorBuilder colorBuilder) {
-		super(colorBuilder);
-	}
-
 	@Override
 	protected PsicoComponent newComponent(Position position) {
-		return new Ball(position);
+		return new Ball(position, size);
 	}
 
 }

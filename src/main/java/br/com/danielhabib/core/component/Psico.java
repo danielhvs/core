@@ -24,7 +24,8 @@ public class Psico extends PsicoComponent {
 	private static final PsicoComponent NULL_BALL = new NullComponent();
 
 	public Psico(IDirectionHandler handler, IMoveHandler moveHandler, ImageHandler imageHandler) {
-		super(moveHandler.getPosition());
+		// FIXME: Maybe this is not a "PsicoComponent"
+		super(moveHandler.getPosition(), 0);
 		this.directionHandler = handler;
 		this.moveHandler = moveHandler;
 		this.observer = new NullObserver();

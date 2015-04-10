@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Goal;
@@ -61,8 +62,8 @@ public class RegularMoveHandlerTest {
 		IMoveHandler moveHandler = newMoveHandlerWithEnv("g");
 		moveHandler.setObserver(observer);
 
-		Ball ball = new Ball(new Position(0, 0));
-		moveHandler.setRules(Arrays.asList(new GoalRule(ball, new Goal(new Position(0, 0)))));
+		Ball ball = new Ball(new Position(0, 0), Config.SIZE);
+		moveHandler.setRules(Arrays.asList(new GoalRule(ball, new Goal(new Position(0, 0), Config.SIZE))));
 
 		moveHandler.dropBall(ball);
 

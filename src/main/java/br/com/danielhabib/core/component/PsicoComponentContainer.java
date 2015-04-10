@@ -15,12 +15,12 @@ public class PsicoComponentContainer extends PsicoComponent {
 	private static final int NUMBER_Y_OFFSET = 5;
 
 	public PsicoComponentContainer(Position position) {
-		super(position);
+		super(position, 0);
 		this.balls = new Stack<PsicoComponent>();
 	}
 
 	public PsicoComponentContainer(PsicoComponent ball) {
-		super(ball.getPosition());
+		super(ball.getPosition(), 0);
 		this.balls = new Stack<PsicoComponent>();
 		push(ball);
 	}

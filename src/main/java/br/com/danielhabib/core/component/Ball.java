@@ -13,10 +13,9 @@ public class Ball extends PsicoComponent {
 	public static final Color DEFAULT_COLOR = Color.BLUE;
 	public static final int DEFAULT_SIZE = DIAMETER;
 
-	public Ball(Position position) {
-		super(position);
+	public Ball(Position position, int size) {
+		super(position, size);
 		setColor(DEFAULT_COLOR);
-		setSize(DEFAULT_SIZE);
 	}
 
 	@Override

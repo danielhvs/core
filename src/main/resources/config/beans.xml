@@ -7,7 +7,11 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-
+                      
+	<bean name="App" class="br.com.danielhabib.core.App">
+		<property name="levelHandler" ref="levelHandler"></property>
+	</bean>                      
+                           
 	<!-- DirectionHandler -->
 	<bean name="directionHandler" class="br.com.danielhabib.core.rules.DirectionHandler" scope="prototype">
 		<property name="direction" value="RIGHT"/>
@@ -86,17 +90,23 @@
 	</bean>
 	
 	<bean name="goalBuilder" class="br.com.danielhabib.core.builder.GoalBuilder">
-		<constructor-arg ref="goalColorBuilder" />
+		<property name="colorBuilder" ref="goalColorBuilder" />
+		<property name="size" ref="configSize"/>
 	</bean>	
 	
 	<bean name="ballBuilder" class="br.com.danielhabib.core.builder.BallBuilder">
-		<constructor-arg ref="ballColorBuilder" />
+		<property name="colorBuilder" ref="ballColorBuilder" />
+		<property name="size" value="#{configSize/2}"/>
 	</bean>
 
 	<bean name="wallBuilder" class="br.com.danielhabib.core.builder.WallBuilder">
-		<constructor-arg ref="wallColorBuilder" />
+		<property name="colorBuilder" ref="wallColorBuilder" />
+		<property name="size" ref="configSize"/>
 	</bean>
-
+	
+	<bean name="configSize" class="java.lang.Integer">
+		<constructor-arg value="64" />
+     </bean>
 
 	<!-- Color Builders -->
 	<bean name="wallColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">

@@ -6,13 +6,9 @@ import br.com.danielhabib.core.component.PsicoComponent;
 
 public class GoalBuilder extends ATypeBuilder {
 
-	public GoalBuilder(ColorBuilder colorBuilder) {
-		super(colorBuilder);
-	}
-
 	@Override
 	protected PsicoComponent newComponent(Position position) {
-		return new Goal(position);
+		return new Goal(position, size);
 	}
 
 }
