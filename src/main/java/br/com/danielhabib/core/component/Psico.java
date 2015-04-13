@@ -3,7 +3,6 @@ package br.com.danielhabib.core.component;
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 import br.com.danielhabib.core.nulls.NullObserver;
-import br.com.danielhabib.core.rules.Direction;
 import br.com.danielhabib.core.rules.IDirectionHandler;
 import br.com.danielhabib.core.rules.IMoveHandler;
 import br.com.danielhabib.core.rules.IPsicoObserver;
@@ -46,7 +45,7 @@ public class Psico extends PsicoComponent {
 		notifyObserver();
 	}
 
-	public Direction getDirection() {
+	public Integer getDirection() {
 		return directionHandler.getDirection();
 	}
 

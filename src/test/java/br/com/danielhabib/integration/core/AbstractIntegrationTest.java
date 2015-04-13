@@ -140,13 +140,21 @@ public abstract class AbstractIntegrationTest {
 		turn();
 		turn();
 		turn();
+		turn();
+		turn();
+		turn();
 		move();
+		turn();
 		turn();
 	}
 
 	protected void up() throws InterruptedException {
 		turn();
+		turn();
 		move();
+		turn();
+		turn();
+		turn();
 		turn();
 		turn();
 		turn();
@@ -155,7 +163,11 @@ public abstract class AbstractIntegrationTest {
 	protected void left() throws InterruptedException {
 		turn();
 		turn();
+		turn();
+		turn();
 		move();
+		turn();
+		turn();
 		turn();
 		turn();
 	}

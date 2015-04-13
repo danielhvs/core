@@ -49,7 +49,7 @@ public class PsicoTest {
 	public void setup() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		directionHandler = new DirectionHandler();
-		Map<Direction, Direction> directionMap = new HashMap<Direction, Direction>();
+		Map<Integer, Integer> directionMap = new HashMap<Integer, Integer>();
 		directionMap.put(Direction.UP, Direction.LEFT);
 		directionMap.put(Direction.DOWN, Direction.RIGHT);
 		directionMap.put(Direction.LEFT, Direction.DOWN);
@@ -69,8 +69,8 @@ public class PsicoTest {
 		assertThat(y(), is(equalTo(0)));
 	}
 
-	@TestWith({ "0,RIGHT", "1,UP", "2,LEFT", "3,DOWN", "4,RIGHT", "5,UP" })
-	public void turn_ChangesDirection(int qtdGiros, Direction esperado) throws Exception {
+	@TestWith({ "0,0", "1,90", "2,180", "3,270", "4,0", "5,90" })
+	public void turn_ChangesDirection(int qtdGiros, Integer esperado) throws Exception {
 		for (int i = 0; i < qtdGiros; i++) {
 			psico.turn();
 		}
@@ -222,7 +222,7 @@ public class PsicoTest {
 	private IMoveHandler newMoveHandlerWithEnv(String string) {
 		RegularMoveHandler regularMoveHandler = new RegularMoveHandler(new Position(0, 0));
 		regularMoveHandler.setEnv(new Environment(string));
-		Map<Direction, Position> speedMap = new HashMap<Direction, Position>();
+		Map<Integer, Position> speedMap = new HashMap<Integer, Position>();
 		speedMap.put(Direction.UP, new Position(0, -1));
 		speedMap.put(Direction.DOWN, new Position(0, 1));
 		speedMap.put(Direction.LEFT, new Position(-1, 0));

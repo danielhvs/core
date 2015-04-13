@@ -7,7 +7,7 @@ import br.com.danielhabib.core.component.PsicoComponent;
 
 public interface IMoveHandler {
 
-	boolean move(Direction direction);
+	boolean move(Integer direction);
 
 	Position getPosition();
 

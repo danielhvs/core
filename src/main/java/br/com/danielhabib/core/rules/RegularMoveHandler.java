@@ -13,7 +13,7 @@ import br.com.danielhabib.core.nulls.NullObserver;
 public class RegularMoveHandler implements IMoveHandler {
 
 	private Position position;
-	Map<Direction, Position> speedMap;
+	Map<Integer, Position> speedMap;
 	private Environment env;
 	private List<GoalRule> rules;
 	private IRulesObserver rulesObserver;
@@ -32,7 +32,7 @@ public class RegularMoveHandler implements IMoveHandler {
 		return position;
 	}
 
-	public boolean move(Direction direction) {
+	public boolean move(Integer direction) {
 		Position nextPosition = position.add(speedMap.get(direction));
 		if (canMove(nextPosition)) {
 			this.position = nextPosition;
@@ -84,7 +84,7 @@ public class RegularMoveHandler implements IMoveHandler {
 		this.position = position;
 	}
 
-	public void setSpeedMap(Map<Direction, Position> speedMap) {
+	public void setSpeedMap(Map<Integer, Position> speedMap) {
 		this.speedMap = speedMap;
 	}
 

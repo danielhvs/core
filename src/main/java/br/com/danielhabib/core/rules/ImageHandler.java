@@ -2,11 +2,14 @@ package br.com.danielhabib.core.rules;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -17,14 +20,29 @@ import br.com.danielhabib.core.Config;
  */
 public class ImageHandler {
 
-	private HashMap<Direction, BufferedImage> images;
+	private File imageFile;
 
-	public void setImagesMap(HashMap<Direction, File> imagesMap) throws IOException {
-		images = new HashMap<Direction, BufferedImage>();
-		for (Entry<Direction, File> entry : imagesMap.entrySet()) {
-			BufferedImage originalImage = ImageIO.read(entry.getValue());
-			images.put(entry.getKey(), resizeImage(originalImage, originalImage.getType(), Config.SIZE));
+	public void setImageFile(File imageFile) {
+		this.imageFile = imageFile;
+	}
+
+	private Map<Integer, BufferedImage> images;
+
+	// private List<Integer> directions;
+
+	public void setDirections(List<Integer> directions) throws IOException {
+		images = new HashMap<Integer, BufferedImage>();
+		BufferedImage originalImage = ImageIO.read(imageFile);
+		for (Integer angle : directions) {
+			images.put(angle, rotate(originalImage, -angle));
 		}
+	}
+
+	private BufferedImage rotate(BufferedImage originalImage, int degrees) {
+		BufferedImage resizedImage = resizeImage(originalImage, originalImage.getType(), Config.SIZE);
+		AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(degrees), resizedImage.getWidth() / 2, resizedImage.getHeight() / 2);
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		return op.filter(resizedImage, null);
 	}
 
 	private BufferedImage resizeImage(BufferedImage originalImage, int type,
@@ -36,7 +54,7 @@ public class ImageHandler {
 		return resizedImage;
 	}
 
-	public Image get(Direction direction) {
+	public Image get(Integer direction) {
 		return images.get(direction);
 	}
 

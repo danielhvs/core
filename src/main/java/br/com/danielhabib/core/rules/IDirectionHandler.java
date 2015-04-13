@@ -4,6 +4,6 @@ public interface IDirectionHandler {
 
 	void turn();
 
-	Direction getDirection();
+	Integer getDirection();
 
 }

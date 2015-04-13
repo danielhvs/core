@@ -5,22 +5,22 @@ import java.util.Map;
 
 public class DirectionHandler implements IDirectionHandler {
 
-	private Direction direction;
-	private Map<Direction, Direction> directionsMap = new HashMap<Direction, Direction>();
+	private Integer direction;
+	private Map<Integer, Integer> directionsMap = new HashMap<Integer, Integer>();
 
 	public void turn() {
 		direction = directionsMap.get(direction);
 	}
 
-	public Direction getDirection() {
+	public Integer getDirection() {
 		return direction;
 	}
 
-	public void setDirection(Direction direction) {
+	public void setDirection(Integer direction) {
 		this.direction = direction;
 	}
 
-	public void setDirectionsMap(Map<Direction, Direction> directionsMap) {
+	public void setDirectionsMap(Map<Integer, Integer> directionsMap) {
 		this.directionsMap = directionsMap;
 	}
 }

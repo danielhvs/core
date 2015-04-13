@@ -73,7 +73,7 @@ public class RegularMoveHandlerTest {
 	private IMoveHandler newMoveHandlerWithEnv(String string) {
 		RegularMoveHandler regularMoveHandler = new RegularMoveHandler(new Position(0, 0));
 		regularMoveHandler.setEnv(new Environment(string));
-		Map<Direction, Position> speedMap = new HashMap<Direction, Position>();
+		Map<Integer, Position> speedMap = new HashMap<Integer, Position>();
 		speedMap.put(Direction.UP, new Position(0, -1));
 		speedMap.put(Direction.DOWN, new Position(0, 1));
 		speedMap.put(Direction.LEFT, new Position(-1, 0));

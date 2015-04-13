@@ -14,58 +14,66 @@
                            
 	<!-- DirectionHandler -->
 	<bean name="directionHandler" class="br.com.danielhabib.core.rules.DirectionHandler" scope="prototype">
-		<property name="direction" value="RIGHT"/>
+		<property name="direction" value="0"/>
 		<property name="directionsMap">
 			<util:map id="directionsMap" map-class="java.util.HashMap"
-				key-type="br.com.danielhabib.core.rules.Direction" value-type="br.com.danielhabib.core.rules.Direction">
-				<entry key="RIGHT" value="UP" />
-				<entry key="UP" value="LEFT" />
-				<entry key="LEFT" value="DOWN" />
-				<entry key="DOWN" value="RIGHT" />
+				key-type="java.lang.Integer" value-type="java.lang.Integer">
+				<entry key="0" value="45" />
+				<entry key="45" value="90" />
+				<entry key="90" value="135" />
+				<entry key="135" value="180" />
+				<entry key="180" value="225" />
+				<entry key="225" value="270" />
+				<entry key="270" value="315" />
+				<entry key="315" value="0" />
 			</util:map>
 		</property>
 	</bean>
 	
 	<!-- ImageHandler -->
 	<bean name="imageHandler" class="br.com.danielhabib.core.rules.ImageHandler">
-		<property name="imagesMap" ref="imagesMap"></property>
+		<property name="imageFile">
+			<bean class="java.io.File">
+				<constructor-arg value="images/psico_right.png"/>
+			</bean>
+		</property>
+		<property name="directions">
+		<list>
+			<bean name="0" class="java.lang.Integer"><constructor-arg value="0"/></bean>
+			<bean name="1" class="java.lang.Integer"><constructor-arg value="45"/></bean>
+			<bean name="2" class="java.lang.Integer"><constructor-arg value="90"/></bean>
+			<bean name="3" class="java.lang.Integer"><constructor-arg value="135"/></bean>
+			<bean name="4" class="java.lang.Integer"><constructor-arg value="180"/></bean>
+			<bean name="5" class="java.lang.Integer"><constructor-arg value="225"/></bean>
+			<bean name="6" class="java.lang.Integer"><constructor-arg value="270"/></bean>
+			<bean name="7" class="java.lang.Integer"><constructor-arg value="315"/></bean>
+		</list>
+		</property>
 	</bean>
 
-	<util:map id="imagesMap" map-class="java.util.HashMap" key-type="br.com.danielhabib.core.rules.Direction" value-type="java.io.File">
-		<entry key="RIGHT" value-ref="imageRight"/>
-		<entry key="UP" value-ref="imageUp" />
-		<entry key="LEFT" value-ref="imageLeft" />
-		<entry key="DOWN" value-ref="imageDown" />
-	</util:map>
-	<bean name="imageDown" class="java.io.File"><constructor-arg value="images/psico_down.png"/></bean>
-	<bean name="imageUp" class="java.io.File"><constructor-arg value="images/psico_up.png"/></bean>
-	<bean name="imageLeft" class="java.io.File"><constructor-arg value="images/psico_left.png"/></bean>
-	<bean name="imageRight" class="java.io.File"><constructor-arg value="images/psico_right.png"/></bean>
-	
-	
 	<!-- MoveHandler -->
 	<bean name="moveHandler" class="br.com.danielhabib.core.rules.RegularMoveHandler" scope="prototype">
 		<property name="speedMap" ref="speedMap"/>
 	</bean>
 	
-	<util:map id="speedMap" map-class="java.util.HashMap" key-type="br.com.danielhabib.core.rules.Direction" value-type="br.com.danielhabib.core.component.Position">
-		<entry key="RIGHT" value-ref="rightSpeed"/>
-		<entry key="UP" value-ref="upSpeed" />
-		<entry key="LEFT" value-ref="leftSpeed" />
-		<entry key="DOWN" value-ref="downSpeed" />
+	<util:map id="speedMap" map-class="java.util.HashMap" key-type="java.lang.Integer" value-type="br.com.danielhabib.core.component.Position">
+		<entry key="0" value-ref="rightSpeed"/>
+		<entry key="45" value-ref="upRightSpeed" />
+		<entry key="90" value-ref="upSpeed" />
+		<entry key="135" value-ref="upLeftSpeed" />
+		<entry key="180" value-ref="leftSpeed" />
+		<entry key="225" value-ref="downLeftSpeed" />
+		<entry key="270" value-ref="downSpeed" />
+		<entry key="315" value-ref="downRightSpeed" />
 	</util:map>
-	<bean name="upSpeed" class="br.com.danielhabib.core.component.Position">
-		<constructor-arg value="0"/><constructor-arg value="-1"/>
-	</bean>
-	<bean name="downSpeed" class="br.com.danielhabib.core.component.Position">
-		<constructor-arg value="0"/><constructor-arg value="1"/>
-	</bean>
-	<bean name="leftSpeed" class="br.com.danielhabib.core.component.Position">
-		<constructor-arg value="-1"/><constructor-arg value="0"/>
-	</bean>
-	<bean name="rightSpeed" class="br.com.danielhabib.core.component.Position">
-		<constructor-arg value="1"/><constructor-arg value="0"/>
-	</bean>
+	<bean name="upSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="0"/><constructor-arg value="-1"/></bean>
+	<bean name="downSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="0"/><constructor-arg value="1"/></bean>
+	<bean name="leftSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="-1"/><constructor-arg value="0"/></bean>
+	<bean name="rightSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="1"/><constructor-arg value="0"/></bean>
+	<bean name="upRightSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="1"/><constructor-arg value="-1"/></bean>
+	<bean name="upLeftSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="-1"/><constructor-arg value="-1"/></bean>
+	<bean name="downLeftSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="-1"/><constructor-arg value="1"/></bean>
+	<bean name="downRightSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="1"/><constructor-arg value="1"/></bean>
 	
 	<!-- LevelParser -->
 	<bean name="levelHandler" class="br.com.danielhabib.core.component.LevelHandler">
