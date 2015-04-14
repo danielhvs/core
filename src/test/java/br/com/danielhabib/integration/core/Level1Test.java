@@ -42,7 +42,7 @@ public class Level1Test extends AbstractIntegrationTest {
 
 	@Override
 	protected int timeoutMillis() {
-		return 25;
+		return 10;
 	}
 
 	@Override
