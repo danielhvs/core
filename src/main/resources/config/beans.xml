@@ -116,7 +116,7 @@
 
 	<bean name="wallBuilder" class="br.com.danielhabib.core.builder.WallBuilder">
 		<property name="colorBuilder" ref="wallColorBuilder" />
-		<property name="size" ref="configSize"/>
+		<property name="size" value="#{configSize-2}"/>
 	</bean>
 	
 	<bean name="configSize" class="java.lang.Integer">

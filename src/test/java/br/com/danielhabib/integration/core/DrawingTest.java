@@ -17,12 +17,13 @@ public class DrawingTest extends AbstractIntegrationTest {
 	@Override
 	protected void setup() {
 		Environment env = parser.getEnv();
+		Position origin = new Position(1, 0);
 		for (int i = 0; i < 12; i++) {
-			Position position = psico.getPosition().add(new Position(1, 1));
+			Position position = origin.add(new Position(1, 1));
 			env.createBall(position);
 		}
 		for (int i = 0; i < 101; i++) {
-			Position position = psico.getPosition().add(new Position(0, 1));
+			Position position = origin.add(new Position(0, 1));
 			env.createBall(position);
 		}
 	}
@@ -39,6 +40,6 @@ public class DrawingTest extends AbstractIntegrationTest {
 
 	@Override
 	protected List<String> levels() {
-		return Arrays.asList("w:2,2\nr:3,3-4,3\np:0,0");
+		return Arrays.asList("w:0,0-4,0\nw:5,0-5,4\nw:0,5-5,5\nw:0,1-0,4\nr:2,3-3,3\np:2,2");
 	}
 }
