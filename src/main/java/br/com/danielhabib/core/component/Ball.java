@@ -2,25 +2,32 @@ package br.com.danielhabib.core.component;
 
 import java.awt.Color;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.gui.Graphics;
 
 public class Ball extends PsicoComponent {
 
 	// Must be even
-	public static int OFFSET = Config.SIZE / 4;
-	public static int DIAMETER = Config.SIZE / 2;
+	public static int OFFSET;
+	public static int DIAMETER;
 	public static final Color DEFAULT_COLOR = Color.BLUE;
-	public static final int DEFAULT_SIZE = DIAMETER;
+	private int referenceSize;
 
 	public Ball(Position position, int size) {
 		super(position, size);
 		setColor(DEFAULT_COLOR);
+		initSizeParameters(size);
+	}
+
+	private void initSizeParameters(int size) {
+		this.referenceSize = 2 * size;
+		// FIXME: add in beans.xml
+		Ball.OFFSET = size / 2;
+		Ball.DIAMETER = size;
 	}
 
 	@Override
 	public void draw(Graphics g) {
-		int offset = (Config.SIZE - getSize()) / 2;
+		int offset = (referenceSize - getSize()) / 2;
 		int x = getPosition().getX()+offset;
 		int y = getPosition().getY()+offset;
 		g.setColor(color);

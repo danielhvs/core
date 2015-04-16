@@ -7,6 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JApplet;
 import javax.swing.JFrame;
@@ -119,6 +120,70 @@ public class App {
 				}
 			}
 		});
+	}
+
+	protected static void down() {
+		turn();
+		turn();
+		turn();
+		turn();
+		turn();
+		turn();
+		move();
+		turn();
+		turn();
+	}
+
+	protected static void up() {
+		turn();
+		turn();
+		move();
+		turn();
+		turn();
+		turn();
+		turn();
+		turn();
+		turn();
+	}
+
+	protected static void left() {
+		turn();
+		turn();
+		turn();
+		turn();
+		move();
+		turn();
+		turn();
+		turn();
+		turn();
+	}
+
+	protected void drop() {
+		psico.drop();
+		sleep();
+	}
+
+	protected void grab() {
+		psico.grab();
+		sleep();
+	}
+
+	protected static void move() {
+		psico.move();
+		sleep();
+	}
+
+	protected static void turn() {
+		psico.turn();
+		sleep();
+	}
+
+	protected static void sleep() {
+		try {
+			TimeUnit.MILLISECONDS.sleep(100);
+		} catch (InterruptedException e) {
+			// omission
+		}
 	}
 
 	protected static JFrame buildFrame() {

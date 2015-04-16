@@ -54,7 +54,7 @@ public class PsicoComponentContainer extends PsicoComponent {
 
 	private PsicoComponent popWithDefaultSize() {
 		PsicoComponent ball = balls.pop();
-		ball.setSize(Ball.DEFAULT_SIZE);
+		ball.setSize(Ball.DIAMETER);
 		smallerBallSize += INSIDE_DIAMETER_OFFSET;
 		return ball;
 	}
