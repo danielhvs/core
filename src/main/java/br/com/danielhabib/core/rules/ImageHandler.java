@@ -13,22 +13,21 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import br.com.danielhabib.core.Config;
-
 /**
  * Mapper for direction->image.
  */
 public class ImageHandler {
+	private Map<Integer, BufferedImage> images;
+
+	private int size;
+	public void setSize(int size) {
+		this.size = size;
+	}
 
 	private File imageFile;
-
 	public void setImageFile(File imageFile) {
 		this.imageFile = imageFile;
 	}
-
-	private Map<Integer, BufferedImage> images;
-
-	// private List<Integer> directions;
 
 	public void setDirections(List<Integer> directions) throws IOException {
 		images = new HashMap<Integer, BufferedImage>();
@@ -39,7 +38,7 @@ public class ImageHandler {
 	}
 
 	private BufferedImage rotate(BufferedImage originalImage, int degrees) {
-		BufferedImage resizedImage = resizeImage(originalImage, originalImage.getType(), Config.SIZE);
+		BufferedImage resizedImage = resizeImage(originalImage, originalImage.getType(), size);
 		AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(degrees), resizedImage.getWidth() / 2, resizedImage.getHeight() / 2);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 		return op.filter(resizedImage, null);

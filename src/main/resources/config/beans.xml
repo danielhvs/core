@@ -9,7 +9,9 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
                       
 	<bean name="App" class="br.com.danielhabib.core.App">
-		<property name="levelHandler" ref="levelHandler"></property>
+		<property name="levelHandler" ref="levelHandler"/>
+		<property name="windowWidth" value="#{7*configSize}"/>
+		<property name="windowHeight" value="#{7*configSize}"/>
 	</bean>                      
                            
 	<!-- DirectionHandler -->
@@ -36,6 +38,7 @@
 	
 	<!-- ImageHandler -->
 	<bean name="imageHandler" class="br.com.danielhabib.core.rules.ImageHandler">
+		<property name="size" ref="configSize"/>
 		<property name="imageFile">
 			<bean class="java.io.File">
 				<constructor-arg value="images/psico_right.png"/>

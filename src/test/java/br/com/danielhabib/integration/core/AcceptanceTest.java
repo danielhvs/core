@@ -72,7 +72,7 @@ public class AcceptanceTest extends AbstractIntegrationTest {
 
 	@Override
 	protected int timeoutMillis() {
-		return 150;
+		return 75;
 	}
 
 	@Override

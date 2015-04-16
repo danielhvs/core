@@ -25,13 +25,22 @@ import br.com.danielhabib.core.rules.IRulesObserver;
 
 @Component
 public class App {
-	protected static final int WINDOW_SIZE = Config.SIZE / 2 + Config.SIZE * 6;
 	protected static JFrame frame;
 	protected static JApplet applet;
 	protected static Psico psico;
 	private static LevelParser parser;
 	private static List<LevelParser> parsers;
 	private static int level = 0;
+
+	private static int windowHeight;
+	public void setWindowHeight(int windowHeight) {
+		App.windowHeight = windowHeight;
+	}
+
+	private static int windowWidth;
+	public void setWindowWidth(int windowWidth) {
+		App.windowWidth = windowWidth;
+	}
 
 	private LevelHandler levelHandler;
 	public void setLevelHandler(LevelHandler levelHandler) {
@@ -86,7 +95,7 @@ public class App {
 		frame.getContentPane().add("Center", applet);
 		applet.init();
 		frame.pack();
-		frame.setSize(new Dimension(WINDOW_SIZE, WINDOW_SIZE + Config.SIZE / 2));
+		frame.setSize(new Dimension(App.windowWidth, App.windowHeight));
 		frame.setVisible(true);
 	}
 
