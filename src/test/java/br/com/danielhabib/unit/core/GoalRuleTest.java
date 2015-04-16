@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Goal;
 import br.com.danielhabib.core.component.Position;
@@ -15,6 +14,8 @@ import br.com.danielhabib.core.component.PsicoComponent;
 import br.com.danielhabib.core.rules.GoalRule;
 
 public class GoalRuleTest {
+	private static final int CONFIG_SIZE = 64;
+
 	@Test
 	public void levelOver_NoBall1Goal_LeveIsOver() throws Exception {
 		PsicoComponent goal = newGoalAt(new Position(1, 0));
@@ -72,11 +73,11 @@ public class GoalRuleTest {
 	}
 
 	private Ball newBallAt(Position position) {
-		return new Ball(position, Config.SIZE);
+		return new Ball(position, CONFIG_SIZE);
 	}
 
 	private Goal newGoalAt(Position position) {
-		return new Goal(position, Config.SIZE);
+		return new Goal(position, CONFIG_SIZE);
 	}
 
 }

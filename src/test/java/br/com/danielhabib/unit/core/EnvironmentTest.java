@@ -18,7 +18,6 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
@@ -29,6 +28,7 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 
 @RunWith(ZohhakRunner.class)
 public class EnvironmentTest {
+	private static final int CONFIG_SIZE = 64;
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
 
@@ -161,7 +161,7 @@ public class EnvironmentTest {
 	}
 
 	private PsicoComponent newWallAtPosition(int x, int y) {
-		return new Wall(new Position(x, y), Config.SIZE);
+		return new Wall(new Position(x, y), CONFIG_SIZE);
 	}
 
 }

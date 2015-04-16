@@ -50,10 +50,10 @@ public class App {
 	public static void main(String[] args) throws InterruptedException, IOException {
 		ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
 		App app = context.getBean(App.class);
-		app.start(args);
+		app.start();
 	}
 
-	private void start(String[] args) throws BeansException, IOException {
+	private void start() throws BeansException, IOException {
 		parsers = levelHandler.getParsers();
 		nextLevel();
 	}

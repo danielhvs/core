@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 
 import org.junit.Test;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.LevelHandler;
@@ -23,7 +22,8 @@ import br.com.danielhabib.core.rules.GoalRule;
 import br.com.danielhabib.core.rules.RegularMoveHandler;
 
 public abstract class AbstractIntegrationTest {
-	protected final int WINDOW_SIZE = Config.SIZE / 2 + Config.SIZE * 6;
+	protected static final int CONFIG_SIZE = 64;
+	protected final int WINDOW_SIZE = CONFIG_SIZE / 2 + CONFIG_SIZE * 6;
 	protected JFrame frame;
 	protected JApplet applet;
 	protected Psico psico;
@@ -84,7 +84,7 @@ public abstract class AbstractIntegrationTest {
 	}
 
 	protected int yWindowSize() {
-		return WINDOW_SIZE + Config.SIZE / 2;
+		return WINDOW_SIZE + CONFIG_SIZE / 2;
 	}
 
 	protected void setupCommands() {

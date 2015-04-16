@@ -19,7 +19,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
@@ -34,6 +33,8 @@ public class PsicoComponentContainerTest {
 
 	PsicoComponentContainer container;
 	static final Position ORIGIN = new Position(0, 0);
+
+	private static final int CONFIG_SIZE = 64;
 
 	@Before
 	public void setup() {
@@ -52,7 +53,7 @@ public class PsicoComponentContainerTest {
 	}
 
 	public Ball newBall(Position position) {
-		return new Ball(position, Config.SIZE / 2);
+		return new Ball(position, CONFIG_SIZE / 2);
 	}
 
 	@Test

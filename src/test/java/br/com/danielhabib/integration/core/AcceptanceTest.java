@@ -5,8 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
-import br.com.danielhabib.core.Config;
-
 public class AcceptanceTest extends AbstractIntegrationTest {
 
 	private TestObserver rulesObserver;
@@ -77,12 +75,12 @@ public class AcceptanceTest extends AbstractIntegrationTest {
 
 	@Override
 	protected int xWindowSize() {
-		return Config.SIZE * 7;
+		return CONFIG_SIZE * 7;
 	}
 
 	@Override
 	protected int yWindowSize() {
-		return Config.SIZE * 6;
+		return CONFIG_SIZE * 6;
 	}
 
 }

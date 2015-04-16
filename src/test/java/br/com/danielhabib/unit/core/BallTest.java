@@ -11,13 +11,13 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
 import br.com.danielhabib.core.gui.Graphics;
 
 public class BallTest {
+	private static final int CONFIG_SIZE = 64;
 	@Mock
 	Graphics g;
 
@@ -57,6 +57,6 @@ public class BallTest {
 	}
 
 	private Ball newBallAt(Position position) {
-		return new Ball(position, Config.SIZE);
+		return new Ball(position, CONFIG_SIZE);
 	}
 }

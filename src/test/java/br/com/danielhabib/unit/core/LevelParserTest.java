@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Goal;
@@ -17,6 +16,8 @@ import br.com.danielhabib.core.component.Wall;
 import br.com.danielhabib.core.rules.GoalRule;
 
 public class LevelParserTest {
+	private static final int CONFIG_SIZE = 64;
+
 	@Test
 	public void parse_Empty_Empty() throws Exception {
 		LevelParser parser = new LevelParser("");
@@ -80,7 +81,7 @@ public class LevelParserTest {
 		List<PsicoComponent> goals = parser.getGoals();
 		List<PsicoComponent> balls = parser.getBalls();
 
-		assertEquals(new Goal(new Position(0, 0), Config.SIZE), goals.get(0));
+		assertEquals(new Goal(new Position(0, 0), CONFIG_SIZE), goals.get(0));
 		assertEquals(ball(0, 0), balls.get(0));
 	}
 
@@ -156,15 +157,15 @@ public class LevelParserTest {
 	}
 
 	private Ball ball(int x, int y) {
-		return new Ball(new Position(x, y), Config.SIZE);
+		return new Ball(new Position(x, y), CONFIG_SIZE);
 	}
 
 	private Wall wall(int x, int y) {
-		return new Wall(new Position(x, y), Config.SIZE);
+		return new Wall(new Position(x, y), CONFIG_SIZE);
 	}
 
 	private Goal goal(int x, int y) {
-		return new Goal(new Position(x, y), Config.SIZE);
+		return new Goal(new Position(x, y), CONFIG_SIZE);
 	}
 
 }

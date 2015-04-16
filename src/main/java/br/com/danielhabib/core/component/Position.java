@@ -1,8 +1,10 @@
 package br.com.danielhabib.core.component;
 
-import br.com.danielhabib.core.Config;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class Position {
+	private static final int SIZE = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml").getBean("configSize", Integer.class);
+
 	private int x;
 	private int y;
 
@@ -12,11 +14,11 @@ public class Position {
 	}
 
 	public int getX() {
-		return x * Config.SIZE;
+		return x * SIZE;
 	}
 
 	public int getY() {
-		return y * Config.SIZE;
+		return y * SIZE;
 	}
 
 	public int x() {
@@ -64,10 +66,6 @@ public class Position {
 			return false;
 		}
 		return true;
-	}
-
-	public Position times(int size) {
-		return new Position(x * size, y * size);
 	}
 
 }

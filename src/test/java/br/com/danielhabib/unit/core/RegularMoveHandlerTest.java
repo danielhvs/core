@@ -15,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Goal;
@@ -30,6 +29,8 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 
 @RunWith(ZohhakRunner.class)
 public class RegularMoveHandlerTest {
+	private static final int CONFIG_SIZE = 64;
+
 	@Mock
 	private IRulesObserver observer;
 
@@ -62,8 +63,8 @@ public class RegularMoveHandlerTest {
 		IMoveHandler moveHandler = newMoveHandlerWithEnv("g");
 		moveHandler.setObserver(observer);
 
-		Ball ball = new Ball(new Position(0, 0), Config.SIZE);
-		moveHandler.setRules(Arrays.asList(new GoalRule(ball, new Goal(new Position(0, 0), Config.SIZE))));
+		Ball ball = new Ball(new Position(0, 0), CONFIG_SIZE);
+		moveHandler.setRules(Arrays.asList(new GoalRule(ball, new Goal(new Position(0, 0), CONFIG_SIZE))));
 
 		moveHandler.dropBall(ball);
 

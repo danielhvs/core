@@ -17,7 +17,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.danielhabib.core.Config;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Position;
@@ -36,6 +35,7 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 
 @RunWith(ZohhakRunner.class)
 public class PsicoTest {
+	private static final int CONFIG_SIZE = 64;
 	private Psico psico;
 	private DirectionHandler directionHandler;
 
@@ -80,7 +80,7 @@ public class PsicoTest {
 	@Test
 	public void move_Right() throws Exception {
 		psico.move();
-		assertThat(x(), is(equalTo(Config.SIZE)));
+		assertThat(x(), is(equalTo(CONFIG_SIZE)));
 	}
 
 	@Test
@@ -88,14 +88,14 @@ public class PsicoTest {
 		psico.turn();
 		psico.turn();
 		psico.move();
-		assertThat(x(), is(equalTo(-Config.SIZE)));
+		assertThat(x(), is(equalTo(-CONFIG_SIZE)));
 	}
 
 	@Test
 	public void move_Up() throws Exception {
 		psico.turn();
 		psico.move();
-		assertThat(y(), is(equalTo(-Config.SIZE)));
+		assertThat(y(), is(equalTo(-CONFIG_SIZE)));
 	}
 
 	@Test
@@ -104,7 +104,7 @@ public class PsicoTest {
 		psico.turn();
 		psico.turn();
 		psico.move();
-		assertThat(y(), is(equalTo(Config.SIZE)));
+		assertThat(y(), is(equalTo(CONFIG_SIZE)));
 	}
 
 	@Test
@@ -135,7 +135,7 @@ public class PsicoTest {
 	public void grab_ThereIsABall_NowHasIt() throws Exception {
 		psico = newPsicoWithEnv("o");
 		psico.setObserver(observer);
-		PsicoComponent expected = new Ball(new Position(0, 0), Config.SIZE);
+		PsicoComponent expected = new Ball(new Position(0, 0), CONFIG_SIZE);
 
 		psico.grab();
 
@@ -147,7 +147,7 @@ public class PsicoTest {
 	public void grab_MoreBalls_NowHasOne() throws Exception {
 		psico = newPsicoWithEnv("ooo");
 		psico.setObserver(observer);
-		PsicoComponent expected = new Ball(new Position(1, 0), Config.SIZE);
+		PsicoComponent expected = new Ball(new Position(1, 0), CONFIG_SIZE);
 
 		psico.move();
 		psico.grab();
