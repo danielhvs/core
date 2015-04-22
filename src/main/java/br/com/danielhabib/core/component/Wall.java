@@ -17,7 +17,7 @@ public class Wall extends PsicoComponent {
 
 	@Override
 	public String toString() {
-		return position.getX() + "," + position.getY();
+		return "W: " + position;
 	}
 
 }

@@ -34,7 +34,7 @@ public class LevelTransitionTest extends AbstractIntegrationTest {
 				buildFrame();
 				parser = new LevelParser("w:0,0\nr:2,0-3,0\nw:4,0\nr:2,0-3,0\np:1,0");
 				psico = parser.getPsico();
-				applet = new Main2D(psico, parser.getEnv());
+				applet = new Main2D(psico, parser);
 				parser.setMoveHandlerObserver(RULES_OBSERVER);
 				setupFrame();
 				setupCommands();
@@ -62,11 +62,6 @@ public class LevelTransitionTest extends AbstractIntegrationTest {
 	@Override
 	protected List<String> levels() {
 		return Arrays.asList("w:0,0\nr:2,0-3,0\nw:4,0\np:1,0");
-	}
-
-	@Override
-	protected int timeoutMillis() {
-		return 10;
 	}
 
 }

@@ -31,4 +31,5 @@ public class LevelHandlerTest {
 
 		assertEquals(new Position(1, 0), parsers.get(1).getPsico().getPosition());
 	}
+
 }

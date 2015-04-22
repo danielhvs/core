@@ -17,8 +17,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Ball;
-import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.component.PsicoComponent;
@@ -84,6 +84,15 @@ public class PsicoTest {
 	}
 
 	@Test
+	public void move_ThereIsAGoal_CanMove() throws Exception {
+		psico = newPsicoWithEnv("r:5,5-1,0");
+
+		psico.move();
+
+		assertThat(x(), is(equalTo(CONFIG_SIZE)));
+	}
+
+	@Test
 	public void move_Left() throws Exception {
 		psico.turn();
 		psico.turn();
@@ -133,7 +142,7 @@ public class PsicoTest {
 
 	@Test
 	public void grab_ThereIsABall_NowHasIt() throws Exception {
-		psico = newPsicoWithEnv("o");
+		psico = newPsicoWithEnv("o:0,0");
 		psico.setObserver(observer);
 		PsicoComponent expected = new Ball(new Position(0, 0), CONFIG_SIZE);
 
@@ -145,7 +154,7 @@ public class PsicoTest {
 
 	@Test
 	public void grab_MoreBalls_NowHasOne() throws Exception {
-		psico = newPsicoWithEnv("ooo");
+		psico = newPsicoWithEnv("o:0,0-2,0");
 		psico.setObserver(observer);
 		PsicoComponent expected = new Ball(new Position(1, 0), CONFIG_SIZE);
 
@@ -166,7 +175,7 @@ public class PsicoTest {
 
 	@Test
 	public void grabThenMove_ThereIsABall_MovesWithPsico() throws Exception {
-		psico = newPsicoWithEnv("o");
+		psico = newPsicoWithEnv("o:0,0");
 
 		psico.grab();
 		psico.move();
@@ -176,7 +185,7 @@ public class PsicoTest {
 
 	@Test
 	public void drop_HasABall_DoesntHaveItAnymore() throws Exception {
-		psico = newPsicoWithEnv("o");
+		psico = newPsicoWithEnv("o:0,0");
 		psico.setObserver(observer);
 
 		psico.grab();
@@ -195,7 +204,7 @@ public class PsicoTest {
 
 	@Test
 	public void grabThenDrop_ItsTheSameBall() throws Exception {
-		psico = newPsicoWithEnv("o");
+		psico = newPsicoWithEnv("o:0,0");
 
 		psico.grab();
 		PsicoComponent ball = psico.getBall();
@@ -221,7 +230,7 @@ public class PsicoTest {
 
 	private IMoveHandler newMoveHandlerWithEnv(String string) {
 		RegularMoveHandler regularMoveHandler = new RegularMoveHandler(new Position(0, 0));
-		regularMoveHandler.setEnv(new Environment(string));
+		regularMoveHandler.setEnv(new LevelParser(string));
 		Map<Integer, Position> speedMap = new HashMap<Integer, Position>();
 		speedMap.put(Direction.UP, new Position(0, -1));
 		speedMap.put(Direction.DOWN, new Position(0, 1));

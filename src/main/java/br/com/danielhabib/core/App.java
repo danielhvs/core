@@ -81,7 +81,7 @@ public class App {
 			}
 		});
 
-		applet = new Main2D(psico, parser.getEnv());
+		applet = new Main2D(psico, parser);
 		setupFrame();
 		setupCommands();
 	}

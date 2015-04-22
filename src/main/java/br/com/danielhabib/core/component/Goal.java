@@ -15,4 +15,9 @@ public class Goal extends PsicoComponent {
 		g.drawRect(position.getX(), position.getY(), getSize(), getSize());
 	}
 
+	@Override
+	public String toString() {
+		return "G: " + position;
+	}
+
 }

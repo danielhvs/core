@@ -69,11 +69,6 @@ public class AcceptanceTest extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected int timeoutMillis() {
-		return 75;
-	}
-
-	@Override
 	protected int xWindowSize() {
 		return CONFIG_SIZE * 7;
 	}

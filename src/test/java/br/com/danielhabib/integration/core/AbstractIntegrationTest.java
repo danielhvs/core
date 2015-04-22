@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import org.junit.Test;
 
 import br.com.danielhabib.core.builder.LevelParser;
-import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.LevelHandler;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.gui.Main2D;
@@ -39,7 +38,7 @@ public abstract class AbstractIntegrationTest {
 			buildFrame();
 			parser = levelParser;
 			psico = parser.getPsico();
-			applet = new Main2D(psico, parser.getEnv());
+			applet = new Main2D(psico, parser);
 
 			setupFrame();
 			setupCommands();
@@ -62,11 +61,6 @@ public abstract class AbstractIntegrationTest {
 
 	protected List<GoalRule> rules() {
 		return parser.getGoalRules();
-	}
-
-	protected Environment setupEnv(String level) {
-		parser = new LevelParser(level);
-		return parser.getEnv();
 	}
 
 	protected abstract List<String> levels();
@@ -115,8 +109,6 @@ public abstract class AbstractIntegrationTest {
 					System.exit(0);
 					break;
 				}
-				// System.out.println("DEBUG: speed = " + speed +
-				// ". Position = " + psico.getPosition().toString());
 			}
 		});
 	}
@@ -134,42 +126,41 @@ public abstract class AbstractIntegrationTest {
 
 	protected RegularMoveHandler moveHandler;
 
-	protected abstract int timeoutMillis();
+	protected int timeoutMillis() {
+		return 10;
+	}
+
+	protected void turn90() throws InterruptedException {
+		turn();
+	}
+
+	protected void turn180() throws InterruptedException {
+		turn();
+		turn();
+	}
+
+	protected void turn270() throws InterruptedException {
+		turn();
+		turn();
+		turn();
+	}
 
 	protected void down() throws InterruptedException {
-		turn();
-		turn();
-		turn();
-		turn();
-		turn();
-		turn();
+		turn270();
 		move();
-		turn();
-		turn();
+		turn90();
 	}
 
 	protected void up() throws InterruptedException {
-		turn();
-		turn();
+		turn90();
 		move();
-		turn();
-		turn();
-		turn();
-		turn();
-		turn();
-		turn();
+		turn270();
 	}
 
 	protected void left() throws InterruptedException {
-		turn();
-		turn();
-		turn();
-		turn();
+		turn180();
 		move();
-		turn();
-		turn();
-		turn();
-		turn();
+		turn180();
 	}
 
 	protected void drop() throws InterruptedException {

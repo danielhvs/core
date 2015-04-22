@@ -20,18 +20,18 @@
 		<property name="directionsMap">
 			<util:map id="directionsMap" map-class="java.util.HashMap"
 				key-type="java.lang.Integer" value-type="java.lang.Integer">
-<!-- 				<entry key="0" value="90" /> -->
-<!-- 				<entry key="90" value="180" /> -->
-<!-- 				<entry key="180" value="270" /> -->
-<!-- 				<entry key="270" value="0" /> -->
-				<entry key="0" value="45" />
-				<entry key="45" value="90" />
-				<entry key="90" value="135" />
-				<entry key="135" value="180" />
-				<entry key="180" value="225" />
-				<entry key="225" value="270" />
-				<entry key="270" value="315" />
-				<entry key="315" value="0" />
+				<entry key="0" value="90" />
+				<entry key="90" value="180" />
+				<entry key="180" value="270" />
+				<entry key="270" value="0" />
+<!-- 				<entry key="0" value="45" /> -->
+<!-- 				<entry key="45" value="90" /> -->
+<!-- 				<entry key="90" value="135" /> -->
+<!-- 				<entry key="135" value="180" /> -->
+<!-- 				<entry key="180" value="225" /> -->
+<!-- 				<entry key="225" value="270" /> -->
+<!-- 				<entry key="270" value="315" /> -->
+<!-- 				<entry key="315" value="0" /> -->
 			</util:map>
 		</property>
 	</bean>

@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JApplet;
 
-import br.com.danielhabib.core.component.Environment;
+import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.rules.IPsicoObserver;
 
@@ -13,11 +13,11 @@ public class Main2D extends JApplet {
 
 	private static final long serialVersionUID = -3688474214568402581L;
 	private Psico psico;
-	private Environment env;
+	private LevelParser parser;
 
-	public Main2D(Psico psico, Environment env) {
+	public Main2D(Psico psico, LevelParser parser) {
 		this.psico = psico;
-		this.env = env;
+		this.parser = parser;
 		psico.setObserver(new IPsicoObserver() {
 			public void hasChanged() {
 				repaint();
@@ -34,7 +34,7 @@ public class Main2D extends JApplet {
 	public void paint(Graphics g) {
 		g.clearRect(0, 0, getWidth(), getHeight());
 		br.com.danielhabib.core.gui.Graphics awt = GraphicsAdapter.fromAwt(g);
-		env.draw(awt);
+		parser.draw(awt);
 		psico.draw(awt);
 	}
 

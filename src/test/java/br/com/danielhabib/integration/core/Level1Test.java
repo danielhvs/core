@@ -41,11 +41,6 @@ public class Level1Test extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected int timeoutMillis() {
-		return 10;
-	}
-
-	@Override
 	protected void setup() {
 		rulesObserver = new TestObserver();
 		parser.setMoveHandlerObserver(rulesObserver);

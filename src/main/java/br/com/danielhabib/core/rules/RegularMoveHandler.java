@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import br.com.danielhabib.core.component.Environment;
+import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.PsicoComponent;
 import br.com.danielhabib.core.nulls.NullComponent;
@@ -14,7 +14,7 @@ public class RegularMoveHandler implements IMoveHandler {
 
 	private Position position;
 	Map<Integer, Position> speedMap;
-	private Environment env;
+	private LevelParser levelParser;
 	private List<GoalRule> rules;
 	private IRulesObserver rulesObserver;
 
@@ -42,11 +42,11 @@ public class RegularMoveHandler implements IMoveHandler {
 	}
 
 	public PsicoComponent getBall() {
-		return env.popBallAt(position);
+		return levelParser.popBallAt(position);
 	}
 
 	public PsicoComponent dropBall(PsicoComponent ball) {
-		env.addBall(position, ball);
+		levelParser.addBall(position, ball);
 		notifyIfLevelIsOver();
 		return new NullComponent();
 	}
@@ -65,7 +65,7 @@ public class RegularMoveHandler implements IMoveHandler {
 	}
 
 	private boolean canMove(Position nextPosition) {
-		return !env.hasWall(nextPosition);
+		return !levelParser.hasWall(nextPosition);
 	}
 
 	public void setRules(List<GoalRule> rules) {
@@ -76,8 +76,8 @@ public class RegularMoveHandler implements IMoveHandler {
 		this.rulesObserver = rulesObserver;
 	}
 
-	public void setEnv(Environment env) {
-		this.env = env;
+	public void setEnv(LevelParser levelParser) {
+		this.levelParser = levelParser;
 	}
 
 	public void setPosition(Position position) {

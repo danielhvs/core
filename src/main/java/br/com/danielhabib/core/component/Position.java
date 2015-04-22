@@ -35,7 +35,7 @@ public class Position {
 
 	@Override
 	public String toString() {
-		return new StringBuilder("x = ").append(x).append("; y = ").append(y).toString();
+		return new StringBuilder("(").append(x).append(", ").append(y).append(")").toString();
 	}
 
 	@Override

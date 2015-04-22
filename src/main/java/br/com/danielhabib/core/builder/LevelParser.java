@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import br.com.danielhabib.core.component.Environment;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.component.PsicoComponentContainer;
+import br.com.danielhabib.core.gui.Graphics;
+import br.com.danielhabib.core.nulls.NullComponent;
 import br.com.danielhabib.core.nulls.NullMoveHandler;
 import br.com.danielhabib.core.rules.DirectionHandler;
 import br.com.danielhabib.core.rules.GoalRule;
@@ -23,37 +26,32 @@ public class LevelParser {
 
 	private PsicoComponentBuilder builder;
 	private final String string;
-	private Map<Character, List<PsicoComponent>> map = new HashMap<Character, List<PsicoComponent>>();
+	private Map<Character, List<PsicoComponent>> map;
 	private List<GoalRule> goalRules = new ArrayList<GoalRule>();
-	private Environment env;
 	private RegularMoveHandler moveHandler = new NullMoveHandler();
 	private Psico psico;
+	private Map<Position, PsicoComponentContainer> containers = new HashMap<Position, PsicoComponentContainer>();
 	private static final ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
 
+	// FIXME: Single Responsibility: parse, build, draw, manage containers...
 	public LevelParser(String string) {
 		this.string = string;
 		doParse();
 	}
 
 	private void setupMoveHandler() {
-		moveHandler.setEnv(env);
-		moveHandler.setRules(getGoalRules());
-	}
-
-	private Environment initEnv() {
-		Environment env = new Environment();
-		env.setBalls(getBalls());
-		env.setWalls(getWalls());
-		env.setGoals(getGoals());
-		return env;
+		moveHandler.setEnv(this);
+		moveHandler.setRules(goalRules);
 	}
 
 	private void parseIt() {
 		this.builder = context.getBean("componentBuilder", PsicoComponentBuilder.class);
+		map = new HashMap<Character, List<PsicoComponent>>();
 		map.put('w', new ArrayList<PsicoComponent>());
 		map.put('o', new ArrayList<PsicoComponent>());
 		map.put('g', new ArrayList<PsicoComponent>());
 		parse();
+		setBalls(getBalls());
 	}
 
 	public List<GoalRule> getGoalRules() {
@@ -61,15 +59,19 @@ public class LevelParser {
 	}
 
 	public List<PsicoComponent> getWalls() {
-		return map.get('w');
+		return nullSafe(map.get('w'));
 	}
 
 	public List<PsicoComponent> getBalls() {
-		return map.get('o');
+		return nullSafe(map.get('o'));
 	}
 
 	public List<PsicoComponent> getGoals() {
-		return map.get('g');
+		return nullSafe(map.get('g'));
+	}
+
+	private List<PsicoComponent> nullSafe(List<PsicoComponent> components) {
+		return components == null ? new ArrayList<PsicoComponent>() : components;
 	}
 
 	private void parse() {
@@ -137,10 +139,6 @@ public class LevelParser {
 		this.psico = new Psico(handler, moveHandler, imageHandler);
 	}
 
-	public Environment getEnv() {
-		return env;
-	}
-
 	private void add(char type, PsicoComponent component) {
 		List<PsicoComponent> list = map.get(type);
 		list.add(component);
@@ -191,8 +189,71 @@ public class LevelParser {
 
 	private void doParse() {
 		parseIt();
-		this.env = initEnv();
 		setupMoveHandler();
+	}
+
+	public void addBall(Position position, PsicoComponent ball) {
+		if (containers.containsKey(position)) {
+			containers.get(position).push(ball);
+		} else {
+			containers.put(position, newContainer(ball));
+		}
+	}
+
+	private PsicoComponentContainer newContainer(PsicoComponent ball) {
+		return new PsicoComponentContainer(ball);
+	}
+
+	public void createBall(Position position) {
+		PsicoComponent newBall = builder.build('o', position);
+		addBall(position, newBall);
+	}
+
+	public boolean hasWall(Position nextPosition) {
+		return hasComponentAt(nextPosition, getWalls());
+	}
+
+	public boolean hasComponentAt(Position position, List<PsicoComponent> components) {
+		for (PsicoComponent component : components) {
+			if (component.getPosition().equals(position)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void draw(Graphics g) {
+		for (PsicoComponent component : getWalls()) {
+			component.draw(g);
+		}
+		for (PsicoComponent component : getGoals()) {
+			component.draw(g);
+		}
+
+		for (Entry<Position, PsicoComponentContainer> entry : containers.entrySet()) {
+			PsicoComponentContainer container = entry.getValue();
+			container.draw(g);
+		}
+	}
+
+	public PsicoComponent popBallAt(Position position) {
+		PsicoComponent component;
+		if (containers.containsKey(position)) {
+			PsicoComponentContainer container = containers.get(position);
+			component = container.pop();
+			if (container.isEmpty()) {
+				containers.remove(position);
+			}
+		} else {
+			component = new NullComponent();
+		}
+		return component;
+	}
+
+	public void setBalls(List<PsicoComponent> balls) {
+		for (PsicoComponent ball : balls) {
+			addBall(ball.getPosition(), ball);
+		}
 	}
 
 

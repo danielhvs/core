@@ -36,11 +36,6 @@ public class Level2Test extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected int timeoutMillis() {
-		return 10;
-	}
-
-	@Override
 	protected List<String> levels() {
 		return Arrays.asList("w:0,0\nr:2,0-3,0\nw:4,0\nr:2,0-3,0\np:1,0");
 	}
