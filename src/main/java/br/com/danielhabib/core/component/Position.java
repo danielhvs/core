@@ -13,6 +13,12 @@ public class Position {
 		this.y = y;
 	}
 
+	public Position(String string) {
+		String[] tokens = string.split(",");
+		this.x = Integer.parseInt(tokens[0].trim());
+		this.y = Integer.parseInt(tokens[1].trim());
+	}
+
 	public int getX() {
 		return x * SIZE;
 	}

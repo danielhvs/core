@@ -93,8 +93,7 @@ public class LevelParser {
 			} else {
 				String[] points = data[1].split("-");
 				if (points.length == 1) {
-					Position position = positionFromCSV(data[1]);
-					addComponent(type, position);
+					addComponent(type, new Position(data[1]));
 				} else {
 					String[] pi = points[0].split(",");
 					String[] pf = points[1].split(",");
@@ -114,13 +113,6 @@ public class LevelParser {
 				}
 			}
 		}
-	}
-
-	private Position positionFromCSV(String data) {
-		String[] positions = data.split(",");
-		int x = Integer.parseInt(positions[0]);
-		int y = Integer.parseInt(positions[1]);
-		return new Position(x, y);
 	}
 
 	private void addComponent(char type, Position position) {
@@ -147,15 +139,9 @@ public class LevelParser {
 
 	private void buildRule(String elements) {
 		String[] positions = elements.split("-");
-		String[] ballPosition = positions[0].split(",");
-		String[] goalPosition = positions[1].split(",");
-		int xb = Integer.parseInt(ballPosition[0]);
-		int yb = Integer.parseInt(ballPosition[1]);
-		int xg = Integer.parseInt(goalPosition[0]);
-		int yg = Integer.parseInt(goalPosition[1]);
-		PsicoComponent ball = builder.build('o', new Position(xb, yb));
+		PsicoComponent ball = builder.build('o', new Position(positions[0]));
 		add('o', ball);
-		Position candidateGoalPosition = new Position(xg, yg);
+		Position candidateGoalPosition = new Position(positions[1]);
 		PsicoComponent goal = builder.build('g', candidateGoalPosition);
 		if (canAddGoal(candidateGoalPosition)) {
 			add('g', goal);
@@ -177,10 +163,6 @@ public class LevelParser {
 
 	public Psico getPsico() {
 		return psico;
-	}
-
-	public RegularMoveHandler getMoveHandler() {
-		return moveHandler;
 	}
 
 	public void setMoveHandlerObserver(IRulesObserver iRulesObserver) {
@@ -255,6 +237,5 @@ public class LevelParser {
 			addBall(ball.getPosition(), ball);
 		}
 	}
-
 
 }
