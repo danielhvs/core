@@ -16,7 +16,6 @@
                            
 	<!-- DirectionHandler -->
 	<bean name="directionHandler" class="br.com.danielhabib.core.rules.DirectionHandler" scope="prototype">
-		<property name="direction" value="0"/>
 		<property name="directionsMap">
 			<util:map id="directionsMap" map-class="java.util.HashMap"
 				key-type="java.lang.Integer" value-type="java.lang.Integer">
@@ -58,10 +57,9 @@
 		</property>
 	</bean>
 
-	<!-- MoveHandler -->
-	<bean name="moveHandler" class="br.com.danielhabib.core.rules.RegularMoveHandler" scope="prototype">
-		<property name="speedMap" ref="speedMap"/>
-	</bean>
+	<!-- Rules -->
+	<bean name="grabbingRules" class="br.com.danielhabib.core.rules.GrabbingRules" scope="prototype"/>
+	<bean name="movingRules" class="br.com.danielhabib.core.rules.MovingRules" scope="prototype"/>
 	
 	<util:map id="speedMap" map-class="java.util.HashMap" key-type="java.lang.Integer" value-type="br.com.danielhabib.core.component.Position">
 		<entry key="0" value-ref="rightSpeed"/>

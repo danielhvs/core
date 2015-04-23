@@ -19,16 +19,18 @@ import org.mockito.MockitoAnnotations;
 
 import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Ball;
+import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
-import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.nulls.NullComponent;
+import br.com.danielhabib.core.rules.AMovingRules;
 import br.com.danielhabib.core.rules.Direction;
 import br.com.danielhabib.core.rules.DirectionHandler;
-import br.com.danielhabib.core.rules.IMoveHandler;
+import br.com.danielhabib.core.rules.GrabbingRules;
+import br.com.danielhabib.core.rules.IGrabbingRules;
 import br.com.danielhabib.core.rules.IPsicoObserver;
 import br.com.danielhabib.core.rules.ImageHandler;
-import br.com.danielhabib.core.rules.RegularMoveHandler;
+import br.com.danielhabib.core.rules.MovingRules;
 
 import com.googlecode.zohhak.api.TestWith;
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
@@ -55,7 +57,6 @@ public class PsicoTest {
 		directionMap.put(Direction.LEFT, Direction.DOWN);
 		directionMap.put(Direction.RIGHT, Direction.UP);
 		directionHandler.setDirectionsMap(directionMap);
-		directionHandler.setDirection(Direction.RIGHT);
 		psico = newPsicoWithEnv("");
 	}
 
@@ -225,19 +226,26 @@ public class PsicoTest {
 	}
 
 	private Psico newPsicoWithEnv(String envString) {
-		return new Psico(directionHandler, newMoveHandlerWithEnv(envString), imageHandler);
-	}
-
-	private IMoveHandler newMoveHandlerWithEnv(String string) {
-		RegularMoveHandler regularMoveHandler = new RegularMoveHandler(new Position(0, 0));
-		regularMoveHandler.setEnv(new LevelParser(string));
+		LevelParser levelParser = new LevelParser(envString);
+		Psico psico = new Psico(directionHandler, newMoveHandlerWithEnv(levelParser), imageHandler, new Position(0, 0));
 		Map<Integer, Position> speedMap = new HashMap<Integer, Position>();
 		speedMap.put(Direction.UP, new Position(0, -1));
 		speedMap.put(Direction.DOWN, new Position(0, 1));
 		speedMap.put(Direction.LEFT, new Position(-1, 0));
 		speedMap.put(Direction.RIGHT, new Position(1, 0));
-		regularMoveHandler.setSpeedMap(speedMap);
-		return regularMoveHandler;
+		psico.setSpeedMap(speedMap);
+
+		AMovingRules movingRules = new MovingRules();
+		movingRules.setLevelParser(levelParser);
+		psico.setMovingRules(movingRules);
+
+		return psico;
+	}
+
+	private IGrabbingRules newMoveHandlerWithEnv(LevelParser levelParser) {
+		GrabbingRules grabbingRules = new GrabbingRules();
+		grabbingRules.setLevelParser(levelParser);
+		return grabbingRules;
 	}
 
 }

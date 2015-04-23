@@ -9,18 +9,19 @@ import java.util.Map.Entry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import br.com.danielhabib.core.component.Position;
-import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.component.ComponentContainer;
+import br.com.danielhabib.core.component.Position;
+import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 import br.com.danielhabib.core.nulls.NullMoveHandler;
 import br.com.danielhabib.core.rules.DirectionHandler;
 import br.com.danielhabib.core.rules.GoalRule;
+import br.com.danielhabib.core.rules.GrabbingRules;
 import br.com.danielhabib.core.rules.IRulesObserver;
 import br.com.danielhabib.core.rules.ImageHandler;
-import br.com.danielhabib.core.rules.RegularMoveHandler;
+import br.com.danielhabib.core.rules.MovingRules;
 
 public class LevelParser {
 
@@ -28,20 +29,28 @@ public class LevelParser {
 	private final String string;
 	private Map<Character, List<Component>> map;
 	private List<GoalRule> goalRules = new ArrayList<GoalRule>();
-	private RegularMoveHandler moveHandler = new NullMoveHandler();
+	private GrabbingRules grabbingRules = new NullMoveHandler();
+	private MovingRules movingRules;
 	private Psico psico;
 	private Map<Position, ComponentContainer> containers = new HashMap<Position, ComponentContainer>();
 	private static final ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
+	private ImageHandler imageHandler;
+	private DirectionHandler directionRules;
 
 	// FIXME: Single Responsibility: parse, build, draw, manage containers...
 	public LevelParser(String string) {
 		this.string = string;
+		this.grabbingRules = context.getBean("grabbingRules", GrabbingRules.class);
+		this.directionRules = context.getBean("directionHandler", DirectionHandler.class);
+		this.imageHandler = context.getBean("imageHandler", ImageHandler.class);
+		this.movingRules = context.getBean("movingRules", MovingRules.class);
 		doParse();
 	}
 
 	private void setupMoveHandler() {
-		moveHandler.setEnv(this);
-		moveHandler.setRules(goalRules);
+		grabbingRules.setLevelParser(this);
+		grabbingRules.setGoalRules(goalRules);
+		movingRules.setLevelParser(this);
 	}
 
 	private void parseIt() {
@@ -120,15 +129,15 @@ public class LevelParser {
 		add(type, newComponent);
 	}
 
+	// TODO: configure it via beans.xml using scope = prototype or setting the
+	// position here
 	private void buildPsico(String position) {
 		String[] xy = position.split(",");
 		int x = Integer.parseInt(xy[0]);
 		int y = Integer.parseInt(xy[1]);
-		moveHandler = context.getBean("moveHandler", RegularMoveHandler.class);
-		moveHandler.setPosition(new Position(x, y));
-		DirectionHandler handler = context.getBean("directionHandler", DirectionHandler.class);
-		ImageHandler imageHandler = context.getBean("imageHandler", ImageHandler.class);
-		this.psico = new Psico(handler, moveHandler, imageHandler);
+		this.psico = new Psico(directionRules, grabbingRules, imageHandler, new Position(x, y));
+		this.psico.setSpeedMap(context.getBean("speedMap", Map.class));
+		this.psico.setMovingRules(movingRules);
 	}
 
 	private void add(char type, Component component) {
@@ -166,7 +175,7 @@ public class LevelParser {
 	}
 
 	public void setMoveHandlerObserver(IRulesObserver iRulesObserver) {
-		moveHandler.setObserver(iRulesObserver);
+		grabbingRules.setObserver(iRulesObserver);
 	}
 
 	private void doParse() {

@@ -18,7 +18,7 @@ import br.com.danielhabib.core.component.LevelHandler;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.gui.Main2D;
 import br.com.danielhabib.core.rules.GoalRule;
-import br.com.danielhabib.core.rules.RegularMoveHandler;
+import br.com.danielhabib.core.rules.GrabbingRules;
 
 public abstract class AbstractIntegrationTest {
 	protected static final int CONFIG_SIZE = 64;
@@ -124,7 +124,7 @@ public abstract class AbstractIntegrationTest {
 		return frame;
 	}
 
-	protected RegularMoveHandler moveHandler;
+	protected GrabbingRules moveHandler;
 
 	protected int timeoutMillis() {
 		return 10;
