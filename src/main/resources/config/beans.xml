@@ -94,7 +94,7 @@
 	</bean>
 	
 	<!-- Component Builders -->
-	<bean name="componentBuilder" class="br.com.danielhabib.core.builder.PsicoComponentBuilder">
+	<bean name="componentBuilder" class="br.com.danielhabib.core.builder.ComponentBuilder">
 		<property name="map">
 			<util:map id="componentBuilderMap" map-class="java.util.HashMap" key-type="java.lang.Character" value-type="br.com.danielhabib.core.builder.ATypeBuilder">
 			    <entry key="w" value-ref="wallBuilder"/>
