@@ -13,7 +13,7 @@ import org.mockito.MockitoAnnotations;
 
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Position;
-import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.gui.Graphics;
 
 public class BallTest {
@@ -28,7 +28,7 @@ public class BallTest {
 
 	@Test
 	public void draw_HasAColor_DrawsTheColor() throws Exception {
-		PsicoComponent ball = newBallAt(new Position(0, 0));
+		Component ball = newBallAt(new Position(0, 0));
 
 		ball.setColor(Color.RED);
 		ball.draw(g);
@@ -38,7 +38,7 @@ public class BallTest {
 
 	@Test
 	public void draw_HasADefaultColor() throws Exception {
-		PsicoComponent ball = newBallAt(new Position(0, 0));
+		Component ball = newBallAt(new Position(0, 0));
 
 		ball.draw(g);
 
@@ -47,7 +47,7 @@ public class BallTest {
 
 	@Test
 	public void draw_HasASize_DrawsWithSize() throws Exception {
-		PsicoComponent ball = newBallAt(new Position(0, 0));
+		Component ball = newBallAt(new Position(0, 0));
 		int size = 50;
 
 		ball.setSize(size);

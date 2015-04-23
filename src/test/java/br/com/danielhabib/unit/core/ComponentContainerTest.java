@@ -21,17 +21,17 @@ import org.mockito.MockitoAnnotations;
 
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Position;
-import br.com.danielhabib.core.component.PsicoComponent;
-import br.com.danielhabib.core.component.PsicoComponentContainer;
+import br.com.danielhabib.core.component.Component;
+import br.com.danielhabib.core.component.ComponentContainer;
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 
-public class PsicoComponentContainerTest {
+public class ComponentContainerTest {
 
 	@Mock
 	Graphics g;
 
-	PsicoComponentContainer container;
+	ComponentContainer container;
 	static final Position ORIGIN = new Position(0, 0);
 
 	private static final int CONFIG_SIZE = 64;
@@ -39,7 +39,7 @@ public class PsicoComponentContainerTest {
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		container = new PsicoComponentContainer(ORIGIN);
+		container = new ComponentContainer(ORIGIN);
 	}
 
 	@Test
@@ -62,9 +62,9 @@ public class PsicoComponentContainerTest {
 		container.push(newBall(ORIGIN));
 		container.push(newBall(ORIGIN));
 
-		PsicoComponent thirdBall = container.get(2);
-		PsicoComponent secondBall = container.get(1);
-		PsicoComponent firstBall = container.get(0);
+		Component thirdBall = container.get(2);
+		Component secondBall = container.get(1);
+		Component firstBall = container.get(0);
 
 		assertThat(thirdBall.getSize(), is(lessThan(secondBall.getSize())));
 		assertThat(secondBall.getSize(), is(lessThan(firstBall.getSize())));
@@ -73,7 +73,7 @@ public class PsicoComponentContainerTest {
 	@Test
 	public void pop_emptyContainer_CantPop_ReturnsDefault() throws Exception {
 
-		PsicoComponent component = container.pop();
+		Component component = container.pop();
 
 		assertEquals(new NullComponent(), component);
 	}
@@ -87,14 +87,14 @@ public class PsicoComponentContainerTest {
 		container.push(newBall(ORIGIN));
 		container.push(thirdBall);
 
-		PsicoComponent ball = container.pop();
+		Component ball = container.pop();
 
 		assertEquals(originalSize, ball.getSize());
 	}
 
 	@Test
 	public void pushPop_hasOneBall_CanPop_ReturnsTheBall() throws Exception {
-		PsicoComponent ball = newBall(ORIGIN);
+		Component ball = newBall(ORIGIN);
 
 		container.push(ball);
 
@@ -103,8 +103,8 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void pushPop_ManyBalls_UpdatesSize() throws Exception {
-		PsicoComponent first = newBall(ORIGIN);
-		PsicoComponent second = newBall(ORIGIN);
+		Component first = newBall(ORIGIN);
+		Component second = newBall(ORIGIN);
 		int originalSize = second.getSize();
 
 		container.push(first);
@@ -113,7 +113,7 @@ public class PsicoComponentContainerTest {
 		int smallerSize = second.getSize();
 		assertThat(smallerSize, is(lessThan(originalSize)));
 
-		PsicoComponent ball2 = container.pop();
+		Component ball2 = container.pop();
 
 		container.push(ball2);
 		assertThat(ball2.getSize(), is(equalTo(smallerSize)));
@@ -121,8 +121,8 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void pushPop_hasMoreBalls_CanPop_ReturnsTheBalls() throws Exception {
-		PsicoComponent ball1 = newBall(ORIGIN);
-		PsicoComponent ball2 = newBall(ORIGIN);
+		Component ball1 = newBall(ORIGIN);
+		Component ball2 = newBall(ORIGIN);
 
 		container.push(ball1);
 		container.push(ball2);
@@ -141,7 +141,7 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void draw_OneBall_DrawsIt() throws Exception {
-		PsicoComponent ball = spy(newBall(ORIGIN));
+		Component ball = spy(newBall(ORIGIN));
 		container.push(ball);
 
 		container.draw(g);
@@ -151,8 +151,8 @@ public class PsicoComponentContainerTest {
 
 	@Test
 	public void draw_MoreBalls_DrawsThem() throws Exception {
-		PsicoComponent ball = spy(newBall(ORIGIN));
-		PsicoComponent ball2 = spy(newBall(ORIGIN));
+		Component ball = spy(newBall(ORIGIN));
+		Component ball2 = spy(newBall(ORIGIN));
 		container.push(ball);
 		container.push(ball2);
 

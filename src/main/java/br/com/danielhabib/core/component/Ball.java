@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import br.com.danielhabib.core.gui.Graphics;
 
-public class Ball extends PsicoComponent {
+public class Ball extends Component {
 
 	// Must be even
 	public static int OFFSET;

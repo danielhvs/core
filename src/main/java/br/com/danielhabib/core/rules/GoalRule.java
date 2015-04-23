@@ -6,26 +6,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.component.Component;
 
 public class GoalRule {
 
-	private Map<PsicoComponent, List<PsicoComponent>> map = new HashMap<PsicoComponent, List<PsicoComponent>>();
+	private Map<Component, List<Component>> map = new HashMap<Component, List<Component>>();
 
-	public GoalRule(PsicoComponent ball, PsicoComponent goal) {
+	public GoalRule(Component ball, Component goal) {
 		map.put(goal, Arrays.asList(ball));
 	}
 
-	public GoalRule(List<PsicoComponent> balls, PsicoComponent goal) {
+	public GoalRule(List<Component> balls, Component goal) {
 		map.put(goal, balls);
 
 	}
 
 	public boolean isLevelOver() {
-		for (Entry<PsicoComponent, List<PsicoComponent>> entry : map.entrySet()) {
-			List<PsicoComponent> balls = entry.getValue();
-			PsicoComponent goal = entry.getKey();
-			for (PsicoComponent ball : balls) {
+		for (Entry<Component, List<Component>> entry : map.entrySet()) {
+			List<Component> balls = entry.getValue();
+			Component goal = entry.getKey();
+			for (Component ball : balls) {
 				if (notSamePosition(ball, goal)) {
 					return false;
 				}
@@ -34,7 +34,7 @@ public class GoalRule {
 		return true;
 	}
 
-	private boolean notSamePosition(PsicoComponent ball, PsicoComponent goal) {
+	private boolean notSamePosition(Component ball, Component goal) {
 		return !ball.getPosition().equals(goal.getPosition());
 	}
 

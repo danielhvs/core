@@ -11,7 +11,7 @@ import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Goal;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
-import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.component.Wall;
 import br.com.danielhabib.core.rules.GoalRule;
 
@@ -41,7 +41,7 @@ public class LevelParserTest {
 	public void parse_W() throws Exception {
 		LevelParser parser = new LevelParser("w:0,0");
 
-		List<PsicoComponent> walls = parser.getWalls();
+		List<Component> walls = parser.getWalls();
 
 		assertEquals(wall(0, 0), walls.get(0));
 	}
@@ -50,7 +50,7 @@ public class LevelParserTest {
 	public void parse_O() throws Exception {
 		LevelParser parser = new LevelParser("o:0,0");
 
-		List<PsicoComponent> balls = parser.getBalls();
+		List<Component> balls = parser.getBalls();
 
 		assertEquals(ball(0, 0), balls.get(0));
 	}
@@ -59,7 +59,7 @@ public class LevelParserTest {
 	public void parse_2Os() throws Exception {
 		LevelParser parser = new LevelParser("o:0,0\no:1,0");
 
-		List<PsicoComponent> balls = parser.getBalls();
+		List<Component> balls = parser.getBalls();
 
 		assertEquals(ball(1, 0), balls.get(1));
 	}
@@ -68,7 +68,7 @@ public class LevelParserTest {
 	public void parse_2OsSamePosition() throws Exception {
 		LevelParser parser = new LevelParser("o:0,0\no:0,0");
 
-		List<PsicoComponent> balls = parser.getBalls();
+		List<Component> balls = parser.getBalls();
 
 		assertEquals(ball(0, 0), balls.get(0));
 		assertEquals(ball(0, 0), balls.get(1));
@@ -78,8 +78,8 @@ public class LevelParserTest {
 	public void parse_GIsImplicitInRule() throws Exception {
 		LevelParser parser = new LevelParser("r:0,0-0,0");
 
-		List<PsicoComponent> goals = parser.getGoals();
-		List<PsicoComponent> balls = parser.getBalls();
+		List<Component> goals = parser.getGoals();
+		List<Component> balls = parser.getBalls();
 
 		assertEquals(new Goal(new Position(0, 0), CONFIG_SIZE), goals.get(0));
 		assertEquals(ball(0, 0), balls.get(0));
@@ -89,8 +89,8 @@ public class LevelParserTest {
 	public void parse_ManyGoals_OnlyOneGoalPerPosition() throws Exception {
 		LevelParser parser = new LevelParser("r:0,0-0,0\nr:1,0-0,0\nr:0,1-1,0");
 
-		List<PsicoComponent> goals = parser.getGoals();
-		List<PsicoComponent> balls = parser.getBalls();
+		List<Component> goals = parser.getGoals();
+		List<Component> balls = parser.getBalls();
 
 		assertEquals(ball(0, 0), balls.get(0));
 		assertEquals(goal(0, 0), goals.get(0));
@@ -104,21 +104,21 @@ public class LevelParserTest {
 	@Test
 	public void parse_LineYWall_ManyWallsInYLine() throws Exception {
 		LevelParser parser = new LevelParser("w:0,1-0,5");
-		List<PsicoComponent> walls = parser.getWalls();
+		List<Component> walls = parser.getWalls();
 		assertEquals(5, walls.size());
 	}
 
 	@Test
 	public void parse_LineXWall_ManyWallsInLine() throws Exception {
 		LevelParser parser = new LevelParser("w:1,0-5,0");
-		List<PsicoComponent> walls = parser.getWalls();
+		List<Component> walls = parser.getWalls();
 		assertEquals(5, walls.size());
 	}
 
 	@Test
 	public void parse_LineXBall_ManyBallsInLine() throws Exception {
 		LevelParser parser = new LevelParser("o:1,0-5,0");
-		List<PsicoComponent> balls = parser.getBalls();
+		List<Component> balls = parser.getBalls();
 		assertEquals(5, balls.size());
 	}
 
@@ -126,9 +126,9 @@ public class LevelParserTest {
 	public void parse_ComplexCenario() throws Exception {
 		LevelParser parser = new LevelParser("w:1,0\no:2,0\nr:0,1-2,0");
 
-		List<PsicoComponent> goals = parser.getGoals();
-		List<PsicoComponent> balls = parser.getBalls();
-		List<PsicoComponent> walls = parser.getWalls();
+		List<Component> goals = parser.getGoals();
+		List<Component> balls = parser.getBalls();
+		List<Component> walls = parser.getWalls();
 
 		assertEquals(wall(1, 0), walls.get(0));
 

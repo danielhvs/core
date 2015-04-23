@@ -8,7 +8,7 @@ import br.com.danielhabib.core.rules.IMoveHandler;
 import br.com.danielhabib.core.rules.IPsicoObserver;
 import br.com.danielhabib.core.rules.ImageHandler;
 
-public class Psico extends PsicoComponent {
+public class Psico extends Component {
 
 	private IDirectionHandler directionHandler;
 	private IMoveHandler moveHandler;
@@ -18,9 +18,9 @@ public class Psico extends PsicoComponent {
 		this.observer = observer;
 	}
 
-	private PsicoComponent ball;
+	private Component ball;
 	private ImageHandler imageHandler;
-	private static final PsicoComponent NULL_BALL = new NullComponent();
+	private static final Component NULL_BALL = new NullComponent();
 
 	public Psico(IDirectionHandler handler, IMoveHandler moveHandler, ImageHandler imageHandler) {
 		// FIXME: Maybe this is not a "PsicoComponent"
@@ -76,7 +76,7 @@ public class Psico extends PsicoComponent {
 		return !NULL_BALL.equals(ball);
 	}
 
-	public PsicoComponent getBall() {
+	public Component getBall() {
 		return ball;
 	}
 

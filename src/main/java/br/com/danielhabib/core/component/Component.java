@@ -4,12 +4,12 @@ import java.awt.Color;
 
 import br.com.danielhabib.core.gui.Graphics;
 
-public abstract class PsicoComponent {
+public abstract class Component {
 	protected Position position;
 	protected Color color;
 	private int size;
 
-	public PsicoComponent(Position position, int size) {
+	public Component(Position position, int size) {
 		this.position = position;
 		this.size = size;
 	}
@@ -59,7 +59,7 @@ public abstract class PsicoComponent {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		PsicoComponent other = (PsicoComponent) obj;
+		Component other = (Component) obj;
 		if (position == null) {
 			if (other.position != null) {
 				return false;

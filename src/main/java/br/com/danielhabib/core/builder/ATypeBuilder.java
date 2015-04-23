@@ -1,7 +1,7 @@
 package br.com.danielhabib.core.builder;
 
 import br.com.danielhabib.core.component.Position;
-import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.component.Component;
 
 public abstract class ATypeBuilder {
 	private ColorBuilder colorBuilder;
@@ -14,11 +14,11 @@ public abstract class ATypeBuilder {
 		this.size = size;
 	}
 
-	public PsicoComponent build(Position position) {
-		PsicoComponent component = newComponent(position);
+	public Component build(Position position) {
+		Component component = newComponent(position);
 		component.setColor(colorBuilder.nextColor());
 		return component;
 	}
 
-	protected abstract PsicoComponent newComponent(Position position);
+	protected abstract Component newComponent(Position position);
 }

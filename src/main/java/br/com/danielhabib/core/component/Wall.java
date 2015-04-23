@@ -3,7 +3,7 @@ package br.com.danielhabib.core.component;
 
 import br.com.danielhabib.core.gui.Graphics;
 
-public class Wall extends PsicoComponent {
+public class Wall extends Component {
 
 	public Wall(Position position, int size) {
 		super(position, size);

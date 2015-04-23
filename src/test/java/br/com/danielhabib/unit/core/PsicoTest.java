@@ -21,7 +21,7 @@ import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
-import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.nulls.NullComponent;
 import br.com.danielhabib.core.rules.Direction;
 import br.com.danielhabib.core.rules.DirectionHandler;
@@ -144,7 +144,7 @@ public class PsicoTest {
 	public void grab_ThereIsABall_NowHasIt() throws Exception {
 		psico = newPsicoWithEnv("o:0,0");
 		psico.setObserver(observer);
-		PsicoComponent expected = new Ball(new Position(0, 0), CONFIG_SIZE);
+		Component expected = new Ball(new Position(0, 0), CONFIG_SIZE);
 
 		psico.grab();
 
@@ -156,7 +156,7 @@ public class PsicoTest {
 	public void grab_MoreBalls_NowHasOne() throws Exception {
 		psico = newPsicoWithEnv("o:0,0-2,0");
 		psico.setObserver(observer);
-		PsicoComponent expected = new Ball(new Position(1, 0), CONFIG_SIZE);
+		Component expected = new Ball(new Position(1, 0), CONFIG_SIZE);
 
 		psico.move();
 		psico.grab();
@@ -207,11 +207,11 @@ public class PsicoTest {
 		psico = newPsicoWithEnv("o:0,0");
 
 		psico.grab();
-		PsicoComponent ball = psico.getBall();
+		Component ball = psico.getBall();
 
 		psico.drop();
 		psico.grab();
-		PsicoComponent sameBall = psico.getBall();
+		Component sameBall = psico.getBall();
 
 		assertSame(ball, sameBall);
 	}

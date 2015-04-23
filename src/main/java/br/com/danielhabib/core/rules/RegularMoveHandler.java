@@ -6,7 +6,7 @@ import java.util.Map;
 
 import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Position;
-import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.nulls.NullComponent;
 import br.com.danielhabib.core.nulls.NullObserver;
 
@@ -41,11 +41,11 @@ public class RegularMoveHandler implements IMoveHandler {
 		return false;
 	}
 
-	public PsicoComponent getBall() {
+	public Component getBall() {
 		return levelParser.popBallAt(position);
 	}
 
-	public PsicoComponent dropBall(PsicoComponent ball) {
+	public Component dropBall(Component ball) {
 		levelParser.addBall(position, ball);
 		notifyIfLevelIsOver();
 		return new NullComponent();

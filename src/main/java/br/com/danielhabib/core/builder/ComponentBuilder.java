@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.danielhabib.core.component.Position;
-import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.component.Component;
 
-public class PsicoComponentBuilder {
+public class ComponentBuilder {
 
 	private Map<Character, ATypeBuilder> map = new HashMap<Character, ATypeBuilder>();
 
-	public PsicoComponent build(char type, Position position) {
+	public Component build(char type, Position position) {
 		return map.get(type).build(position);
 	}
 

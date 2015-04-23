@@ -2,10 +2,10 @@ package br.com.danielhabib.core.nulls;
 
 
 import br.com.danielhabib.core.component.Position;
-import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.gui.Graphics;
 
-public class NullComponent extends PsicoComponent {
+public class NullComponent extends Component {
 
 	public NullComponent() {
 		super(new Position(-1, -1), -1);

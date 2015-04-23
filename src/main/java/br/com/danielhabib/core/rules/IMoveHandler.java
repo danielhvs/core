@@ -3,7 +3,7 @@ package br.com.danielhabib.core.rules;
 import java.util.List;
 
 import br.com.danielhabib.core.component.Position;
-import br.com.danielhabib.core.component.PsicoComponent;
+import br.com.danielhabib.core.component.Component;
 
 public interface IMoveHandler {
 
@@ -11,9 +11,9 @@ public interface IMoveHandler {
 
 	Position getPosition();
 
-	PsicoComponent getBall();
+	Component getBall();
 
-	PsicoComponent dropBall(PsicoComponent ball);
+	Component dropBall(Component ball);
 
 	void setRules(List<GoalRule> rules);
 

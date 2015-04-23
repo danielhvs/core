@@ -3,7 +3,7 @@ package br.com.danielhabib.core.component;
 
 import br.com.danielhabib.core.gui.Graphics;
 
-public class Goal extends PsicoComponent {
+public class Goal extends Component {
 
 	public Goal(Position position, int size) {
 		super(position, size);

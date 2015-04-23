@@ -6,28 +6,28 @@ import java.util.Stack;
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 
-public class PsicoComponentContainer extends PsicoComponent {
+public class ComponentContainer extends Component {
 
-	private Stack<PsicoComponent> balls;
+	private Stack<Component> balls;
 	private int smallerBallSize = 0;
 	public static final int INSIDE_DIAMETER_OFFSET = 4;
 	private static final int NUMBER_X_OFFSET = -3;
 	private static final int NUMBER_Y_OFFSET = 5;
 
-	public PsicoComponentContainer(Position position) {
+	public ComponentContainer(Position position) {
 		super(position, 0);
-		this.balls = new Stack<PsicoComponent>();
+		this.balls = new Stack<Component>();
 	}
 
-	public PsicoComponentContainer(PsicoComponent ball) {
+	public ComponentContainer(Component ball) {
 		super(ball.getPosition(), 0);
-		this.balls = new Stack<PsicoComponent>();
+		this.balls = new Stack<Component>();
 		push(ball);
 	}
 
 	@Override
 	public void draw(Graphics g) {
-		for (PsicoComponent ball : balls) {
+		for (Component ball : balls) {
 			ball.draw(g);
 		}
 		if (!balls.isEmpty()) {
@@ -48,18 +48,18 @@ public class PsicoComponentContainer extends PsicoComponent {
 		return NUMBER_X_OFFSET - 4 * (numDigits - 1);
 	}
 
-	public PsicoComponent pop() {
+	public Component pop() {
 		return balls.isEmpty() ? new NullComponent() : popWithDefaultSize();
 	}
 
-	private PsicoComponent popWithDefaultSize() {
-		PsicoComponent ball = balls.pop();
+	private Component popWithDefaultSize() {
+		Component ball = balls.pop();
 		ball.setSize(Ball.DIAMETER);
 		smallerBallSize += INSIDE_DIAMETER_OFFSET;
 		return ball;
 	}
 
-	public void push(PsicoComponent component) {
+	public void push(Component component) {
 		if (balls.size() > 0) {
 			component.setSize(smallerBallSize - INSIDE_DIAMETER_OFFSET);
 		}
@@ -71,7 +71,7 @@ public class PsicoComponentContainer extends PsicoComponent {
 		return balls.isEmpty();
 	}
 
-	public PsicoComponent get(int i) {
+	public Component get(int i) {
 		return balls.get(i);
 	}
 
