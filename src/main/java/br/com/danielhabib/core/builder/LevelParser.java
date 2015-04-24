@@ -44,23 +44,18 @@ public class LevelParser {
 		this.directionRules = context.getBean("directionHandler", DirectionHandler.class);
 		this.imageHandler = context.getBean("imageHandler", ImageHandler.class);
 		this.movingRules = context.getBean("movingRules", MovingRules.class);
-		doParse();
+		this.builder = context.getBean("componentBuilder", ComponentBuilder.class);
+		map = new HashMap<Character, List<Component>>();
+		map.put('w', new ArrayList<Component>());
+		map.put('o', new ArrayList<Component>());
+		map.put('g', new ArrayList<Component>());
+		build();
 	}
 
 	private void setupMoveHandler() {
 		grabbingRules.setLevelParser(this);
 		grabbingRules.setGoalRules(goalRules);
 		movingRules.setLevelParser(this);
-	}
-
-	private void parseIt() {
-		this.builder = context.getBean("componentBuilder", ComponentBuilder.class);
-		map = new HashMap<Character, List<Component>>();
-		map.put('w', new ArrayList<Component>());
-		map.put('o', new ArrayList<Component>());
-		map.put('g', new ArrayList<Component>());
-		parse();
-		setBalls(getBalls());
 	}
 
 	public List<GoalRule> getGoalRules() {
@@ -178,8 +173,9 @@ public class LevelParser {
 		grabbingRules.setObserver(iRulesObserver);
 	}
 
-	private void doParse() {
-		parseIt();
+	private void build() {
+		parse();
+		addBallsInContainers();
 		setupMoveHandler();
 	}
 
@@ -241,8 +237,8 @@ public class LevelParser {
 		return component;
 	}
 
-	public void setBalls(List<Component> balls) {
-		for (Component ball : balls) {
+	public void addBallsInContainers() {
+		for (Component ball : getBalls()) {
 			addBall(ball.getPosition(), ball);
 		}
 	}
