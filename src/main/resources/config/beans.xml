@@ -15,22 +15,26 @@
 	</bean>                      
                            
 	<!-- DirectionHandler -->
-	<bean name="directionHandler" class="br.com.danielhabib.core.rules.DirectionHandler" scope="prototype">
+	<bean name="counterClockWise" class="br.com.danielhabib.core.rules.DirectionHandler" scope="prototype">
 		<property name="directionsMap">
-			<util:map id="directionsMap" map-class="java.util.HashMap"
+			<util:map id="counterClockWiseMap" map-class="java.util.HashMap"
 				key-type="java.lang.Integer" value-type="java.lang.Integer">
 				<entry key="0" value="90" />
 				<entry key="90" value="180" />
 				<entry key="180" value="270" />
 				<entry key="270" value="0" />
-<!-- 				<entry key="0" value="45" /> -->
-<!-- 				<entry key="45" value="90" /> -->
-<!-- 				<entry key="90" value="135" /> -->
-<!-- 				<entry key="135" value="180" /> -->
-<!-- 				<entry key="180" value="225" /> -->
-<!-- 				<entry key="225" value="270" /> -->
-<!-- 				<entry key="270" value="315" /> -->
-<!-- 				<entry key="315" value="0" /> -->
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean name="clockWise" class="br.com.danielhabib.core.rules.DirectionHandler" scope="prototype">
+		<property name="directionsMap">
+			<util:map id="clockWiseMap" map-class="java.util.HashMap"
+				key-type="java.lang.Integer" value-type="java.lang.Integer">
+				<entry key="0" value="270" />
+				<entry key="270" value="180" />
+				<entry key="180" value="90" />
+				<entry key="90" value="0" />
 			</util:map>
 		</property>
 	</bean>
@@ -82,14 +86,33 @@
 	
 	<!-- LevelParser -->
 	<bean name="levelHandler" class="br.com.danielhabib.core.component.LevelHandler">
-	<property name="files">
-		<list>
-			<bean name="level1" class="java.io.File"><constructor-arg value="levels/level_1.txt"/></bean>
-			<bean name="level2" class="java.io.File"><constructor-arg value="levels/level_2.txt"/></bean>
-			<bean name="level3" class="java.io.File"><constructor-arg value="levels/level_3.txt"/></bean>
-		</list>
-	</property>
+		<property name="parsers">
+			<list>
+				<bean name="level1Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+					<property name="file" ref="level1" />
+					<property name="movingRules" ref="movingRules"/>
+					<property name="imageHandler" ref="imageHandler"/>
+					<property name="directionRules" ref="counterClockWise"/>
+					<property name="grabbingRules" ref="grabbingRules"/>
+					<property name="componentBuilder" ref="componentBuilder"/>
+				</bean>
+				<bean name="level2Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+					<property name="file" ref="level2" />
+					<property name="movingRules" ref="movingRules"/>
+					<property name="imageHandler" ref="imageHandler"/>
+					<property name="directionRules" ref="clockWise"/>
+					<property name="grabbingRules" ref="grabbingRules"/>
+					<property name="componentBuilder" ref="componentBuilder"/>
+				</bean>
+			</list>
+		</property>
 	</bean>
+	
+	
+	<bean name="level1" class="java.io.File"><constructor-arg value="levels/level_1.txt"/></bean>
+	<bean name="level2" class="java.io.File"><constructor-arg value="levels/level_2.txt"/></bean>
+	<bean name="level3" class="java.io.File"><constructor-arg value="levels/level_3.txt"/></bean>
+	
 	
 	<!-- Component Builders -->
 	<bean name="componentBuilder" class="br.com.danielhabib.core.builder.ComponentBuilder">

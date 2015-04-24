@@ -1,13 +1,17 @@
 package br.com.danielhabib.core.builder;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.component.ComponentContainer;
@@ -15,7 +19,6 @@ import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
-import br.com.danielhabib.core.nulls.NullMoveHandler;
 import br.com.danielhabib.core.rules.DirectionHandler;
 import br.com.danielhabib.core.rules.GoalRule;
 import br.com.danielhabib.core.rules.GrabbingRules;
@@ -23,34 +26,21 @@ import br.com.danielhabib.core.rules.IRulesObserver;
 import br.com.danielhabib.core.rules.ImageHandler;
 import br.com.danielhabib.core.rules.MovingRules;
 
-public class LevelParser {
+public class LevelParser implements ApplicationContextAware {
 
-	private ComponentBuilder builder;
-	private final String string;
+	private ComponentBuilder componentBuilder;
+	private String string;
 	private Map<Character, List<Component>> map;
 	private List<GoalRule> goalRules = new ArrayList<GoalRule>();
-	private GrabbingRules grabbingRules = new NullMoveHandler();
-	private MovingRules movingRules;
 	private Psico psico;
 	private Map<Position, ComponentContainer> containers = new HashMap<Position, ComponentContainer>();
-	private static final ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
+	private ApplicationContext context;
+
+	private MovingRules movingRules;
 	private ImageHandler imageHandler;
 	private DirectionHandler directionRules;
-
-	// FIXME: Single Responsibility: parse, build, draw, manage containers...
-	public LevelParser(String string) {
-		this.string = string;
-		this.grabbingRules = context.getBean("grabbingRules", GrabbingRules.class);
-		this.directionRules = context.getBean("directionHandler", DirectionHandler.class);
-		this.imageHandler = context.getBean("imageHandler", ImageHandler.class);
-		this.movingRules = context.getBean("movingRules", MovingRules.class);
-		this.builder = context.getBean("componentBuilder", ComponentBuilder.class);
-		map = new HashMap<Character, List<Component>>();
-		map.put('w', new ArrayList<Component>());
-		map.put('o', new ArrayList<Component>());
-		map.put('g', new ArrayList<Component>());
-		build();
-	}
+	private GrabbingRules grabbingRules;
+	private File file;
 
 	private void setupMoveHandler() {
 		grabbingRules.setLevelParser(this);
@@ -120,7 +110,7 @@ public class LevelParser {
 	}
 
 	private void addComponent(char type, Position position) {
-		Component newComponent = builder.build(type, position);
+		Component newComponent = componentBuilder.build(type, position);
 		add(type, newComponent);
 	}
 
@@ -143,10 +133,10 @@ public class LevelParser {
 
 	private void buildRule(String elements) {
 		String[] positions = elements.split("-");
-		Component ball = builder.build('o', new Position(positions[0]));
+		Component ball = componentBuilder.build('o', new Position(positions[0]));
 		add('o', ball);
 		Position candidateGoalPosition = new Position(positions[1]);
-		Component goal = builder.build('g', candidateGoalPosition);
+		Component goal = componentBuilder.build('g', candidateGoalPosition);
 		if (canAddGoal(candidateGoalPosition)) {
 			add('g', goal);
 		}
@@ -173,7 +163,12 @@ public class LevelParser {
 		grabbingRules.setObserver(iRulesObserver);
 	}
 
-	private void build() {
+	public void build() throws IOException {
+		this.string = FileUtils.readFileToString(file);
+		map = new HashMap<Character, List<Component>>();
+		map.put('w', new ArrayList<Component>());
+		map.put('o', new ArrayList<Component>());
+		map.put('g', new ArrayList<Component>());
 		parse();
 		addBallsInContainers();
 		setupMoveHandler();
@@ -192,7 +187,7 @@ public class LevelParser {
 	}
 
 	public void createBall(Position position) {
-		Component newBall = builder.build('o', position);
+		Component newBall = componentBuilder.build('o', position);
 		addBall(position, newBall);
 	}
 
@@ -241,6 +236,34 @@ public class LevelParser {
 		for (Component ball : getBalls()) {
 			addBall(ball.getPosition(), ball);
 		}
+	}
+
+	public void setComponentBuilder(ComponentBuilder componentBuilder) {
+		this.componentBuilder = componentBuilder;
+	}
+
+	public void setMovingRules(MovingRules movingRules) {
+		this.movingRules = movingRules;
+	}
+
+	public void setImageHandler(ImageHandler imageHandler) {
+		this.imageHandler = imageHandler;
+	}
+
+	public void setDirectionRules(DirectionHandler directionRules) {
+		this.directionRules = directionRules;
+	}
+
+	public void setGrabbingRules(GrabbingRules grabbingRules) {
+		this.grabbingRules = grabbingRules;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.context = applicationContext;
 	}
 
 }
