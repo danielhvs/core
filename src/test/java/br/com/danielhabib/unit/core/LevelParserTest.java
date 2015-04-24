@@ -1,26 +1,23 @@
 package br.com.danielhabib.unit.core;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.context.ApplicationContext;
 
-import br.com.danielhabib.core.builder.ATypeBuilder;
-import br.com.danielhabib.core.builder.BallBuilder;
-import br.com.danielhabib.core.builder.ColorBuilder;
 import br.com.danielhabib.core.builder.ComponentBuilder;
-import br.com.danielhabib.core.builder.GoalBuilder;
 import br.com.danielhabib.core.builder.LevelParser;
-import br.com.danielhabib.core.builder.WallBuilder;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.component.Goal;
@@ -28,12 +25,40 @@ import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.component.Wall;
 import br.com.danielhabib.core.rules.GoalRule;
+import br.com.danielhabib.core.rules.GrabbingRules;
+import br.com.danielhabib.core.rules.MovingRules;
 
 public class LevelParserTest {
 	@Rule
 	public TemporaryFolder tmpDir = new TemporaryFolder();
 
+	@Mock
+	private ComponentBuilder componentBuilder;
+	@Mock
+	private GrabbingRules grabbingRules;
+	@Mock
+	private MovingRules movingRules;
+	@Mock
+	private ApplicationContext context;
+
 	private static final int CONFIG_SIZE = 64;
+
+	@Before
+	public void testname() throws Exception {
+		MockitoAnnotations.initMocks(this);
+		mockBuildsForPositionsUntil(5);
+	}
+
+	private void mockBuildsForPositionsUntil(int x) {
+		for (int i = 0; i <= x; i++) {
+			for (int j = 0; j <= x; j++) {
+				Position position = new Position(i, j);
+				when(componentBuilder.build('w', position)).thenReturn(new Wall(position, CONFIG_SIZE));
+				when(componentBuilder.build('o', position)).thenReturn(new Ball(position, CONFIG_SIZE));
+				when(componentBuilder.build('g', position)).thenReturn(new Goal(position, CONFIG_SIZE));
+			}
+		}
+	}
 
 	@Test
 	public void parse_Empty_Empty() throws Exception {
@@ -65,6 +90,8 @@ public class LevelParserTest {
 
 	@Test
 	public void parse_O() throws Exception {
+
+
 		LevelParser parser = newLevelParser("o:0,0");
 
 		List<Component> balls = parser.getBalls();
@@ -149,10 +176,10 @@ public class LevelParserTest {
 
 		assertEquals(wall(1, 0), walls.get(0));
 
-		assertEquals(ball(2 * 1, 0), balls.get(0));
+		assertEquals(ball(2, 0), balls.get(0));
 
 		assertEquals(ball(0, 1), balls.get(1));
-		assertEquals(goal(2 * 1, 0), goals.get(0));
+		assertEquals(goal(2, 0), goals.get(0));
 	}
 
 	@Test
@@ -178,21 +205,12 @@ public class LevelParserTest {
 		FileUtils.writeStringToFile(file, string);
 		LevelParser levelParser = new LevelParser();
 		levelParser.setFile(file);
-		levelParser.build();
-		ComponentBuilder componentBuilder = new ComponentBuilder();
-		Map<Character, ATypeBuilder> map = new HashMap<Character, ATypeBuilder>();
-		ColorBuilder colorBuilder = new ColorBuilder(new Color[] { Color.BLACK });
-		WallBuilder wallBuilder = new WallBuilder();
-		BallBuilder ballBuilder = new BallBuilder();
-		GoalBuilder goalBuilder = new GoalBuilder();
-		wallBuilder.setColorBuilder(colorBuilder);
-		ballBuilder.setColorBuilder(colorBuilder);
-		goalBuilder.setColorBuilder(colorBuilder);
-		map.put('w', wallBuilder);
-		map.put('o', ballBuilder);
-		map.put('g', goalBuilder);
-		componentBuilder.setMap(map);
+		levelParser.setMovingRules(movingRules);
+		levelParser.setGrabbingRules(grabbingRules);
 		levelParser.setComponentBuilder(componentBuilder);
+		levelParser.setApplicationContext(context);
+
+		levelParser.build();
 		return levelParser;
 	}
 
