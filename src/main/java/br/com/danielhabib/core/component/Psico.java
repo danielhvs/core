@@ -42,12 +42,12 @@ public class Psico extends Component {
 		this.position = move(direction);
 		if (movedFrom(initialPosition)) {
 			ball.setPosition(getPosition());
+			setImageHandler(context.getBean("imageHandler" + (1 + (++i % 2)), ImageHandler.class));
 			notifyObserver();
 		}
 	}
 
 	public Position move(Integer direction) {
-		setImageHandler(context.getBean("imageHandler" + (1 + (++i % 2)), ImageHandler.class));
 		return movingRules.move(position, position.add(speedMap.get(direction)));
 	}
 
@@ -61,6 +61,7 @@ public class Psico extends Component {
 
 	public void turn() {
 		this.direction = directionHandler.turn(direction);
+		setImageHandler(context.getBean("imageHandler" + (1 + (++i % 2)), ImageHandler.class));
 		notifyObserver();
 	}
 
