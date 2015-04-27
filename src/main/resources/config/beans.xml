@@ -40,11 +40,31 @@
 	</bean>
 	
 	<!-- ImageHandler -->
-	<bean name="imageHandler" class="br.com.danielhabib.core.rules.ImageHandler">
+	<bean name="imageHandler1" class="br.com.danielhabib.core.rules.ImageHandler">
 		<property name="size" ref="configSize"/>
 		<property name="imageFile">
 			<bean class="java.io.File">
 				<constructor-arg value="images/psico_right.png"/>
+			</bean>
+		</property>
+		<property name="directions">
+		<list>
+			<bean name="0" class="java.lang.Integer"><constructor-arg value="0"/></bean>
+			<bean name="1" class="java.lang.Integer"><constructor-arg value="45"/></bean>
+			<bean name="2" class="java.lang.Integer"><constructor-arg value="90"/></bean>
+			<bean name="3" class="java.lang.Integer"><constructor-arg value="135"/></bean>
+			<bean name="4" class="java.lang.Integer"><constructor-arg value="180"/></bean>
+			<bean name="5" class="java.lang.Integer"><constructor-arg value="225"/></bean>
+			<bean name="6" class="java.lang.Integer"><constructor-arg value="270"/></bean>
+			<bean name="7" class="java.lang.Integer"><constructor-arg value="315"/></bean>
+		</list>
+		</property>
+	</bean>
+	<bean name="imageHandler2" class="br.com.danielhabib.core.rules.ImageHandler">
+		<property name="size" ref="configSize"/>
+		<property name="imageFile">
+			<bean class="java.io.File">
+				<constructor-arg value="images/psico_green.png"/>
 			</bean>
 		</property>
 		<property name="directions">
@@ -91,7 +111,7 @@
 				<bean name="level1Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
 					<property name="file" ref="level1" />
 					<property name="movingRules" ref="movingRules"/>
-					<property name="imageHandler" ref="imageHandler"/>
+					<property name="imageHandler" ref="imageHandler1"/>
 					<property name="directionRules" ref="counterClockWise"/>
 					<property name="grabbingRules" ref="grabbingRules"/>
 					<property name="componentBuilder" ref="componentBuilder"/>
@@ -99,7 +119,7 @@
 				<bean name="level2Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
 					<property name="file" ref="level2" />
 					<property name="movingRules" ref="movingRules"/>
-					<property name="imageHandler" ref="imageHandler"/>
+					<property name="imageHandler" ref="imageHandler2"/>
 					<property name="directionRules" ref="clockWise"/>
 					<property name="grabbingRules" ref="grabbingRules"/>
 					<property name="componentBuilder" ref="componentBuilder"/>
@@ -107,7 +127,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	
 	<bean name="level1" class="java.io.File"><constructor-arg value="levels/level_1.txt"/></bean>
 	<bean name="level2" class="java.io.File"><constructor-arg value="levels/level_2.txt"/></bean>
@@ -137,7 +156,7 @@
 
 	<bean name="wallBuilder" class="br.com.danielhabib.core.builder.WallBuilder">
 		<property name="colorBuilder" ref="wallColorBuilder" />
-		<property name="size" value="#{configSize-2}"/>
+		<property name="size" value="#{configSize-1}"/>
 	</bean>
 	
 	<bean name="configSize" class="java.lang.Integer">

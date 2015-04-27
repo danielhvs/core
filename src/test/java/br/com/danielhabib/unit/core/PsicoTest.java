@@ -227,7 +227,7 @@ public class PsicoTest {
 
 	private Psico newPsicoWithEnv(String envString) {
 		LevelParser levelParser = new LevelParser(envString);
-		Psico psico = new Psico(directionHandler, newMoveHandlerWithEnv(levelParser), imageHandler, new Position(0, 0));
+		Psico psico = new Psico(directionHandler, newMoveHandlerWithEnv(levelParser), new Position(0, 0));
 		Map<Integer, Position> speedMap = new HashMap<Integer, Position>();
 		speedMap.put(Direction.UP, new Position(0, -1));
 		speedMap.put(Direction.DOWN, new Position(0, 1));

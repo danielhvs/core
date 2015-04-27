@@ -120,9 +120,10 @@ public class LevelParser implements ApplicationContextAware {
 		String[] xy = position.split(",");
 		int x = Integer.parseInt(xy[0]);
 		int y = Integer.parseInt(xy[1]);
-		this.psico = new Psico(directionRules, grabbingRules, imageHandler, new Position(x, y));
-		this.psico.setSpeedMap(context.getBean("speedMap", Map.class));
-		this.psico.setMovingRules(movingRules);
+		psico = new Psico(directionRules, grabbingRules, new Position(x, y));
+		psico.setSpeedMap(context.getBean("speedMap", Map.class));
+		psico.setMovingRules(movingRules);
+		psico.setImageHandler(imageHandler);
 	}
 
 	private void add(char type, Component component) {

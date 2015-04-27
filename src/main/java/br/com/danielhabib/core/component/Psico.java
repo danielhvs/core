@@ -2,6 +2,9 @@ package br.com.danielhabib.core.component;
 
 import java.util.Map;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 import br.com.danielhabib.core.nulls.NullObserver;
@@ -13,6 +16,8 @@ import br.com.danielhabib.core.rules.ImageHandler;
 
 public class Psico extends Component {
 
+	private static ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
+	int i = 0;
 	private IDirectionHandler directionHandler;
 	private IGrabbingRules grabbingRules;
 	private IPsicoObserver observer;
@@ -23,13 +28,12 @@ public class Psico extends Component {
 	private AMovingRules movingRules;
 	private Map<Integer, Position> speedMap;
 
-	public Psico(IDirectionHandler handler, IGrabbingRules grabbingRules, ImageHandler imageHandler, Position position) {
+	public Psico(IDirectionHandler handler, IGrabbingRules grabbingRules, Position position) {
 		super(position, 0);
 		this.directionHandler = handler;
 		this.grabbingRules = grabbingRules;
 		this.observer = new NullObserver();
 		this.ball = new NullComponent();
-		this.imageHandler = imageHandler;
 		this.direction = 0;
 	}
 
@@ -43,6 +47,7 @@ public class Psico extends Component {
 	}
 
 	public Position move(Integer direction) {
+		setImageHandler(context.getBean("imageHandler" + (1 + (++i % 2)), ImageHandler.class));
 		return movingRules.move(position, position.add(speedMap.get(direction)));
 	}
 
@@ -105,6 +110,10 @@ public class Psico extends Component {
 
 	public void setMovingRules(AMovingRules movingRules) {
 		this.movingRules = movingRules;
+	}
+
+	public void setImageHandler(ImageHandler imageHandler) {
+		this.imageHandler = imageHandler;
 	}
 
 }
