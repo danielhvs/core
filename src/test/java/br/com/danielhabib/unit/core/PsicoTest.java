@@ -7,29 +7,35 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.ApplicationContext;
 
+import br.com.danielhabib.core.builder.ComponentBuilder;
 import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Ball;
 import br.com.danielhabib.core.component.Component;
+import br.com.danielhabib.core.component.Goal;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.nulls.NullComponent;
-import br.com.danielhabib.core.rules.AMovingRules;
 import br.com.danielhabib.core.rules.Direction;
 import br.com.danielhabib.core.rules.DirectionHandler;
 import br.com.danielhabib.core.rules.GrabbingRules;
-import br.com.danielhabib.core.rules.IGrabbingRules;
 import br.com.danielhabib.core.rules.IPsicoObserver;
-import br.com.danielhabib.core.rules.ImageHandler;
 import br.com.danielhabib.core.rules.MovingRules;
 
 import com.googlecode.zohhak.api.TestWith;
@@ -38,18 +44,36 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 @RunWith(ZohhakRunner.class)
 public class PsicoTest {
 	private static final int CONFIG_SIZE = 64;
+
+	@InjectMocks
 	private Psico psico;
+
 	private DirectionHandler directionHandler;
+
+	@Rule
+	public TemporaryFolder tmpDir = new TemporaryFolder();
 
 	@Mock
 	private IPsicoObserver observer;
 
 	@Mock
-	private ImageHandler imageHandler;
+	private ApplicationContext context;
+
+	private Map<Integer, Position> speedMap;
+
+	@Mock
+	private ComponentBuilder componentBuilder;
 
 	@Before
 	public void setup() throws Exception {
 		MockitoAnnotations.initMocks(this);
+
+		speedMap = new HashMap<Integer, Position>();
+		speedMap.put(0, new Position(1, 0));
+		speedMap.put(90, new Position(0, -1));
+		speedMap.put(180, new Position(-1, 0));
+		speedMap.put(270, new Position(0, 1));
+
 		directionHandler = new DirectionHandler();
 		Map<Integer, Integer> directionMap = new HashMap<Integer, Integer>();
 		directionMap.put(Direction.UP, Direction.LEFT);
@@ -86,6 +110,8 @@ public class PsicoTest {
 
 	@Test
 	public void move_ThereIsAGoal_CanMove() throws Exception {
+		when(componentBuilder.build('o', new Position(5, 5))).thenReturn(new Ball(new Position(5, 5), CONFIG_SIZE));
+		when(componentBuilder.build('g', new Position(1, 0))).thenReturn(new Goal(new Position(1, 0), CONFIG_SIZE));
 		psico = newPsicoWithEnv("r:5,5-1,0");
 
 		psico.move();
@@ -143,6 +169,7 @@ public class PsicoTest {
 
 	@Test
 	public void grab_ThereIsABall_NowHasIt() throws Exception {
+		when(componentBuilder.build('o', new Position(0, 0))).thenReturn(new Ball(new Position(0, 0), CONFIG_SIZE));
 		psico = newPsicoWithEnv("o:0,0");
 		psico.setObserver(observer);
 		Component expected = new Ball(new Position(0, 0), CONFIG_SIZE);
@@ -155,6 +182,9 @@ public class PsicoTest {
 
 	@Test
 	public void grab_MoreBalls_NowHasOne() throws Exception {
+		when(componentBuilder.build('o', new Position(0, 0))).thenReturn(new Ball(new Position(0, 0), CONFIG_SIZE));
+		when(componentBuilder.build('o', new Position(1, 0))).thenReturn(new Ball(new Position(1, 0), CONFIG_SIZE));
+		when(componentBuilder.build('o', new Position(2, 0))).thenReturn(new Ball(new Position(2, 0), CONFIG_SIZE));
 		psico = newPsicoWithEnv("o:0,0-2,0");
 		psico.setObserver(observer);
 		Component expected = new Ball(new Position(1, 0), CONFIG_SIZE);
@@ -176,6 +206,7 @@ public class PsicoTest {
 
 	@Test
 	public void grabThenMove_ThereIsABall_MovesWithPsico() throws Exception {
+		when(componentBuilder.build('o', new Position(0, 0))).thenReturn(new Ball(new Position(0, 0), CONFIG_SIZE));
 		psico = newPsicoWithEnv("o:0,0");
 
 		psico.grab();
@@ -186,6 +217,7 @@ public class PsicoTest {
 
 	@Test
 	public void drop_HasABall_DoesntHaveItAnymore() throws Exception {
+		when(componentBuilder.build('o', new Position(0, 0))).thenReturn(new Ball(new Position(0, 0), CONFIG_SIZE));
 		psico = newPsicoWithEnv("o:0,0");
 		psico.setObserver(observer);
 
@@ -205,6 +237,7 @@ public class PsicoTest {
 
 	@Test
 	public void grabThenDrop_ItsTheSameBall() throws Exception {
+		when(componentBuilder.build('o', new Position(0, 0))).thenReturn(new Ball(new Position(0, 0), CONFIG_SIZE));
 		psico = newPsicoWithEnv("o:0,0");
 
 		psico.grab();
@@ -225,27 +258,25 @@ public class PsicoTest {
 		return psico.getPosition().getX();
 	}
 
-	private Psico newPsicoWithEnv(String envString) {
-		LevelParser levelParser = new LevelParser(envString);
-		Psico psico = new Psico(directionHandler, newMoveHandlerWithEnv(levelParser), new Position(0, 0));
-		Map<Integer, Position> speedMap = new HashMap<Integer, Position>();
-		speedMap.put(Direction.UP, new Position(0, -1));
-		speedMap.put(Direction.DOWN, new Position(0, 1));
-		speedMap.put(Direction.LEFT, new Position(-1, 0));
-		speedMap.put(Direction.RIGHT, new Position(1, 0));
-		psico.setSpeedMap(speedMap);
+	private Psico newPsicoWithEnv(String envString) throws Exception {
+		File file = tmpDir.newFile();
+		envString += "\np:0,0";
+		FileUtils.writeStringToFile(file, envString);
+		LevelParser levelParser = new LevelParser();
+		levelParser.setFile(file);
 
-		AMovingRules movingRules = new MovingRules();
-		movingRules.setLevelParser(levelParser);
-		psico.setMovingRules(movingRules);
-
-		return psico;
-	}
-
-	private IGrabbingRules newMoveHandlerWithEnv(LevelParser levelParser) {
 		GrabbingRules grabbingRules = new GrabbingRules();
 		grabbingRules.setLevelParser(levelParser);
-		return grabbingRules;
+		levelParser.setGrabbingRules(grabbingRules);
+		levelParser.setComponentBuilder(componentBuilder);
+		levelParser.setDirectionRules(directionHandler);
+		levelParser.setApplicationContext(context);
+		levelParser.setMovingRules(new MovingRules());
+		levelParser.build();
+
+		Psico psico = levelParser.getPsico();
+		psico.setSpeedMap(speedMap);
+		return psico;
 	}
 
 }

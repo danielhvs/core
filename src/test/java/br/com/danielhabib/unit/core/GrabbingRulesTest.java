@@ -2,10 +2,14 @@ package br.com.danielhabib.unit.core;
 
 import static org.mockito.Mockito.verify;
 
+import java.io.File;
 import java.util.Arrays;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -24,6 +28,9 @@ import com.googlecode.zohhak.api.runners.ZohhakRunner;
 @RunWith(ZohhakRunner.class)
 public class GrabbingRulesTest {
 	private static final int CONFIG_SIZE = 64;
+
+	@Rule
+	public TemporaryFolder tmpDir = new TemporaryFolder();
 
 	@Mock
 	private IRulesObserver observer;
@@ -46,9 +53,12 @@ public class GrabbingRulesTest {
 		verify(observer).levelIsOver();
 	}
 
-	private IGrabbingRules newGrabbingRulesWithEnv(String string) {
+	private IGrabbingRules newGrabbingRulesWithEnv(String string) throws Exception {
 		GrabbingRules grabbingRules = new GrabbingRules();
-		LevelParser levelParser = new LevelParser(string);
+		File file = tmpDir.newFile();
+		FileUtils.writeStringToFile(file, string);
+		LevelParser levelParser = new LevelParser();
+		levelParser.setFile(file);
 		grabbingRules.setLevelParser(levelParser);
 		return grabbingRules;
 	}

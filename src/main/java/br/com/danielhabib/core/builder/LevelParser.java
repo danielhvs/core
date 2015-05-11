@@ -19,12 +19,12 @@ import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
+import br.com.danielhabib.core.rules.AMovingRules;
 import br.com.danielhabib.core.rules.DirectionHandler;
 import br.com.danielhabib.core.rules.GoalRule;
 import br.com.danielhabib.core.rules.GrabbingRules;
 import br.com.danielhabib.core.rules.IRulesObserver;
 import br.com.danielhabib.core.rules.ImageHandler;
-import br.com.danielhabib.core.rules.MovingRules;
 
 public class LevelParser implements ApplicationContextAware {
 
@@ -36,7 +36,7 @@ public class LevelParser implements ApplicationContextAware {
 	private Map<Position, ComponentContainer> containers = new HashMap<Position, ComponentContainer>();
 	private ApplicationContext context;
 
-	private MovingRules movingRules;
+	private AMovingRules movingRules;
 	private ImageHandler imageHandler;
 	private DirectionHandler directionRules;
 	private GrabbingRules grabbingRules;
@@ -243,7 +243,7 @@ public class LevelParser implements ApplicationContextAware {
 		this.componentBuilder = componentBuilder;
 	}
 
-	public void setMovingRules(MovingRules movingRules) {
+	public void setMovingRules(AMovingRules movingRules) {
 		this.movingRules = movingRules;
 	}
 

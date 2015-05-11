@@ -2,6 +2,7 @@ package br.com.danielhabib.core.rules;
 
 import java.util.List;
 
+import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.component.Position;
 
@@ -15,4 +16,5 @@ public interface IGrabbingRules {
 
 	void setObserver(IRulesObserver rulesObserver);
 
+	void setLevelParser(LevelParser levelParser);
 }
