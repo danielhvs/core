@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+                      
+	<!-- DirectionHandler -->
+	<bean name="counterClockWise" class="br.com.danielhabib.core.rules.DirectionHandler" scope="prototype">
+		<property name="directionsMap">
+			<util:map id="counterClockWiseMap" map-class="java.util.HashMap"
+				key-type="java.lang.Integer" value-type="java.lang.Integer">
+				<entry key="0" value="90" />
+				<entry key="90" value="180" />
+				<entry key="180" value="270" />
+				<entry key="270" value="0" />
+			</util:map>
+		</property>
+	</bean>
+	
+	<!-- ImageHandler -->
+	<bean name="imageHandler1" class="br.com.danielhabib.core.rules.ImageHandler">
+		<property name="size" ref="configSize"/>
+		<property name="imageFile">
+			<bean class="java.io.File">
+				<constructor-arg value="images/psico_right.png"/>
+			</bean>
+		</property>
+		<property name="directions">
+		<list>
+			<bean name="0" class="java.lang.Integer"><constructor-arg value="0"/></bean>
+			<bean name="1" class="java.lang.Integer"><constructor-arg value="45"/></bean>
+			<bean name="2" class="java.lang.Integer"><constructor-arg value="90"/></bean>
+			<bean name="3" class="java.lang.Integer"><constructor-arg value="135"/></bean>
+			<bean name="4" class="java.lang.Integer"><constructor-arg value="180"/></bean>
+			<bean name="5" class="java.lang.Integer"><constructor-arg value="225"/></bean>
+			<bean name="6" class="java.lang.Integer"><constructor-arg value="270"/></bean>
+			<bean name="7" class="java.lang.Integer"><constructor-arg value="315"/></bean>
+		</list>
+		</property>
+	</bean>
+	
+	<!-- Rules -->
+	<bean name="grabbingRules" class="br.com.danielhabib.core.rules.GrabbingRules" scope="prototype"/>
+	<bean name="movingRules" class="br.com.danielhabib.core.rules.MovingRules" scope="prototype"/>
+	
+	<util:map id="speedMap" map-class="java.util.HashMap" key-type="java.lang.Integer" value-type="br.com.danielhabib.core.component.Position">
+		<entry key="0" value-ref="rightSpeed"/>
+		<entry key="45" value-ref="upRightSpeed" />
+		<entry key="90" value-ref="upSpeed" />
+		<entry key="135" value-ref="upLeftSpeed" />
+		<entry key="180" value-ref="leftSpeed" />
+		<entry key="225" value-ref="downLeftSpeed" />
+		<entry key="270" value-ref="downSpeed" />
+		<entry key="315" value-ref="downRightSpeed" />
+	</util:map>
+	<bean name="upSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="0"/><constructor-arg value="-1"/></bean>
+	<bean name="downSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="0"/><constructor-arg value="1"/></bean>
+	<bean name="leftSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="-1"/><constructor-arg value="0"/></bean>
+	<bean name="rightSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="1"/><constructor-arg value="0"/></bean>
+	<bean name="upRightSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="1"/><constructor-arg value="-1"/></bean>
+	<bean name="upLeftSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="-1"/><constructor-arg value="-1"/></bean>
+	<bean name="downLeftSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="-1"/><constructor-arg value="1"/></bean>
+	<bean name="downRightSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="1"/><constructor-arg value="1"/></bean>
+	
+	<!-- LevelParser -->
+	<bean name="level1_1Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+		<property name="file" ref="level1_1" />
+		<property name="movingRules" ref="movingRules"/>
+		<property name="imageHandler" ref="imageHandler1"/>
+		<property name="directionRules" ref="counterClockWise"/>
+		<property name="grabbingRules" ref="grabbingRules"/>
+		<property name="componentBuilder" ref="componentBuilder"/>
+	</bean>
+	<bean name="level1_2Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+		<property name="file" ref="level1_2" />
+		<property name="movingRules" ref="movingRules"/>
+		<property name="imageHandler" ref="imageHandler1"/>
+		<property name="directionRules" ref="counterClockWise"/>
+		<property name="grabbingRules" ref="grabbingRules"/>
+		<property name="componentBuilder" ref="componentBuilder"/>
+	</bean>
+	<bean name="level1_3Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+		<property name="file" ref="level1_3" />
+		<property name="movingRules" ref="movingRules"/>
+		<property name="imageHandler" ref="imageHandler1"/>
+		<property name="directionRules" ref="counterClockWise"/>
+		<property name="grabbingRules" ref="grabbingRules"/>
+		<property name="componentBuilder" ref="componentBuilder"/>
+	</bean>
+	<bean name="drawingParser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+		<property name="file" ref="drawing" />
+		<property name="movingRules" ref="movingRules"/>
+		<property name="imageHandler" ref="imageHandler1"/>
+		<property name="directionRules" ref="counterClockWise"/>
+		<property name="grabbingRules" ref="grabbingRules"/>
+		<property name="componentBuilder" ref="componentBuilder"/>
+	</bean>
+	<bean name="levelTransition1" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+		<property name="file" ref="lt1" />
+		<property name="movingRules" ref="movingRules"/>
+		<property name="imageHandler" ref="imageHandler1"/>
+		<property name="directionRules" ref="counterClockWise"/>
+		<property name="grabbingRules" ref="grabbingRules"/>
+		<property name="componentBuilder" ref="componentBuilder"/>
+	</bean>
+	<bean name="levelTransition2" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+		<property name="file" ref="lt2" />
+		<property name="movingRules" ref="movingRules"/>
+		<property name="imageHandler" ref="imageHandler1"/>
+		<property name="directionRules" ref="counterClockWise"/>
+		<property name="grabbingRules" ref="grabbingRules"/>
+		<property name="componentBuilder" ref="componentBuilder"/>
+	</bean>	
+	<bean name="acceptance1Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+		<property name="file" ref="acceptance1" />
+		<property name="movingRules" ref="movingRules"/>
+		<property name="imageHandler" ref="imageHandler1"/>
+		<property name="directionRules" ref="counterClockWise"/>
+		<property name="grabbingRules" ref="grabbingRules"/>
+		<property name="componentBuilder" ref="componentBuilder"/>
+	</bean>	
+	<bean name="acceptance2Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+		<property name="file" ref="acceptance2" />
+		<property name="movingRules" ref="movingRules"/>
+		<property name="imageHandler" ref="imageHandler1"/>
+		<property name="directionRules" ref="counterClockWise"/>
+		<property name="grabbingRules" ref="grabbingRules"/>
+		<property name="componentBuilder" ref="componentBuilder"/>
+	</bean>			
+	
+	
+	
+	<bean name="level1_1" class="java.io.File"><constructor-arg value="test-levels/level_1_1.txt"/></bean>
+	<bean name="level1_2" class="java.io.File"><constructor-arg value="test-levels/level_1_2.txt"/></bean>
+	<bean name="level1_3" class="java.io.File"><constructor-arg value="test-levels/level_1_3.txt"/></bean>
+	<bean name="drawing" class="java.io.File"><constructor-arg value="test-levels/drawing.txt"/></bean>
+	<bean name="lt1" class="java.io.File"><constructor-arg value="test-levels/lt1.txt"/></bean>
+	<bean name="lt2" class="java.io.File"><constructor-arg value="test-levels/lt2.txt"/></bean>
+	<bean name="acceptance1" class="java.io.File"><constructor-arg value="test-levels/at1.txt"/></bean>
+	<bean name="acceptance2" class="java.io.File"><constructor-arg value="test-levels/at2.txt"/></bean>
+	
+	<!-- Component Builders -->
+	<bean name="componentBuilder" class="br.com.danielhabib.core.builder.ComponentBuilder">
+		<property name="map">
+			<util:map id="componentBuilderMap" map-class="java.util.HashMap" key-type="java.lang.Character" value-type="br.com.danielhabib.core.builder.ATypeBuilder">
+			    <entry key="w" value-ref="wallBuilder"/>
+			    <entry key="o" value-ref="ballBuilder"/>
+			    <entry key="g" value-ref="goalBuilder"/>
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean name="goalBuilder" class="br.com.danielhabib.core.builder.GoalBuilder">
+		<property name="colorBuilder" ref="goalColorBuilder" />
+		<property name="size" ref="configSize"/>
+	</bean>	
+	
+	<bean name="ballBuilder" class="br.com.danielhabib.core.builder.BallBuilder">
+		<property name="colorBuilder" ref="ballColorBuilder" />
+		<property name="size" value="#{configSize/2}"/>
+	</bean>
+
+	<bean name="wallBuilder" class="br.com.danielhabib.core.builder.WallBuilder">
+		<property name="colorBuilder" ref="wallColorBuilder" />
+		<property name="size" value="#{configSize-1}"/>
+	</bean>
+	
+	<bean name="configSize" class="java.lang.Integer">
+		<constructor-arg value="64" />
+     </bean>
+
+	<!-- Color Builders -->
+	<bean name="wallColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">
+		<constructor-arg>
+			<list>
+				<util:constant static-field="java.awt.Color.BLUE" />
+				<util:constant static-field="java.awt.Color.YELLOW" />
+				<util:constant static-field="java.awt.Color.ORANGE" />
+				<util:constant static-field="java.awt.Color.RED" />
+				<util:constant static-field="java.awt.Color.CYAN" />
+				<util:constant static-field="java.awt.Color.GREEN" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean name="ballColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">
+		<constructor-arg>
+			<list>
+				<util:constant static-field="java.awt.Color.BLUE" />
+				<util:constant static-field="java.awt.Color.RED" />
+				<util:constant static-field="java.awt.Color.ORANGE" />
+				<util:constant static-field="java.awt.Color.CYAN" />
+				<util:constant static-field="java.awt.Color.GREEN" />
+				<util:constant static-field="java.awt.Color.YELLOW" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="goalColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">
+		<constructor-arg>
+			<list>
+				<util:constant static-field="java.awt.Color.ORANGE" />
+				<util:constant static-field="java.awt.Color.BLUE" />
+				<util:constant static-field="java.awt.Color.YELLOW" />
+				<util:constant static-field="java.awt.Color.GREEN" />
+				<util:constant static-field="java.awt.Color.CYAN" />
+				<util:constant static-field="java.awt.Color.RED" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	
+
+</beans>

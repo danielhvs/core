@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
+import br.com.danielhabib.core.builder.LevelParser;
+
 public class Level1Test extends AbstractIntegrationTest {
 
 	private TestObserver rulesObserver;
@@ -47,8 +49,11 @@ public class Level1Test extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected List<String> levels() {
-		return Arrays.asList("w:0,0\nr:2,0-3,0\nw:4,0\np:1,0", "w:0,0\nr:2,0-3,0\nw:4,0\np:1,0", "w:0,0\nr:2,0-3,0\nw:4,0\np:1,0");
+	protected List<LevelParser> parsers() {
+		return Arrays.asList(
+				context.getBean("level1_1Parser", LevelParser.class), 
+				context.getBean("level1_2Parser", LevelParser.class),
+				context.getBean("level1_3Parser", LevelParser.class));
 	}
 
 }

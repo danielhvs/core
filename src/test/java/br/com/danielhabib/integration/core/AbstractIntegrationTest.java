@@ -11,10 +11,11 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import br.com.danielhabib.core.builder.LevelParser;
-import br.com.danielhabib.core.component.LevelHandler;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.gui.Main2D;
 import br.com.danielhabib.core.rules.GoalRule;
@@ -22,6 +23,7 @@ import br.com.danielhabib.core.rules.GrabbingRules;
 
 public abstract class AbstractIntegrationTest {
 	protected static final int CONFIG_SIZE = 64;
+	protected static FileSystemXmlApplicationContext context;
 	protected final int WINDOW_SIZE = CONFIG_SIZE / 2 + CONFIG_SIZE * 6;
 	protected JFrame frame;
 	protected JApplet applet;
@@ -29,12 +31,14 @@ public abstract class AbstractIntegrationTest {
 	protected LevelParser parser;
 	protected int level = 1;
 
+	@BeforeClass
+	public static void beforeClass() {
+		context = new FileSystemXmlApplicationContext("src/main/resources/config/test-beans.xml");
+	}
+
 	@Test
 	public void integrationTest() throws Exception {
-		LevelHandler handler = new LevelHandler();
-		handler.setLevels(levels());
-		List<LevelParser> parsers = handler.getParsers();
-		for (LevelParser levelParser : parsers) {
+		for (LevelParser levelParser : parsers()) {
 			buildFrame();
 			parser = levelParser;
 			psico = parser.getPsico();
@@ -53,6 +57,8 @@ public abstract class AbstractIntegrationTest {
 		}
 	}
 
+	protected abstract List<LevelParser> parsers();
+
 	protected void setup() {
 		// Hook to finish setting stuff up.
 	}
@@ -62,8 +68,6 @@ public abstract class AbstractIntegrationTest {
 	protected List<GoalRule> rules() {
 		return parser.getGoalRules();
 	}
-
-	protected abstract List<String> levels();
 
 	protected void setupFrame() {
 		frame.getContentPane().add("Center", applet);

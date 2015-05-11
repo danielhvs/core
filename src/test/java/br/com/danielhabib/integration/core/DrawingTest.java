@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.rules.GoalRule;
 
@@ -37,7 +38,7 @@ public class DrawingTest extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected List<String> levels() {
-		return Arrays.asList("w:0,0-4,0\nw:5,0-5,4\nw:0,5-5,5\nw:0,1-0,4\nr:2,3-3,3\np:2,2");
+	protected List<LevelParser> parsers() {
+		return Arrays.asList(context.getBean("drawingParser", LevelParser.class));
 	}
 }

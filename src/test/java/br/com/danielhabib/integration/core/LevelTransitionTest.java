@@ -32,7 +32,7 @@ public class LevelTransitionTest extends AbstractIntegrationTest {
 				frame.dispose();
 
 				buildFrame();
-				parser = new LevelParser("w:0,0\nr:2,0-3,0\nw:4,0\nr:2,0-3,0\np:1,0");
+				parser = context.getBean("levelTransition2", LevelParser.class);
 				psico = parser.getPsico();
 				applet = new Main2D(psico, parser);
 				parser.setMoveHandlerObserver(RULES_OBSERVER);
@@ -60,8 +60,8 @@ public class LevelTransitionTest extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected List<String> levels() {
-		return Arrays.asList("w:0,0\nr:2,0-3,0\nw:4,0\np:1,0");
+	protected List<LevelParser> parsers() {
+		return Arrays.asList(context.getBean("levelTransition1", LevelParser.class));
 	}
 
 }

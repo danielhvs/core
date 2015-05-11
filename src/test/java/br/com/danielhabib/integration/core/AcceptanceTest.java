@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
+import br.com.danielhabib.core.builder.LevelParser;
+
 public class AcceptanceTest extends AbstractIntegrationTest {
 
 	private TestObserver rulesObserver;
@@ -45,22 +47,6 @@ public class AcceptanceTest extends AbstractIntegrationTest {
 		assertEquals(true, rulesObserver.isOver());
 	}
 
-	@Override
-	protected List<String> levels() {
-		return Arrays.asList(
-				"w:0,0\nw:1,0\nw:2,0\nw:3,0\nw:4,0\nw:5,0\nw:6,0\n"
-						+ "w:0,1\nw:6,1\n"
-						+ "w:0,2\nw:6,2\n"
-						+ "w:0,3\nw:4,3\nw:5,3\nw:6,3\np:1,3\nr:2,3-5,2\n"
-						+ "w:0,4\nw:1,4\nw:2,4\nw:3,4\nw:4,4\nw:5,4\nw:6,4\n",
-
-						"w:0,0\nw:1,0\nw:2,0\nw:3,0\nw:4,0\nw:5,0\nw:6,0\n"
-								+ "w:0,1\nw:6,1\n"
-								+ "w:0,2\nw:6,2\nr:1,2-2,4\n"
-								+ "w:0,3\nw:6,3\np:1,3\n"
-								+ "w:0,4\nw:6,4\nw:1,4\nw:3,4\nw:4,4\nw:5,4\nw:6,4\n"
-								+ "w:0,5\nw:1,5\nw:2,5\nw:3,5\nw:4,5\nw:5,5\nw:6,5\n");
-	}
 
 	@Override
 	protected void setup() {
@@ -76,6 +62,11 @@ public class AcceptanceTest extends AbstractIntegrationTest {
 	@Override
 	protected int yWindowSize() {
 		return CONFIG_SIZE * 6;
+	}
+
+	@Override
+	protected List<LevelParser> parsers() {
+		return Arrays.asList(context.getBean("acceptance1Parser", LevelParser.class), context.getBean("acceptance2Parser", LevelParser.class));
 	}
 
 }
