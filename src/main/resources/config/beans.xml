@@ -60,24 +60,11 @@
 		</list>
 		</property>
 	</bean>
-	<bean name="imageHandler2" class="br.com.danielhabib.core.rules.ImageHandler">
-		<property name="size" ref="configSize"/>
+	<bean name="imageHandler2" parent="imageHandler1">
 		<property name="imageFile">
 			<bean class="java.io.File">
 				<constructor-arg value="images/psico_green.png"/>
 			</bean>
-		</property>
-		<property name="directions">
-		<list>
-			<bean name="0" class="java.lang.Integer"><constructor-arg value="0"/></bean>
-			<bean name="1" class="java.lang.Integer"><constructor-arg value="45"/></bean>
-			<bean name="2" class="java.lang.Integer"><constructor-arg value="90"/></bean>
-			<bean name="3" class="java.lang.Integer"><constructor-arg value="135"/></bean>
-			<bean name="4" class="java.lang.Integer"><constructor-arg value="180"/></bean>
-			<bean name="5" class="java.lang.Integer"><constructor-arg value="225"/></bean>
-			<bean name="6" class="java.lang.Integer"><constructor-arg value="270"/></bean>
-			<bean name="7" class="java.lang.Integer"><constructor-arg value="315"/></bean>
-		</list>
 		</property>
 	</bean>
 
@@ -164,41 +151,16 @@
      </bean>
 
 	<!-- Color Builders -->
+	<bean name="ballColorBuilder" parent="wallColorBuilder"/>
+	<bean name="goalColorBuilder" parent="wallColorBuilder"/>
 	<bean name="wallColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">
 		<constructor-arg>
 			<list>
 				<util:constant static-field="java.awt.Color.BLUE" />
 				<util:constant static-field="java.awt.Color.YELLOW" />
-				<util:constant static-field="java.awt.Color.ORANGE" />
 				<util:constant static-field="java.awt.Color.RED" />
 				<util:constant static-field="java.awt.Color.CYAN" />
 				<util:constant static-field="java.awt.Color.GREEN" />
-			</list>
-		</constructor-arg>
-	</bean>
-
-	<bean name="ballColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">
-		<constructor-arg>
-			<list>
-				<util:constant static-field="java.awt.Color.BLUE" />
-				<util:constant static-field="java.awt.Color.RED" />
-				<util:constant static-field="java.awt.Color.ORANGE" />
-				<util:constant static-field="java.awt.Color.CYAN" />
-				<util:constant static-field="java.awt.Color.GREEN" />
-				<util:constant static-field="java.awt.Color.YELLOW" />
-			</list>
-		</constructor-arg>
-	</bean>
-	
-	<bean name="goalColorBuilder" class="br.com.danielhabib.core.builder.ColorBuilder">
-		<constructor-arg>
-			<list>
-				<util:constant static-field="java.awt.Color.ORANGE" />
-				<util:constant static-field="java.awt.Color.BLUE" />
-				<util:constant static-field="java.awt.Color.YELLOW" />
-				<util:constant static-field="java.awt.Color.GREEN" />
-				<util:constant static-field="java.awt.Color.CYAN" />
-				<util:constant static-field="java.awt.Color.RED" />
 			</list>
 		</constructor-arg>
 	</bean>
