@@ -104,25 +104,25 @@
 	<bean name="downLeftSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="-1"/><constructor-arg value="1"/></bean>
 	<bean name="downRightSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="1"/><constructor-arg value="1"/></bean>
 	
+	<!-- FIXME: It should be a psico, not a levelParser... -->
+	<bean name="baseLevelParser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+		<property name="file" ref="level1" />
+		<property name="movingRules" ref="movingRules"/>
+		<property name="imageHandler" ref="imageHandler1"/>
+		<property name="directionRules" ref="counterClockWise"/>
+		<property name="grabbingRules" ref="grabbingRules"/>
+		<property name="componentBuilder" ref="componentBuilder"/>
+	</bean>
+	
 	<!-- LevelParser -->
 	<bean name="levelHandler" class="br.com.danielhabib.core.component.LevelHandler">
 		<property name="parsers">
 			<list>
-				<bean name="level1Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
-					<property name="file" ref="level1" />
-					<property name="movingRules" ref="movingRules"/>
-					<property name="imageHandler" ref="imageHandler1"/>
-					<property name="directionRules" ref="counterClockWise"/>
-					<property name="grabbingRules" ref="grabbingRules"/>
-					<property name="componentBuilder" ref="componentBuilder"/>
-				</bean>
-				<bean name="level2Parser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+				<bean name="level1Parser" parent="baseLevelParser"/>
+				<bean name="level2Parser" parent="baseLevelParser">
 					<property name="file" ref="level2" />
-					<property name="movingRules" ref="movingRules"/>
 					<property name="imageHandler" ref="imageHandler2"/>
 					<property name="directionRules" ref="clockWise"/>
-					<property name="grabbingRules" ref="grabbingRules"/>
-					<property name="componentBuilder" ref="componentBuilder"/>
 				</bean>
 			</list>
 		</property>
