@@ -18,7 +18,6 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import br.com.danielhabib.core.builder.LevelParser;
-import br.com.danielhabib.core.component.LevelHandler;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.gui.Main2D;
 import br.com.danielhabib.core.rules.IRulesObserver;
@@ -29,8 +28,12 @@ public class App {
 	protected static JApplet applet;
 	protected static Psico psico;
 	private static LevelParser parser;
-	private static List<LevelParser> parsers;
 	private static int level = 0;
+
+	private static List<LevelParser> parsers;
+	public void setParsers(List<LevelParser> parsers) {
+		App.parsers = parsers;
+	}
 
 	private static int windowHeight;
 	public void setWindowHeight(int windowHeight) {
@@ -42,11 +45,6 @@ public class App {
 		App.windowWidth = windowWidth;
 	}
 
-	private LevelHandler levelHandler;
-	public void setLevelHandler(LevelHandler levelHandler) {
-		this.levelHandler = levelHandler;
-	}
-
 	public static void main(String[] args) throws InterruptedException, IOException {
 		ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
 		App app = context.getBean(App.class);
@@ -54,7 +52,6 @@ public class App {
 	}
 
 	private void start() throws BeansException, IOException {
-		parsers = levelHandler.getParsers();
 		nextLevel();
 	}
 
@@ -67,14 +64,14 @@ public class App {
 	}
 
 	private static boolean lastLevelIsDone() {
-		return level == parsers.size();
+		return level == App.parsers.size();
 	}
 
 	private static void displayNextLevel() {
 		frame = buildFrame();
-		parser = parsers.get(level++);
+		parser = App.parsers.get(level++);
 		psico = parser.getPsico();
-		parser.setMoveHandlerObserver(new IRulesObserver() {
+		psico.setMoveHandlerObserver(new IRulesObserver() {
 			public void levelIsOver() throws Exception {
 				frame.dispose();
 				nextLevel();

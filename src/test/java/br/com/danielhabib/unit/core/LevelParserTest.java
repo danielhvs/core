@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.context.ApplicationContext;
 
 import br.com.danielhabib.core.builder.ComponentBuilder;
 import br.com.danielhabib.core.builder.LevelParser;
@@ -25,8 +24,6 @@ import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.component.Wall;
 import br.com.danielhabib.core.rules.GoalRule;
-import br.com.danielhabib.core.rules.GrabbingRules;
-import br.com.danielhabib.core.rules.MovingRules;
 
 public class LevelParserTest {
 	@Rule
@@ -34,12 +31,6 @@ public class LevelParserTest {
 
 	@Mock
 	private ComponentBuilder componentBuilder;
-	@Mock
-	private GrabbingRules grabbingRules;
-	@Mock
-	private MovingRules movingRules;
-	@Mock
-	private ApplicationContext context;
 
 	private static final int CONFIG_SIZE = 64;
 
@@ -62,7 +53,7 @@ public class LevelParserTest {
 
 	@Test
 	public void parse_Empty_Empty() throws Exception {
-		LevelParser parser = newLevelParser("");
+		LevelParser parser = buildLevelParser("");
 
 		assertEquals(0, parser.getBalls().size());
 		assertEquals(0, parser.getWalls().size());
@@ -71,17 +62,17 @@ public class LevelParserTest {
 	}
 
 	@Test
-	public void parse_Psico() throws Exception {
+	public void parse_Psico_MovesHim() throws Exception {
 		LevelParser parser = newLevelParser("p:1,0");
+		parser.setPsico(new Psico());
 
-		Psico psico = parser.getPsico();
-
-		assertEquals(new Position(1, 0), psico.getPosition());
+		parser.build();
+		assertEquals(new Position(1, 0), parser.getPsico().getPosition());
 	}
 
 	@Test
 	public void parse_W() throws Exception {
-		LevelParser parser = newLevelParser("w:0,0");
+		LevelParser parser = buildLevelParser("w:0,0");
 
 		List<Component> walls = parser.getWalls();
 
@@ -92,7 +83,7 @@ public class LevelParserTest {
 	public void parse_O() throws Exception {
 
 
-		LevelParser parser = newLevelParser("o:0,0");
+		LevelParser parser = buildLevelParser("o:0,0");
 
 		List<Component> balls = parser.getBalls();
 
@@ -101,7 +92,7 @@ public class LevelParserTest {
 
 	@Test
 	public void parse_2Os() throws Exception {
-		LevelParser parser = newLevelParser("o:0,0\no:1,0");
+		LevelParser parser = buildLevelParser("o:0,0\no:1,0");
 
 		List<Component> balls = parser.getBalls();
 
@@ -110,7 +101,7 @@ public class LevelParserTest {
 
 	@Test
 	public void parse_2OsSamePosition() throws Exception {
-		LevelParser parser = newLevelParser("o:0,0\no:0,0");
+		LevelParser parser = buildLevelParser("o:0,0\no:0,0");
 
 		List<Component> balls = parser.getBalls();
 
@@ -120,7 +111,7 @@ public class LevelParserTest {
 
 	@Test
 	public void parse_GIsImplicitInRule() throws Exception {
-		LevelParser parser = newLevelParser("r:0,0-0,0");
+		LevelParser parser = buildLevelParser("r:0,0-0,0");
 
 		List<Component> goals = parser.getGoals();
 		List<Component> balls = parser.getBalls();
@@ -131,7 +122,7 @@ public class LevelParserTest {
 
 	@Test
 	public void parse_ManyGoals_OnlyOneGoalPerPosition() throws Exception {
-		LevelParser parser = newLevelParser("r:0,0-0,0\nr:1,0-0,0\nr:0,1-1,0");
+		LevelParser parser = buildLevelParser("r:0,0-0,0\nr:1,0-0,0\nr:0,1-1,0");
 
 		List<Component> goals = parser.getGoals();
 		List<Component> balls = parser.getBalls();
@@ -147,28 +138,28 @@ public class LevelParserTest {
 
 	@Test
 	public void parse_LineYWall_ManyWallsInYLine() throws Exception {
-		LevelParser parser = newLevelParser("w:0,1-0,5");
+		LevelParser parser = buildLevelParser("w:0,1-0,5");
 		List<Component> walls = parser.getWalls();
 		assertEquals(5, walls.size());
 	}
 
 	@Test
 	public void parse_LineXWall_ManyWallsInLine() throws Exception {
-		LevelParser parser = newLevelParser("w:1,0-5,0");
+		LevelParser parser = buildLevelParser("w:1,0-5,0");
 		List<Component> walls = parser.getWalls();
 		assertEquals(5, walls.size());
 	}
 
 	@Test
 	public void parse_LineXBall_ManyBallsInLine() throws Exception {
-		LevelParser parser = newLevelParser("o:1,0-5,0");
+		LevelParser parser = buildLevelParser("o:1,0-5,0");
 		List<Component> balls = parser.getBalls();
 		assertEquals(5, balls.size());
 	}
 
 	@Test
 	public void parse_ComplexCenario() throws Exception {
-		LevelParser parser = newLevelParser("w:1,0\no:2,0\nr:0,1-2,0");
+		LevelParser parser = buildLevelParser("w:1,0\no:2,0\nr:0,1-2,0");
 
 		List<Component> goals = parser.getGoals();
 		List<Component> balls = parser.getBalls();
@@ -184,7 +175,7 @@ public class LevelParserTest {
 
 	@Test
 	public void getGoalRule_LevelNotOver() throws Exception {
-		LevelParser parser = newLevelParser("r:0,1-2,0");
+		LevelParser parser = buildLevelParser("r:0,1-2,0");
 		List<GoalRule> rules = parser.getGoalRules();
 		GoalRule rule = rules.get(0);
 
@@ -193,11 +184,17 @@ public class LevelParserTest {
 
 	@Test
 	public void getGoalRule_LevelIsOver() throws Exception {
-		LevelParser parser = newLevelParser("r:0,0-0,0");
+		LevelParser parser = buildLevelParser("r:0,0-0,0");
 		List<GoalRule> rules = parser.getGoalRules();
 		GoalRule rule = rules.get(0);
 
 		assertEquals(true, rule.isLevelOver());
+	}
+
+	private LevelParser buildLevelParser(String string) throws IOException {
+		LevelParser levelParser = newLevelParser(string);
+		levelParser.build();
+		return levelParser;
 	}
 
 	private LevelParser newLevelParser(String string) throws IOException {
@@ -205,12 +202,7 @@ public class LevelParserTest {
 		FileUtils.writeStringToFile(file, string);
 		LevelParser levelParser = new LevelParser();
 		levelParser.setFile(file);
-		levelParser.setMovingRules(movingRules);
-		levelParser.setGrabbingRules(grabbingRules);
 		levelParser.setComponentBuilder(componentBuilder);
-		levelParser.setApplicationContext(context);
-
-		levelParser.build();
 		return levelParser;
 	}
 

@@ -9,9 +9,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.component.ComponentContainer;
@@ -19,14 +16,9 @@ import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Psico;
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
-import br.com.danielhabib.core.rules.AMovingRules;
-import br.com.danielhabib.core.rules.DirectionHandler;
 import br.com.danielhabib.core.rules.GoalRule;
-import br.com.danielhabib.core.rules.GrabbingRules;
-import br.com.danielhabib.core.rules.IRulesObserver;
-import br.com.danielhabib.core.rules.ImageHandler;
 
-public class LevelParser implements ApplicationContextAware {
+public class LevelParser {
 
 	private ComponentBuilder componentBuilder;
 	private String string;
@@ -34,19 +26,7 @@ public class LevelParser implements ApplicationContextAware {
 	private List<GoalRule> goalRules = new ArrayList<GoalRule>();
 	private Psico psico;
 	private Map<Position, ComponentContainer> containers = new HashMap<Position, ComponentContainer>();
-	private ApplicationContext context;
-
-	private AMovingRules movingRules;
-	private ImageHandler imageHandler;
-	private DirectionHandler directionRules;
-	private GrabbingRules grabbingRules;
 	private File file;
-
-	private void setupMoveHandler() {
-		grabbingRules.setLevelParser(this);
-		grabbingRules.setGoalRules(goalRules);
-		movingRules.setLevelParser(this);
-	}
 
 	public List<GoalRule> getGoalRules() {
 		return goalRules;
@@ -81,7 +61,7 @@ public class LevelParser implements ApplicationContextAware {
 			}
 			char type = stype.charAt(0);
 			if (type == 'p') {
-				buildPsico(data[1]);
+				movePsicoTo(data[1]);
 			} else if (type == 'r') {
 				buildRule(data[1]);
 			} else {
@@ -114,16 +94,12 @@ public class LevelParser implements ApplicationContextAware {
 		add(type, newComponent);
 	}
 
-	// TODO: configure it via beans.xml using scope = prototype or setting the
-	// position here
-	private void buildPsico(String position) {
-		String[] xy = position.split(",");
-		int x = Integer.parseInt(xy[0]);
-		int y = Integer.parseInt(xy[1]);
-		psico = new Psico(directionRules, grabbingRules, new Position(x, y));
-		psico.setSpeedMap(context.getBean("speedMap", Map.class));
-		psico.setMovingRules(movingRules);
-		psico.setImageHandler(imageHandler);
+	public void setPsico(Psico psico) {
+		this.psico = psico;
+	}
+
+	private void movePsicoTo(String position) {
+		psico.setPosition(new Position(position));
 	}
 
 	private void add(char type, Component component) {
@@ -160,10 +136,6 @@ public class LevelParser implements ApplicationContextAware {
 		return psico;
 	}
 
-	public void setMoveHandlerObserver(IRulesObserver iRulesObserver) {
-		grabbingRules.setObserver(iRulesObserver);
-	}
-
 	public void build() throws IOException {
 		this.string = FileUtils.readFileToString(file);
 		map = new HashMap<Character, List<Component>>();
@@ -172,7 +144,6 @@ public class LevelParser implements ApplicationContextAware {
 		map.put('g', new ArrayList<Component>());
 		parse();
 		addBallsInContainers();
-		setupMoveHandler();
 	}
 
 	public void addBall(Position position, Component ball) {
@@ -243,28 +214,8 @@ public class LevelParser implements ApplicationContextAware {
 		this.componentBuilder = componentBuilder;
 	}
 
-	public void setMovingRules(AMovingRules movingRules) {
-		this.movingRules = movingRules;
-	}
-
-	public void setImageHandler(ImageHandler imageHandler) {
-		this.imageHandler = imageHandler;
-	}
-
-	public void setDirectionRules(DirectionHandler directionRules) {
-		this.directionRules = directionRules;
-	}
-
-	public void setGrabbingRules(GrabbingRules grabbingRules) {
-		this.grabbingRules = grabbingRules;
-	}
-
 	public void setFile(File file) {
 		this.file = file;
-	}
-
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.context = applicationContext;
 	}
 
 }

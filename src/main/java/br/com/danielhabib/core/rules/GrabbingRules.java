@@ -53,6 +53,7 @@ public class GrabbingRules implements IGrabbingRules {
 
 	public void setLevelParser(LevelParser levelParser) {
 		this.levelParser = levelParser;
+		setGoalRules(levelParser.getGoalRules());
 	}
 
 }

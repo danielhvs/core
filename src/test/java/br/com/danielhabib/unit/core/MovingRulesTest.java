@@ -20,7 +20,6 @@ import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Position;
 import br.com.danielhabib.core.component.Wall;
 import br.com.danielhabib.core.rules.AMovingRules;
-import br.com.danielhabib.core.rules.GrabbingRules;
 import br.com.danielhabib.core.rules.MovingRules;
 
 public class MovingRulesTest {
@@ -32,9 +31,6 @@ public class MovingRulesTest {
 
 	@Mock
 	private ComponentBuilder componentBuilder;
-
-	@Mock
-	private GrabbingRules grabbingRules;
 
 	@Before
 	public void setup() {
@@ -67,12 +63,8 @@ public class MovingRulesTest {
 
 		File file = tmpDir.newFile();
 		FileUtils.writeStringToFile(file, string);
-
 		levelParser.setComponentBuilder(componentBuilder);
 		levelParser.setFile(file);
-		levelParser.setGrabbingRules(grabbingRules);
-		levelParser.setMovingRules(rules);
-
 		levelParser.build();
 		rules.setLevelParser(levelParser);
 		return rules;

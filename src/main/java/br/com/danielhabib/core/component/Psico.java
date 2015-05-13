@@ -2,9 +2,7 @@ package br.com.danielhabib.core.component;
 
 import java.util.Map;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-
+import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.gui.Graphics;
 import br.com.danielhabib.core.nulls.NullComponent;
 import br.com.danielhabib.core.nulls.NullObserver;
@@ -12,43 +10,35 @@ import br.com.danielhabib.core.rules.AMovingRules;
 import br.com.danielhabib.core.rules.IDirectionHandler;
 import br.com.danielhabib.core.rules.IGrabbingRules;
 import br.com.danielhabib.core.rules.IPsicoObserver;
+import br.com.danielhabib.core.rules.IRulesObserver;
 import br.com.danielhabib.core.rules.ImageHandler;
 
 public class Psico extends Component {
 
-	private static ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
-	int i = 0;
-	private IDirectionHandler directionHandler;
+	private IDirectionHandler directionRules;
 	private IGrabbingRules grabbingRules;
 	private IPsicoObserver observer;
 	private Component ball;
-	private Integer direction;
+	private int direction;
 	private ImageHandler imageHandler;
 	private static final Component NULL_BALL = new NullComponent();
 	private AMovingRules movingRules;
 	private Map<Integer, Position> speedMap;
+	private LevelParser levelParser;
 
-	public Psico(IDirectionHandler handler, IGrabbingRules grabbingRules, Position position) {
-		super(position, 0);
-		this.directionHandler = handler;
-		this.grabbingRules = grabbingRules;
+	public Psico() {
+		super(new Position(-1, -1), 0);
 		this.observer = new NullObserver();
 		this.ball = new NullComponent();
-		this.direction = 0;
 	}
 
 	public void move() {
 		Position initialPosition = getPosition();
 		this.position = move(direction);
 		if (movedFrom(initialPosition)) {
-			ball.setPosition(getPosition());
-			setImageHandler(nextImageHandler());
+			ball.setPosition(position);
 			notifyObserver();
 		}
-	}
-
-	private ImageHandler nextImageHandler() {
-		return context.getBean("imageHandler" + (1 + (++i % 2)), ImageHandler.class);
 	}
 
 	public Position move(Integer direction) {
@@ -64,8 +54,8 @@ public class Psico extends Component {
 	}
 
 	public void turn() {
-		this.direction = directionHandler.turn(direction);
-		setImageHandler(nextImageHandler());
+		this.direction = directionRules.turn(direction);
+		setImageHandler(imageHandler);
 		notifyObserver();
 	}
 
@@ -119,6 +109,27 @@ public class Psico extends Component {
 
 	public void setImageHandler(ImageHandler imageHandler) {
 		this.imageHandler = imageHandler;
+	}
+
+	public void build() {
+		grabbingRules.setLevelParser(levelParser);
+		movingRules.setLevelParser(levelParser);
+	}
+
+	public void setDirectionRules(IDirectionHandler directionRules) {
+		this.directionRules = directionRules;
+	}
+
+	public void setGrabbingRules(IGrabbingRules grabbingRules) {
+		this.grabbingRules = grabbingRules;
+	}
+
+	public void setLevelParser(LevelParser levelParser) {
+		this.levelParser = levelParser;
+	}
+
+	public void setMoveHandlerObserver(IRulesObserver iRulesObserver) {
+		grabbingRules.setObserver(iRulesObserver);
 	}
 
 }

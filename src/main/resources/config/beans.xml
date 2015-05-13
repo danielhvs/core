@@ -9,9 +9,14 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
                       
 	<bean name="App" class="br.com.danielhabib.core.App">
-		<property name="levelHandler" ref="levelHandler"/>
 		<property name="windowWidth" value="#{7*configSize}"/>
 		<property name="windowHeight" value="#{7*configSize}"/>
+		<property name="parsers">
+			<list>
+				<ref bean="level1Parser"/>
+				<ref bean="level2Parser"/>
+			</list>
+		</property>
 	</bean>                      
                            
 	<!-- DirectionHandler -->
@@ -91,34 +96,45 @@
 	<bean name="downLeftSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="-1"/><constructor-arg value="1"/></bean>
 	<bean name="downRightSpeed" class="br.com.danielhabib.core.component.Position"><constructor-arg value="1"/><constructor-arg value="1"/></bean>
 	
-	<!-- FIXME: It should be a psico, not a levelParser... -->
-	<bean name="baseLevelParser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
-		<property name="file" ref="level1" />
+	<!-- Psico -->
+	<bean name="basePsico" class="br.com.danielhabib.core.component.Psico" init-method="build">
 		<property name="movingRules" ref="movingRules"/>
-		<property name="imageHandler" ref="imageHandler1"/>
 		<property name="directionRules" ref="counterClockWise"/>
 		<property name="grabbingRules" ref="grabbingRules"/>
-		<property name="componentBuilder" ref="componentBuilder"/>
+		<property name="speedMap" ref="speedMap"/>
+		<property name="levelParser" ref="level1Parser"/>
+	</bean>
+
+	<bean name="psico1" class="br.com.danielhabib.core.component.Psico" parent="basePsico">
+		<property name="levelParser" ref="level1Parser"/>
+		<property name="directionRules" ref="counterClockWise"/>
+		<property name="imageHandler" ref="imageHandler1"/>
+	</bean>
+
+	<bean name="psico2" class="br.com.danielhabib.core.component.Psico" parent="basePsico">
+		<property name="levelParser" ref="level2Parser"/>
+		<property name="imageHandler" ref="imageHandler2"/>
 	</bean>
 	
-	<!-- LevelParser -->
-	<bean name="levelHandler" class="br.com.danielhabib.core.component.LevelHandler">
-		<property name="parsers">
-			<list>
-				<bean name="level1Parser" parent="baseLevelParser"/>
-				<bean name="level2Parser" parent="baseLevelParser">
-					<property name="file" ref="level2" />
-					<property name="imageHandler" ref="imageHandler2"/>
-					<property name="directionRules" ref="clockWise"/>
-				</bean>
-			</list>
-		</property>
+	<!-- Levels -->
+	<bean name="baseLevelParser" class="br.com.danielhabib.core.builder.LevelParser" init-method="build">
+		<property name="file" ref="level1" />
+		<property name="componentBuilder" ref="componentBuilder"/>
+		<property name="psico" ref="psico1"/>
+	</bean>
+	
+	<bean name="level1Parser" parent="baseLevelParser">
+		<property name="file" ref="level1" />
+		<property name="psico" ref="psico1"/>
+	</bean>
+	<bean name="level2Parser" parent="baseLevelParser">
+		<property name="file" ref="level2" />
+		<property name="psico" ref="psico2"/>
 	</bean>
 	
 	<bean name="level1" class="java.io.File"><constructor-arg value="levels/level_1.txt"/></bean>
 	<bean name="level2" class="java.io.File"><constructor-arg value="levels/level_2.txt"/></bean>
 	<bean name="level3" class="java.io.File"><constructor-arg value="levels/level_3.txt"/></bean>
-	
 	
 	<!-- Component Builders -->
 	<bean name="componentBuilder" class="br.com.danielhabib.core.builder.ComponentBuilder">
@@ -146,10 +162,6 @@
 		<property name="size" value="#{configSize-1}"/>
 	</bean>
 	
-	<bean name="configSize" class="java.lang.Integer">
-		<constructor-arg value="64" />
-     </bean>
-
 	<!-- Color Builders -->
 	<bean name="ballColorBuilder" parent="wallColorBuilder"/>
 	<bean name="goalColorBuilder" parent="wallColorBuilder"/>
@@ -165,6 +177,9 @@
 		</constructor-arg>
 	</bean>
 	
-	
+	<!-- Other configuration -->
+	<bean name="configSize" class="java.lang.Integer">
+		<constructor-arg value="64" />
+     </bean>
 
 </beans>

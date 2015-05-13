@@ -22,7 +22,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.context.ApplicationContext;
 
 import br.com.danielhabib.core.builder.ComponentBuilder;
 import br.com.danielhabib.core.builder.LevelParser;
@@ -55,9 +54,6 @@ public class PsicoTest {
 
 	@Mock
 	private IPsicoObserver observer;
-
-	@Mock
-	private ApplicationContext context;
 
 	private Map<Integer, Position> speedMap;
 
@@ -266,16 +262,15 @@ public class PsicoTest {
 		levelParser.setFile(file);
 
 		GrabbingRules grabbingRules = new GrabbingRules();
-		grabbingRules.setLevelParser(levelParser);
-		levelParser.setGrabbingRules(grabbingRules);
 		levelParser.setComponentBuilder(componentBuilder);
-		levelParser.setDirectionRules(directionHandler);
-		levelParser.setApplicationContext(context);
-		levelParser.setMovingRules(new MovingRules());
+		levelParser.setPsico(psico);
 		levelParser.build();
-
-		Psico psico = levelParser.getPsico();
+		psico.setGrabbingRules(grabbingRules);
+		psico.setDirectionRules(directionHandler);
+		psico.setMovingRules(new MovingRules());
+		psico.setLevelParser(levelParser);
 		psico.setSpeedMap(speedMap);
+		psico.build();
 		return psico;
 	}
 
