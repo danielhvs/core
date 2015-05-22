@@ -23,7 +23,7 @@ public class LevelTransitionTest extends AbstractIntegrationTest {
 
 	@Override
 	protected void setup() {
-		parser.setMoveHandlerObserver(new IRulesObserver() {
+		psico.setMoveHandlerObserver(new IRulesObserver() {
 			public void levelIsOver() throws InterruptedException {
 				loadNextLevel();
 			}
@@ -35,7 +35,7 @@ public class LevelTransitionTest extends AbstractIntegrationTest {
 				parser = context.getBean("levelTransition2", LevelParser.class);
 				psico = parser.getPsico();
 				applet = new Main2D(psico, parser);
-				parser.setMoveHandlerObserver(RULES_OBSERVER);
+				psico.setMoveHandlerObserver(RULES_OBSERVER);
 				setupFrame();
 				setupCommands();
 

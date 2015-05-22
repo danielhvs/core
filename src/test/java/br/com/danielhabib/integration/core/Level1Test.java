@@ -45,13 +45,13 @@ public class Level1Test extends AbstractIntegrationTest {
 	@Override
 	protected void setup() {
 		rulesObserver = new TestObserver();
-		parser.setMoveHandlerObserver(rulesObserver);
+		psico.setMoveHandlerObserver(rulesObserver);
 	}
 
 	@Override
 	protected List<LevelParser> parsers() {
 		return Arrays.asList(
-				context.getBean("level1_1Parser", LevelParser.class), 
+				context.getBean("level1_1Parser", LevelParser.class),
 				context.getBean("level1_2Parser", LevelParser.class),
 				context.getBean("level1_3Parser", LevelParser.class));
 	}

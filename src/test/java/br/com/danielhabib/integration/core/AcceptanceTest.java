@@ -51,7 +51,7 @@ public class AcceptanceTest extends AbstractIntegrationTest {
 	@Override
 	protected void setup() {
 		rulesObserver = new TestObserver();
-		parser.setMoveHandlerObserver(rulesObserver);
+		psico.setMoveHandlerObserver(rulesObserver);
 	}
 
 	@Override
