@@ -76,6 +76,7 @@
 	<!-- Rules -->
 	<bean name="grabbingRules" class="br.com.danielhabib.core.rules.GrabbingRules" scope="prototype"/>
 	<bean name="movingRules" class="br.com.danielhabib.core.rules.MovingRules" scope="prototype"/>
+	<bean name="movingRulesThroughWall" class="br.com.danielhabib.core.rules.MovingRulesThroughWall" scope="prototype"/>
 	
 	<util:map id="speedMap" map-class="java.util.HashMap" key-type="java.lang.Integer" value-type="br.com.danielhabib.core.component.Position">
 		<entry key="0" value-ref="rightSpeed"/>
@@ -113,6 +114,8 @@
 
 	<bean name="psico2" class="br.com.danielhabib.core.component.Psico" parent="basePsico">
 		<property name="levelParser" ref="level2Parser"/>
+		<property name="movingRules" ref="movingRulesThroughWall"/>
+		<property name="directionRules" ref="clockWise"/>
 		<property name="imageHandler" ref="imageHandler2"/>
 	</bean>
 	
@@ -179,7 +182,7 @@
 	
 	<!-- Other configuration -->
 	<bean name="configSize" class="java.lang.Integer">
-		<constructor-arg value="64" />
+		<constructor-arg value="32" />
      </bean>
 
 </beans>
