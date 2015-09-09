@@ -5,10 +5,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.Ignore;
+
 import br.com.danielhabib.core.builder.LevelParser;
 import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.component.Position;
 
+@Ignore
 public class DiaDosNamorados extends AbstractIntegrationTest {
 
 	private int initialX = 1;
@@ -46,15 +49,6 @@ public class DiaDosNamorados extends AbstractIntegrationTest {
 	private void comemora() throws InterruptedException {
 		setTimeout(300000);
 		sleep();
-	}
-
-	private void gira() throws InterruptedException {
-		int lastTimeout = getTimeout();
-		setTimeout(50);
-		for (int i = 0; i < 4 * 5; i++) {
-			turn();
-		}
-		setTimeout(lastTimeout);
 	}
 
 	private void gotoPosition(Position position) throws InterruptedException {

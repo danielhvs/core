@@ -104,6 +104,7 @@
 		<property name="grabbingRules" ref="grabbingRules"/>
 		<property name="speedMap" ref="speedMap"/>
 		<property name="levelParser" ref="level1Parser"/>
+		<property name="imageHandler" ref="imageHandler1"/>
 	</bean>
 
 	<bean name="psico1" class="br.com.danielhabib.core.component.Psico" parent="basePsico">
@@ -182,7 +183,7 @@
 	
 	<!-- Other configuration -->
 	<bean name="configSize" class="java.lang.Integer">
-		<constructor-arg value="32" />
+		<constructor-arg value="64" />
      </bean>
 
 </beans>

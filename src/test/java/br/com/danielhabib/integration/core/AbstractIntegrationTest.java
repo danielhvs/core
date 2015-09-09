@@ -30,6 +30,7 @@ public abstract class AbstractIntegrationTest {
 	protected Psico psico;
 	protected LevelParser parser;
 	protected int level = 1;
+	private int timeout = 10;
 
 	@BeforeClass
 	public static void beforeClass() {
@@ -130,8 +131,12 @@ public abstract class AbstractIntegrationTest {
 
 	protected GrabbingRules moveHandler;
 
-	protected int timeoutMillis() {
-		return 10;
+	protected int getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
 	}
 
 	protected void turn90() throws InterruptedException {
@@ -188,6 +193,6 @@ public abstract class AbstractIntegrationTest {
 	}
 
 	protected void sleep() throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(timeoutMillis());
+		TimeUnit.MILLISECONDS.sleep(getTimeout());
 	}
 }

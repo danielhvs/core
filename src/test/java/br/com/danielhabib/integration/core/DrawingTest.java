@@ -28,7 +28,7 @@ public class DrawingTest extends AbstractIntegrationTest {
 	}
 
 	@Override
-	protected int timeoutMillis() {
+	protected int getTimeout() {
 		return 1000;
 	}
 
