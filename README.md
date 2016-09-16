@@ -7,6 +7,7 @@ I'm using
   JUnit;
   Spring;
   Maven;
+  javax.swing;
 as tools to implement the Standford's application "Karel the Robot learns Java".
 
 ;D

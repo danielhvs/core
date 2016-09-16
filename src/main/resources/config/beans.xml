@@ -136,6 +136,8 @@
 		<property name="psico" ref="psico2"/>
 	</bean>
 	
+	<!-- For valentines day test -->
+<!-- 	<bean name="level1" class="java.io.File"><constructor-arg value="levels/levelx.txt"/></bean> -->
 	<bean name="level1" class="java.io.File"><constructor-arg value="levels/level_1.txt"/></bean>
 	<bean name="level2" class="java.io.File"><constructor-arg value="levels/level_2.txt"/></bean>
 	<bean name="level3" class="java.io.File"><constructor-arg value="levels/level_3.txt"/></bean>

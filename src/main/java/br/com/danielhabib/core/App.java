@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +25,7 @@ import br.com.danielhabib.core.rules.IRulesObserver;
 
 @Component
 public class App {
+	private static final String BEANS_PATH = "src/main/resources/config/beans.xml";
 	protected static JFrame frame;
 	protected static JApplet applet;
 	protected static Psico psico;
@@ -31,24 +33,56 @@ public class App {
 	private static int level = 0;
 
 	private static List<LevelParser> parsers;
+
 	public void setParsers(List<LevelParser> parsers) {
 		App.parsers = parsers;
 	}
 
 	private static int windowHeight;
+
 	public void setWindowHeight(int windowHeight) {
 		App.windowHeight = windowHeight;
 	}
 
 	private static int windowWidth;
+
 	public void setWindowWidth(int windowWidth) {
 		App.windowWidth = windowWidth;
 	}
 
-	public static void main(String[] args) throws InterruptedException, IOException {
-		ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/config/beans.xml");
+	public static void main(String[] args)
+			throws InterruptedException, IOException {
+		ApplicationContext context;
+		if (fileExists(BEANS_PATH)) {
+			context = new FileSystemXmlApplicationContext(BEANS_PATH);
+		} else {
+			validate(args);
+			context = new FileSystemXmlApplicationContext(args[0]);
+		}
+		System.out.println(
+				"Commands: [f: move] [d: turn] [g: grab] [b: drop] [q: quit]");
 		App app = context.getBean(App.class);
 		app.start();
+	}
+
+	private static void validate(String[] args) {
+		if (args.length < 1) {
+			showHelpAndExit();
+		}
+		String pathname = args[0];
+		if (!fileExists(pathname)) {
+			System.err.println("File " + pathname + " does not exist");
+			showHelpAndExit();
+		}
+	}
+
+	private static void showHelpAndExit() {
+		System.out.println("Usage: java -jar <thisJar> <pathToBeans.xml>");
+		System.exit(-1);
+	}
+
+	private static boolean fileExists(String pathname) {
+		return new File(pathname).exists();
 	}
 
 	private void start() throws BeansException, IOException {
@@ -64,6 +98,7 @@ public class App {
 	}
 
 	private static boolean lastLevelIsDone() {
+		System.out.println("DEBUG: levels size=" + App.parsers.size());
 		return level == App.parsers.size();
 	}
 

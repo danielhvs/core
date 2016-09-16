@@ -12,22 +12,21 @@ import br.com.danielhabib.core.component.Component;
 import br.com.danielhabib.core.component.Position;
 
 @Ignore
-public class DiaDosNamorados extends AbstractIntegrationTest {
+public class ValentinesDayTest extends AbstractIntegrationTest {
 
 	private int initialX = 1;
 	private int initialY = 17;
 
-
 	@Override
 	protected List<LevelParser> parsers() {
-		return Arrays.asList(context.getBean("level1Parser", LevelParser.class));
+		return Arrays
+				.asList(context.getBean("level1Parser", LevelParser.class));
 	}
 
 	@Override
 	protected void testIt() throws Exception {
-		setTimeout(8000);
 		sleep();
-		setTimeout(1000);
+		// setTimeout(100);
 		List<Position> finalPositions = new ArrayList<Position>();
 
 		List<Component> goals = parser.getGoals();
@@ -43,10 +42,10 @@ public class DiaDosNamorados extends AbstractIntegrationTest {
 			drop();
 			backToInitialPosition();
 		}
-		comemora();
+		sleepForLongerTime();
 	}
 
-	private void comemora() throws InterruptedException {
+	private void sleepForLongerTime() throws InterruptedException {
 		setTimeout(300000);
 		sleep();
 	}

@@ -8,9 +8,12 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 
 
-public class MainDN {
+/**
+ *	Generates levelx.txt
+ */
+public class MainValentinesDay {
 	public static void main(String[] args) throws IOException {
-		String mapa =
+		String map =
 				"                    \n"
 						+ "                    \n"
 						+ "    xxxxx   xxxxx   \n"
@@ -28,24 +31,24 @@ public class MainDN {
 						+ "         xxx        \n"
 						+ "          x         \n"
 						+ "                    ";
-		String[] linhas = mapa.split("\n");
+		String[] lines = map.split("\n");
 		int y = 0;
-		List<String> saida = new ArrayList<String>();
-		for (String linha : linhas) {
+		List<String> output = new ArrayList<String>();
+		for (String line : lines) {
 			y++;
 			int x = 0;
-			for (int i = 0; i < linha.length(); i++) {
+			for (int i = 0; i < line.length(); i++) {
 				x++;
-				if (linha.charAt(i) == 'x') {
+				if (line.charAt(i) == 'x') {
 					String e = "r:2,17-" + x + "," + y;
 					System.out.println(e);
-					saida.add(e);
+					output.add(e);
 				}
 			}
 		}
 		File file = new File("levels/levelx.txt");
 		FileUtils.deleteQuietly(file);
-		for (String string : saida) {
+		for (String string : output) {
 			FileUtils.writeStringToFile(file, string + "\n", true);
 		}
 		FileUtils.writeStringToFile(file, "p:1,17\n", true);

@@ -34,7 +34,8 @@ public abstract class AbstractIntegrationTest {
 
 	@BeforeClass
 	public static void beforeClass() {
-		context = new FileSystemXmlApplicationContext("src/main/resources/config/test-beans.xml");
+		context = new FileSystemXmlApplicationContext(
+				"src/main/resources/config/test-beans.xml");
 	}
 
 	@Test
@@ -193,6 +194,8 @@ public abstract class AbstractIntegrationTest {
 	}
 
 	protected void sleep() throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(getTimeout());
+		if (timeout > 0) {
+			TimeUnit.MILLISECONDS.sleep(getTimeout());
+		}
 	}
 }
